@@ -19,7 +19,7 @@ trait HasEvent
 
     public function allDay()
     {
-        return false;
+        return true;
     }
 
     public function readonly()
