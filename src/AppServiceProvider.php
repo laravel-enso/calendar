@@ -3,9 +3,9 @@
 namespace LaravelEnso\Calendar;
 
 use Illuminate\Support\ServiceProvider;
-use LaravelEnso\Calendar\app\Http\Responses\Events;
 use LaravelEnso\Calendar\app\Contracts\ResolvesEvents;
 use LaravelEnso\Calendar\app\Http\Responses\BaseEvents;
+use LaravelEnso\Calendar\app\Http\Responses\Events;
 
 class AppServiceProvider extends ServiceProvider
 {
