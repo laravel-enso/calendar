@@ -50,8 +50,7 @@ class AppServiceProvider extends ServiceProvider
     public function baseResolver()
     {
         $this->app->bind(
-            ResolvesEvents::class,
-            BaseEvents::class,
+            ResolvesEvents::class, BaseEvents::class
         );
     }
 }
