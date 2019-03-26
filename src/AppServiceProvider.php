@@ -3,9 +3,9 @@
 namespace LaravelEnso\Calendar;
 
 use Illuminate\Support\ServiceProvider;
+use LaravelEnso\Calendar\app\Http\Responses\Events;
 use LaravelEnso\Calendar\app\Contracts\ResolvesEvents;
 use LaravelEnso\Calendar\app\Http\Responses\BaseEvents;
-use LaravelEnso\Calendar\app\Http\Responses\Events;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__.'/config' => config_path('laravel-enso'),
-        ], 'events-config');
+        ], 'calendar-config');
 
         $this->publishes([
             __DIR__.'/../stubs/CalendarServiceProvider.stub' => app_path('Providers/CalendarServiceProvider.php'),
