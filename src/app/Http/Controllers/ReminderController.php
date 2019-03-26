@@ -3,12 +3,12 @@
 namespace LaravelEnso\Calendar\app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use LaravelEnso\Calendar\app\Http\Requests\ValidateReminderRequest;
 use LaravelEnso\Calendar\app\Models\Reminder;
+use LaravelEnso\Calendar\app\Http\Requests\ValidateReminderRequest;
 
 class ReminderController extends Controller
 {
-    public function store(ValidateReminderRequest $request, Reminder $reminder)
+    public function store(ValidateReminderRequest $request)
     {
         return Reminder::create($request->validated());
     }
