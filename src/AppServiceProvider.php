@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
     private function offerPublishing()
     {
         $this->publishes([
-            __DIR__.'/config' => config_path('laravel-enso'),
+            __DIR__.'/config' => config_path('enso'),
         ], 'calendar-config');
 
         $this->publishes([
