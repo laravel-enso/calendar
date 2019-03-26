@@ -3,8 +3,8 @@
 namespace LaravelEnso\Calendar\app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use LaravelEnso\Calendar\app\Models\Reminder;
 use LaravelEnso\Calendar\app\Http\Requests\ValidateReminderRequest;
+use LaravelEnso\Calendar\app\Models\Reminder;
 
 class ReminderController extends Controller
 {
@@ -23,7 +23,7 @@ class ReminderController extends Controller
         $reminder->delete();
 
         return [
-            'message' => __('The reminder was successfully deleted')
+            'message' => __('The reminder was successfully deleted'),
         ];
     }
 }

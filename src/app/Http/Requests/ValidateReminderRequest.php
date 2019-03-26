@@ -14,8 +14,8 @@ class ValidateReminderRequest extends FormRequest
     public function rules()
     {
         return [
-            'event_id' => 'required|exists:events,id',
-            'user_id' => 'required|exists:users,id',
+            'event_id'  => 'required|exists:events,id',
+            'user_id'   => 'required|exists:users,id',
             'remind_at' => 'required|date',
         ];
     }

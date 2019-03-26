@@ -3,11 +3,11 @@
 namespace LaravelEnso\Calendar\app\Models;
 
 use Carbon\Carbon;
-use LaravelEnso\Core\app\Models\User;
 use Illuminate\Database\Eloquent\Model;
-use LaravelEnso\TrackWho\app\Traits\CreatedBy;
-use LaravelEnso\Calendar\app\Enums\Frequencies;
 use LaravelEnso\Calendar\app\Contracts\ProvidesEvent;
+use LaravelEnso\Calendar\app\Enums\Frequencies;
+use LaravelEnso\Core\app\Models\User;
+use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 
 class Event extends Model implements ProvidesEvent
 {
@@ -61,7 +61,7 @@ class Event extends Model implements ProvidesEvent
     {
         $reminders = collect($reminders)
             ->filter(function ($reminder) {
-                return ! empty($reminder['remind_at']);
+                return !empty($reminder['remind_at']);
             });
 
         $this->reminders()
@@ -127,7 +127,7 @@ class Event extends Model implements ProvidesEvent
 
     public function scopeAllowed($query)
     {
-        if (! auth()->user()->belongsToAdminGroup()) {
+        if (!auth()->user()->belongsToAdminGroup()) {
             $query->whereHas('createdBy', function ($query) {
                 $query->whereHas('person', function ($query) {
                     $query->whereCompanyId(auth()->user()->person->company_id);

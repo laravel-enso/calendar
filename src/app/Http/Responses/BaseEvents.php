@@ -4,8 +4,8 @@ namespace LaravelEnso\Calendar\app\Http\Responses;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use LaravelEnso\Calendar\app\Models\Event;
 use LaravelEnso\Calendar\app\Contracts\ResolvesEvents;
+use LaravelEnso\Calendar\app\Models\Event;
 
 class BaseEvents implements ResolvesEvents
 {
