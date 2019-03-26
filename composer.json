@@ -1,0 +1,37 @@
+{
+    "name": "laravel-enso/calendar",
+    "type": "library",
+    "description": "Enso Calendar",
+    "authors": [
+        {
+            "name": "Adrian Ocneanu",
+            "email": "aocneanu@gmail.com",
+            "homepage": "https://laravel-enso.com",
+            "role": "Developer"
+        }
+    ],
+    "keywords": [
+        "calendar",
+        "events",
+        "reminders",
+        "calendar"
+    ],
+    "homepage": "https://https://github.com/laravel-enso/calendar",
+    "require": {
+        "php": ">=7.1.3",
+        "laravel-enso/core": "4.0.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "LaravelEnso\\Calendar\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LaravelEnso\\Calendar\\AppServiceProvider",
+                "LaravelEnso\\Calendar\\AuthServiceProvider"
+            ]
+        }
+    }
+}
