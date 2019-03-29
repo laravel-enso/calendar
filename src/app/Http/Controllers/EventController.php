@@ -2,13 +2,13 @@
 
 namespace LaravelEnso\Calendar\app\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use LaravelEnso\Calendar\app\Models\Event;
-use LaravelEnso\Calendar\app\Http\Responses\Events;
+use Illuminate\Http\Request;
 use LaravelEnso\Calendar\app\Forms\Builders\EventForm;
-use LaravelEnso\Calendar\app\Http\Resources\Event as Resource;
 use LaravelEnso\Calendar\app\Http\Requests\ValidateEventRequest;
+use LaravelEnso\Calendar\app\Http\Resources\Event as Resource;
+use LaravelEnso\Calendar\app\Http\Responses\Events;
+use LaravelEnso\Calendar\app\Models\Event;
 
 class EventController extends Controller
 {
@@ -28,18 +28,18 @@ class EventController extends Controller
     {
         $event = Event::create($request->validated());
 
-        if (! empty($request->get('reminders'))) {
+        if (!empty($request->get('reminders'))) {
             $event->reminders()->createMany(
                 collect($request->get('reminders'))
                     ->filter(function ($reminder) {
-                        return ! empty($reminder['remind_at']);
+                        return !empty($reminder['remind_at']);
                     })->toArray()
             );
         }
 
         return [
             'message' => __('The event was created!'),
-            'event' => new Resource($event),
+            'event'   => new Resource($event),
         ];
     }
 
@@ -59,7 +59,7 @@ class EventController extends Controller
 
         return [
             'message' => __('The event was updated!'),
-            'event' => new Resource($event),
+            'event'   => new Resource($event),
         ];
     }
 
