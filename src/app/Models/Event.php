@@ -3,11 +3,11 @@
 namespace LaravelEnso\Calendar\app\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
-use LaravelEnso\Calendar\app\Contracts\ProvidesEvent;
-use LaravelEnso\Calendar\app\Enums\Frequencies;
 use LaravelEnso\Core\app\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
+use LaravelEnso\Calendar\app\Enums\Frequencies;
+use LaravelEnso\Calendar\app\Contracts\ProvidesEvent;
 
 class Event extends Model implements ProvidesEvent
 {
@@ -61,7 +61,7 @@ class Event extends Model implements ProvidesEvent
     {
         $reminders = collect($reminders)
             ->filter(function ($reminder) {
-                return !empty($reminder['remind_at']);
+                return ! empty($reminder['remind_at']);
             });
 
         $this->reminders()
@@ -127,13 +127,13 @@ class Event extends Model implements ProvidesEvent
 
     public function scopeAllowed($query)
     {
-        if (!auth()->user()->belongsToAdminGroup()) {
+        $query->when(! auth()->user()->belongsToAdminGroup(), function ($query) {
             $query->whereHas('createdBy', function ($query) {
                 $query->whereHas('person', function ($query) {
                     $query->whereCompanyId(auth()->user()->person->company_id);
                 });
             });
-        }
+        });
     }
 
     public function scopeBetween($query, $startDate, $endDate)
@@ -141,7 +141,7 @@ class Event extends Model implements ProvidesEvent
         $startDate = Carbon::parse($startDate);
         $endDate = Carbon::parse($endDate);
 
-        if ($startDate->eq($endDate)) {
+        $query->when($startDate->eq($endDate), function ($query) use ($startDate) {
             $query->whereDate('starts_at', $startDate)
                 ->orWhere(function ($query) use ($startDate) {
                     $query->where('starts_at', '<', $startDate)
@@ -153,7 +153,7 @@ class Event extends Model implements ProvidesEvent
             // });
 
             return;
-        }
+        });
 
         $query->whereBetween('starts_at', [$startDate, $endDate])
             ->orWhere(function ($query) use ($startDate) {

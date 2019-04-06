@@ -3,9 +3,9 @@
 namespace LaravelEnso\Calendar;
 
 use Illuminate\Support\ServiceProvider;
+use LaravelEnso\Calendar\app\Http\Responses\Events;
 use LaravelEnso\Calendar\app\Contracts\ResolvesEvents;
 use LaravelEnso\Calendar\app\Http\Responses\BaseEvents;
-use LaravelEnso\Calendar\app\Http\Responses\Events;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -40,17 +40,13 @@ class AppServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->baseResolver();
+        $this->app->bind(
+            ResolvesEvents::class,
+            BaseEvents::class
+        );
 
         collect($this->resolvers)->each(function ($resolver) {
             Events::addResolver($resolver);
         });
-    }
-
-    public function baseResolver()
-    {
-        $this->app->bind(
-            ResolvesEvents::class, BaseEvents::class
-        );
     }
 }

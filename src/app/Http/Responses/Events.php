@@ -38,14 +38,12 @@ class Events
     {
         return collect(self::$resolvers)
             ->reduce(function ($events, $resolver) {
-                $events = $events->concat(
+                return $events->concat(
                     $this->resolve(new $resolver())
                         ->filter(function (ProvidesEvent $model) {
                             return $model;
                         })
                 );
-
-                return $events;
             }, collect());
     }
 
