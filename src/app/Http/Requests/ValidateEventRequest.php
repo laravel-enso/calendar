@@ -20,19 +20,19 @@ class ValidateEventRequest extends FormRequest
             : 'filled';
 
         return [
-            'title' => $required,
-            'body' => 'nullable',
-            'calendar' => $required.'|in:'.Calendars::keys()->implode(','),
-            'frequence' => $required.'|in:'.Frequencies::keys()->implode(','),
-            'location' => 'nullable',
-            'lat' => 'nullable',
-            'lng' => 'nullable',
-            'starts_at' => 'required|date',
-            'ends_at' => 'required_unless:is_all_day,true|nullable|date|after:starts_at',
+            'title'             => $required,
+            'body'              => 'nullable',
+            'calendar'          => $required.'|in:'.Calendars::keys()->implode(','),
+            'frequence'         => $required.'|in:'.Frequencies::keys()->implode(','),
+            'location'          => 'nullable',
+            'lat'               => 'nullable',
+            'lng'               => 'nullable',
+            'starts_at'         => 'required|date',
+            'ends_at'           => 'required_unless:is_all_day,true|nullable|date|after:starts_at',
             'frequence_ends_at' => $this->has('frequence') && $this->get('frequence') !== Frequencies::Once
                 ? 'date|required|after:starts_at'
                 : 'nullable',
-            'is_all_day' => $required.'|boolean',
+            'is_all_day'  => $required.'|boolean',
             'is_readonly' => $required.'|boolean',
         ];
     }
