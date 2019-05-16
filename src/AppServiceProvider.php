@@ -3,9 +3,9 @@
 namespace LaravelEnso\Calendar;
 
 use Illuminate\Support\ServiceProvider;
+use LaravelEnso\Calendar\app\Http\Responses\Events;
 use LaravelEnso\Calendar\app\Contracts\ResolvesEvents;
 use LaravelEnso\Calendar\app\Http\Responses\BaseEvents;
-use LaravelEnso\Calendar\app\Http\Responses\Events;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,9 +13,8 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $this->loadDependencies();
-
-        $this->offerPublishing();
+        $this->loadDependencies()
+            ->publisDependencies();
     }
 
     private function loadDependencies()
@@ -25,16 +24,23 @@ class AppServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');
 
         $this->mergeConfigFrom(__DIR__.'/config/calendar.php', 'enso.calendar');
+
+        return $this;
     }
 
-    private function offerPublishing()
+    private function publisDependencies()
     {
         $this->publishes([
             __DIR__.'/config' => config_path('enso'),
         ], 'calendar-config');
+       
+        $this->publishes([
+            __DIR__.'/config' => config_path('enso'),
+        ], 'enso-config');
 
         $this->publishes([
-            __DIR__.'/../stubs/CalendarServiceProvider.stub' => app_path('Providers/CalendarServiceProvider.php'),
+            __DIR__.'/../stubs/CalendarServiceProvider.stub' =>
+                app_path('Providers/CalendarServiceProvider.php'),
         ], 'calendar-provider');
     }
 

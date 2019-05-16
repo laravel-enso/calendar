@@ -1,0 +1,24 @@
+<?php
+
+namespace LaravelEnso\Calendar\app\Http\Controllers\Event;
+
+use App\Http\Controllers\Controller;
+use LaravelEnso\Calendar\app\Models\Event;
+use LaravelEnso\Calendar\app\Http\Resources\Event as Resource;
+use LaravelEnso\Calendar\app\Http\Requests\ValidateEventRequest;
+
+class Update extends Controller
+{
+    public function __invoke(ValidateEventRequest $request, Event $event)
+    {
+        $this->authorize('handle', $event);
+
+        tap($event)->update($request->validated())
+            ->updateReminders($request->get('reminders'));
+
+        return [
+            'message' => __('The event was updated!'),
+            'event'   => new Resource($event),
+        ];
+    }
+}

@@ -1,8 +1,8 @@
 <?php
 
-use LaravelEnso\StructureManager\app\Classes\StructureMigration;
+use LaravelEnso\Migrator\app\Database\Migration;
 
-class CreateStructureForEvents extends StructureMigration
+class CreateStructureForEvents extends Migration
 {
     protected $permissions = [
         ['name' => 'core.calendar.events.index', 'description' => 'Show index for event', 'type' => 0, 'is_default' => true],

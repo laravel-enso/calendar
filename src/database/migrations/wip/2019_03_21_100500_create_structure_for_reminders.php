@@ -1,8 +1,8 @@
 <?php
 
-use LaravelEnso\StructureManager\app\Classes\StructureMigration;
+use LaravelEnso\Migrator\app\Database\Migration;
 
-class CreateStructureForReminders extends StructureMigration
+class CreateStructureForReminders extends Migration
 {
     protected $permissions = [
         ['name' => 'core.calendar.reminders.store', 'description' => 'Delete event', 'type' => 1, 'is_default' => false],
