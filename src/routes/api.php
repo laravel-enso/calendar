@@ -8,7 +8,7 @@ Route::middleware(['web', 'auth', 'core'])
         Route::namespace('Event')
             ->prefix('events')
             ->as('events.')
-            ->group(function() {
+            ->group(function () {
                 Route::get('', 'Index')->name('index');
                 Route::get('create', 'Create')->name('create');
                 Route::post('', 'Store')->name('store');

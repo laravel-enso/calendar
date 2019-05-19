@@ -18,7 +18,7 @@ class Update extends Controller
 
         return [
             'message' => __('The event was updated!'),
-            'event'   => new Resource($event),
+            'event' => new Resource($event),
         ];
     }
 }

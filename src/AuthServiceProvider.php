@@ -2,9 +2,9 @@
 
 namespace LaravelEnso\Calendar;
 
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use LaravelEnso\Calendar\app\Models\Event;
 use LaravelEnso\Calendar\app\Policies\EventPolicy;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {

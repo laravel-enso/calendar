@@ -33,14 +33,13 @@ class AppServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/config' => config_path('enso'),
         ], 'calendar-config');
-       
+
         $this->publishes([
             __DIR__.'/config' => config_path('enso'),
         ], 'enso-config');
 
         $this->publishes([
-            __DIR__.'/../stubs/CalendarServiceProvider.stub' =>
-                app_path('Providers/CalendarServiceProvider.php'),
+            __DIR__.'/../stubs/CalendarServiceProvider.stub' => app_path('Providers/CalendarServiceProvider.php'),
         ], 'calendar-provider');
     }
 
