@@ -18,9 +18,6 @@ class EventPolicy
 
     public function handle($user, Event $event)
     {
-        $company = $user->company();
-
-        return $company === null
-            || $company->id === optional($event->createdBy->company())->id;
+        return $user->id === $event->created_by;
     }
 }
