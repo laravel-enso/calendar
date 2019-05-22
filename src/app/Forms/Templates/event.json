@@ -9,7 +9,7 @@
                 {
                     "label": "Title",
                     "name": "title",
-                    "value": null,
+                    "value": "",
                     "meta": {
                         "type": "input",
                         "content": "text"
@@ -86,7 +86,7 @@
                 {
                     "label": "Location",
                     "name": "location",
-                    "value": null,
+                    "value": "",
                     "meta": {
                         "type": "input",
                         "content": "text"
