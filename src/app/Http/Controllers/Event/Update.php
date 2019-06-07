@@ -5,11 +5,11 @@ namespace LaravelEnso\Calendar\app\Http\Controllers\Event;
 use App\Http\Controllers\Controller;
 use LaravelEnso\Calendar\app\Models\Event;
 use LaravelEnso\Calendar\app\Http\Resources\Event as Resource;
-use LaravelEnso\Calendar\app\Http\Requests\ValidateEventRequest;
+use LaravelEnso\Calendar\app\Http\Requests\ValidateEventUpdate;
 
 class Update extends Controller
 {
-    public function __invoke(ValidateEventRequest $request, Event $event)
+    public function __invoke(ValidateEventUpdate $request, Event $event)
     {
         $this->authorize('handle', $event);
 

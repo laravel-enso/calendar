@@ -4,12 +4,12 @@ namespace LaravelEnso\Calendar\app\Http\Controllers\Event;
 
 use App\Http\Controllers\Controller;
 use LaravelEnso\Calendar\app\Models\Event;
+use LaravelEnso\Calendar\app\Http\Requests\ValidateEventStore;
 use LaravelEnso\Calendar\app\Http\Resources\Event as Resource;
-use LaravelEnso\Calendar\app\Http\Requests\ValidateEventRequest;
 
 class Store extends Controller
 {
-    public function __invoke(ValidateEventRequest $request, Event $event)
+    public function __invoke(ValidateEventStore $request, Event $event)
     {
         tap($event)->fill($request->validated())
             ->save();
