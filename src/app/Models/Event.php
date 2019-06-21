@@ -128,14 +128,10 @@ class Event extends Model implements ProvidesEvent
     public function scopeAllowed($query)
     {
         $query->when(! auth()->user()->belongsToAdminGroup(), function ($query) {
-            $query->whereHas('createdBy', function ($createdBy) {
-                $createdBy->whereHas('person', function ($person) {
-                    $person->has('companies', function ($companies) {
-                        $companies->whereIn(
-                            'id', auth()->user()->person->companies()->pluck('id')
-                        );
-                    });
-                });
+            $query->whereHas('createdBy.person.companies', function ($companies) {
+                $companies->whereIn(
+                    'id', auth()->user()->person->companies()->pluck('id')
+                );
             });
         });
     }
