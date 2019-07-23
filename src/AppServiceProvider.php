@@ -2,8 +2,8 @@
 
 namespace LaravelEnso\Calendar;
 
-use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Console\Scheduling\Schedule;
 use LaravelEnso\Calendar\app\Commands\Notify;
 use LaravelEnso\Calendar\app\Http\Responses\Events;
 use LaravelEnso\Calendar\app\Contracts\ResolvesEvents;

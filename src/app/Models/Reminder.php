@@ -23,7 +23,6 @@ class Reminder extends Model
     {
         return $query->whereNull('reminded_at')
             ->where('remind_at', '<=', Carbon::now());
-
     }
 
     public function setRemindAtAttribute($value)

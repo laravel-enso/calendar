@@ -32,14 +32,14 @@ class ReminderNotification extends Notification implements ShouldQueue
             'level' => 'info',
             'title' => __('Reminder'),
             'icon' => 'bell',
-            'body' => __('Reminder: :title',['title'=>$this->reminder->event->title]),
+            'body' => __('Reminder: :title', ['title' => $this->reminder->event->title]),
         ]);
     }
 
     public function toMail($notifiable)
     {
         return (new MailMessage())
-            ->subject(__(config('app.name')).': '.__('Notification, :title',['title'=>$this->reminder->event->title]))
+            ->subject(__(config('app.name')) . ': ' . __('Notification, :title', ['title' => $this->reminder->event->title]))
             ->markdown('laravel-enso/calendar::emails.reminder_notify', [
                 'appellative' => $this->reminder->createdBy->person->appellative,
                 'url' => url('/calendar'),

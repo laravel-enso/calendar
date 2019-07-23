@@ -3,11 +3,8 @@
 namespace LaravelEnso\Calendar\app\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Database\Eloquent\Collection;
 use LaravelEnso\Calendar\app\Models\Reminder;
-use LaravelEnso\Tables\app\Notifications\ExportDoneNotification;
 use LaravelEnso\Calendar\app\Notifications\ReminderNotification;
-use LaravelEnso\Comments\app\Notifications\CommentTagNotification;
 
 class Notify extends Command
 {
@@ -34,9 +31,9 @@ class Notify extends Command
     {
         $reminders = Reminder::readyForNotify()->get();
 
-        $reminders->each(function(Reminder $r){
+        $reminders->each(function (Reminder $r) {
             $r->createdBy->notify(new ReminderNotification($r));
-            $r->update(['reminded_at'=> now()]);
+            $r->update(['reminded_at' => now()]);
 
         });
     }
