@@ -2,7 +2,9 @@
 
 namespace LaravelEnso\Calendar;
 
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\ServiceProvider;
+use LaravelEnso\Calendar\app\Commands\Notify;
 use LaravelEnso\Calendar\app\Http\Responses\Events;
 use LaravelEnso\Calendar\app\Contracts\ResolvesEvents;
 use LaravelEnso\Calendar\app\Http\Responses\BaseEvents;
@@ -13,6 +15,13 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        $this->commands(Notify::class);
+
+        $this->app->booted(function () {
+            $schedule = $this->app->make(Schedule::class);
+            $schedule->command('enso:calendar:notify')->everyMinute();
+        });
+
         $this->loadDependencies()
             ->publisDependencies();
     }
@@ -24,6 +33,8 @@ class AppServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');
 
         $this->mergeConfigFrom(__DIR__.'/config/calendar.php', 'enso.calendar');
+
+        $this->loadViewsFrom(__DIR__.'/resources/views', 'laravel-enso/calendar');
 
         return $this;
     }
@@ -41,6 +52,23 @@ class AppServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../stubs/CalendarServiceProvider.stub' => app_path('Providers/CalendarServiceProvider.php'),
         ], 'calendar-provider');
+
+        $this->publishes([
+            __DIR__.'/database/factories' => database_path('factories'),
+        ], 'calendar-factory');
+
+        $this->publishes([
+            __DIR__.'/database/factories' => database_path('factories'),
+        ], 'enso-factories');
+
+        $this->publishes([
+            __DIR__.'/resources/views' => resource_path('views/vendor/laravel-enso/calendar'),
+        ], 'calendar-email-template');
+
+        $this->publishes([
+            __DIR__.'/resources/views' => resource_path('views/vendor/laravel-enso/calendar'),
+        ], 'enso-mail');
+
     }
 
     public function register()

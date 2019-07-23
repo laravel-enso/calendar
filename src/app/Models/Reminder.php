@@ -10,13 +10,20 @@ class Reminder extends Model
 {
     use CreatedBy;
 
-    protected $fillable = ['event_id', 'remind_at'];
+    protected $fillable = ['event_id', 'remind_at', 'reminded_at'];
 
     protected $dates = ['remind_at'];
 
     public function event()
     {
         return $this->belongsTo(Event::class);
+    }
+
+    public function scopeReadyForNotify($query)
+    {
+        return $query->whereNull('reminded_at')
+            ->where('remind_at', '<=', Carbon::now());
+
     }
 
     public function setRemindAtAttribute($value)
