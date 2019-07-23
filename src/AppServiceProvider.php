@@ -68,7 +68,6 @@ class AppServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/resources/views' => resource_path('views/vendor/laravel-enso/calendar'),
         ], 'enso-mail');
-
     }
 
     public function register()

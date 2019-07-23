@@ -34,7 +34,6 @@ class Notify extends Command
         $reminders->each(function (Reminder $r) {
             $r->createdBy->notify(new ReminderNotification($r));
             $r->update(['reminded_at' => now()]);
-
         });
     }
 }
