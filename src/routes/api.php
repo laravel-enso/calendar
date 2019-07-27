@@ -5,6 +5,11 @@ Route::middleware(['web', 'auth', 'core'])
     ->prefix('api/core/calendar')
     ->as('core.calendar.')
     ->group(function () {
+        Route::namespace('Calendar')
+            ->group(function () {
+                Route::get('', 'Index')->name('index');
+            });
+
         Route::namespace('Event')
             ->prefix('events')
             ->as('events.')
