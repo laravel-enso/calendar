@@ -6,12 +6,13 @@ use Carbon\Carbon;
 use LaravelEnso\Core\app\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
-use LaravelEnso\Calendar\app\Enums\Frequencies;
+// use LaravelEnso\Calendar\app\Enums\Frequencies;
+use LaravelEnso\Helpers\app\Traits\DateAttributes;
 use LaravelEnso\Calendar\app\Contracts\ProvidesEvent;
 
 class Event extends Model implements ProvidesEvent
 {
-    use CreatedBy;
+    use CreatedBy, DateAttributes;
 
     protected $fillable = [
         'title', 'body', 'calendar', 'frequence', 'location', 'lat', 'lng',
@@ -39,29 +40,24 @@ class Event extends Model implements ProvidesEvent
 
     public function setStartsAtAttribute($value)
     {
-        $this->attributes['starts_at'] =
-            Carbon::parse($value)->format('Y-m-d H:i:s');
+        $this->fillDateAttribute('starts_at', $value, 'Y-m-d H:i:s');
     }
 
     public function setEndsAtAttribute($value)
     {
-        $this->attributes['ends_at'] = $value
-            ? Carbon::parse($value)->format('Y-m-d H:i:s')
-            : null;
+        $this->fillDateAttribute('ends_at', $value, 'Y-m-d H:i:s');
     }
 
     public function setRecurrenceEndsAtAttribute($value)
     {
-        $this->attributes['recurrence_ends_at'] = $value
-            ? Carbon::parse($value)->format('Y-m-d H:i:s')
-            : null;
+        $this->fillDateAttribute('recurrence_ends_at', $value, 'Y-m-d H:i:s');
     }
 
     public function updateReminders($reminders)
     {
         $reminders = collect($reminders)
-            ->filter(function ($reminder) {
-                return ! empty($reminder['remind_at']);
+            ->except(function ($reminder) {
+                return empty($reminder['remind_at']);
             });
 
         $this->reminders()

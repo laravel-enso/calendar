@@ -17,8 +17,8 @@ class Store extends Controller
         if (! empty($request->get('reminders'))) {
             $event->reminders()->createMany(
                 collect($request->get('reminders'))
-                    ->filter(function ($reminder) {
-                        return ! empty($reminder['remind_at']);
+                    ->except(function ($reminder) {
+                        return empty($reminder['remind_at']);
                     })->toArray()
             );
         }
