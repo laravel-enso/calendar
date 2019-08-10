@@ -13,7 +13,7 @@ class BaseEvents implements ResolvesEvents
     {
         return Event::allowed()
             ->with(['attendees', 'reminders'])
-            ->where('calendar', $request->get('calendar'))
+            ->whereCalendar($request->get('calendar'))
             ->between($request->get('startDate'), $request->get('endDate'))
             ->get();
     }
