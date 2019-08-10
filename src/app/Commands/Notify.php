@@ -4,7 +4,6 @@ namespace LaravelEnso\Calendar\app\Commands;
 
 use Illuminate\Console\Command;
 use LaravelEnso\Calendar\app\Models\Reminder;
-use LaravelEnso\Calendar\app\Notifications\ReminderNotification;
 
 class Notify extends Command
 {
