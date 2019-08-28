@@ -31,7 +31,8 @@
         "laravel": {
             "providers": [
                 "LaravelEnso\\Calendar\\AppServiceProvider",
-                "LaravelEnso\\Calendar\\AuthServiceProvider"
+                "LaravelEnso\\Calendar\\AuthServiceProvider",
+                "LaravelEnso\\Calendar\\EnumServiceProvider"
             ]
         }
     }
