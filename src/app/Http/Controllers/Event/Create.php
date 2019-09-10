@@ -2,7 +2,7 @@
 
 namespace LaravelEnso\Calendar\app\Http\Controllers\Event;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 use LaravelEnso\Calendar\app\Forms\Builders\EventForm;
 
 class Create extends Controller

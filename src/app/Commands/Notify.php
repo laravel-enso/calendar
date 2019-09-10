@@ -13,10 +13,7 @@ class Notify extends Command
 
     public function handle()
     {
-        Reminder::with('createdBy')
-            ->readyForNotify()
-            ->get()
-            ->each
-            ->notify();
+        Reminder::with('createdBy')->readyForNotify()
+            ->get()->each->notify();
     }
 }

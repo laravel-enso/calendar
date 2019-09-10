@@ -21,12 +21,12 @@ class ReminderNotification extends Notification implements ShouldQueue
         $this->reminder = $reminder;
     }
 
-    public function via($notifiable)
+    public function via()
     {
         return ['mail', 'database', 'broadcast'];
     }
 
-    public function toBroadcast($notifiable)
+    public function toBroadcast()
     {
         return new BroadcastMessage([
             'level' => 'info',
@@ -36,7 +36,7 @@ class ReminderNotification extends Notification implements ShouldQueue
         ]);
     }
 
-    public function toMail($notifiable)
+    public function toMail()
     {
         return (new MailMessage())
             ->subject(__(config('app.name')).': '.__('Notification, :title', ['title' => $this->reminder->event->title]))
@@ -49,7 +49,7 @@ class ReminderNotification extends Notification implements ShouldQueue
             ]);
     }
 
-    public function toArray($notifiable)
+    public function toArray()
     {
         return [
             'body' => $this->reminder->event->title,

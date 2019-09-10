@@ -8,15 +8,15 @@ use LaravelEnso\Calendar\app\Enums\Frequencies;
 
 class EventForm
 {
-    private const FormPath = __DIR__.'/../Templates/event.json';
+    protected const FormPath = __DIR__.'/../Templates/event.json';
 
-    private $form;
+    protected $form;
 
     public function __construct()
     {
         $this->format = config('enso.config.dateFormat').' H:i';
 
-        $this->form = (new Form(self::FormPath))
+        $this->form = (new Form(static::FormPath))
             ->meta('starts_at', 'format', $this->format)
             ->meta('ends_at', 'format', $this->format)
             ->meta('recurrence_ends_at', 'format', $this->format)

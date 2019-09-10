@@ -3,7 +3,7 @@
 namespace LaravelEnso\Calendar\app\Http\Controllers\Event;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 use LaravelEnso\Calendar\app\Http\Responses\Events;
 use LaravelEnso\Calendar\app\Http\Resources\Event as Resource;
 

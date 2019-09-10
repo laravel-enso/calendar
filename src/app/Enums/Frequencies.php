@@ -2,7 +2,7 @@
 
 namespace LaravelEnso\Calendar\app\Enums;
 
-use LaravelEnso\Helpers\app\Classes\Enum;
+use LaravelEnso\Enums\app\Services\Enum;
 
 class Frequencies extends Enum
 {

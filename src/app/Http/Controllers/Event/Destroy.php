@@ -2,7 +2,7 @@
 
 namespace LaravelEnso\Calendar\app\Http\Controllers\Event;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 use LaravelEnso\Calendar\app\Models\Event;
 
 class Destroy extends Controller
@@ -13,8 +13,6 @@ class Destroy extends Controller
 
         $event->delete();
 
-        return [
-            'message' => __('The event was successfully deleted'),
-        ];
+        return ['message' => __('The event was successfully deleted'),];
     }
 }

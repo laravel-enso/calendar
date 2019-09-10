@@ -2,7 +2,7 @@
 
 namespace LaravelEnso\Calendar\app\Http\Controllers\Reminder;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 use LaravelEnso\Calendar\app\Models\Reminder;
 
 class Destroy extends Controller
@@ -11,8 +11,6 @@ class Destroy extends Controller
     {
         $reminder->delete();
 
-        return [
-            'message' => __('The reminder was successfully deleted'),
-        ];
+        return ['message' => __('The reminder was successfully deleted')];
     }
 }

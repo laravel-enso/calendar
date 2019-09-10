@@ -3,10 +3,11 @@
 namespace LaravelEnso\Calendar\app\Models;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use LaravelEnso\Core\app\Models\User;
 use Illuminate\Database\Eloquent\Model;
-use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 // use LaravelEnso\Calendar\app\Enums\Frequencies;
+use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 use LaravelEnso\Helpers\app\Traits\DateAttributes;
 use LaravelEnso\Calendar\app\Contracts\ProvidesEvent;
 
@@ -123,10 +124,10 @@ class Event extends Model implements ProvidesEvent
 
     public function scopeAllowed($query)
     {
-        $query->when(! auth()->user()->belongsToAdminGroup(), function ($query) {
+        $query->when(! Auth::user()->belongsToAdminGroup(), function ($query) {
             $query->whereHas('createdBy.person.companies', function ($companies) {
                 $companies->whereIn(
-                    'id', auth()->user()->person->companies()->pluck('id')
+                    'id', Auth::user()->person->companies()->pluck('id')
                 );
             });
         });

@@ -2,7 +2,7 @@
 
 namespace LaravelEnso\Calendar\app\Http\Controllers\Reminder;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 use LaravelEnso\Calendar\app\Models\Reminder;
 use LaravelEnso\Calendar\app\Http\Requests\ValidateReminderRequest;
 
