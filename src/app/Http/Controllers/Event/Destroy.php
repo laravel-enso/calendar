@@ -13,6 +13,6 @@ class Destroy extends Controller
 
         $event->delete();
 
-        return ['message' => __('The event was successfully deleted'),];
+        return ['message' => __('The event was successfully deleted')];
     }
 }
