@@ -14,14 +14,14 @@ class Store extends Controller
         tap($event)->fill($request->validated())
             ->save();
 
-        if (! empty($request->get('reminders'))) {
-            $event->reminders()->createMany(
-                collect($request->get('reminders'))
-                    ->except(function ($reminder) {
-                        return empty($reminder['remind_at']);
-                    })->toArray()
-            );
-        }
+        //if (! empty($request->get('reminders'))) {
+        //    $event->reminders()->createMany(
+        //        collect($request->get('reminders'))
+        //            ->except(function ($reminder) {
+        //                return empty($reminder['remind_at']);
+        //            })->toArray()
+        //    );
+        //}
 
         return [
             'message' => __('The event was created!'),

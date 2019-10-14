@@ -7,5 +7,5 @@ use Illuminate\Support\Collection;
 
 interface ResolvesEvents
 {
-    public function get(Request $request): Collection;
+    public function getEvents(Request $request): Collection;
 }

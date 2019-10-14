@@ -11,10 +11,10 @@ class Update extends Controller
 {
     public function __invoke(ValidateEventUpdate $request, Event $event)
     {
-        $this->authorize('handle', $event);
+        //$this->authorize('handle', $event);
 
-        tap($event)->update($request->validated())
-            ->updateReminders($request->get('reminders'));
+        //tap($event)->update($request->validated())
+        //    ->updateReminders($request->get('reminders'));
 
         return [
             'message' => __('The event was updated!'),

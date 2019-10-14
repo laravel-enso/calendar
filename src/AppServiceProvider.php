@@ -7,15 +7,19 @@ use Illuminate\Console\Scheduling\Schedule;
 use LaravelEnso\Calendar\app\Commands\Notify;
 use LaravelEnso\Calendar\app\Http\Responses\Events;
 use LaravelEnso\Calendar\app\Contracts\ResolvesEvents;
+use LaravelEnso\Financials\app\Models\Clients\Invoice;
 use LaravelEnso\Calendar\app\Http\Responses\BaseEvents;
 
-class AppServiceProvider extends ServiceProvider
+class   AppServiceProvider extends ServiceProvider
 {
     protected $resolvers = [];
 
     public function boot()
     {
         $this->commands(Notify::class);
+
+
+        Events::addResolver(Invoice::class);
 
         $this->app->booted(function () {
             $schedule = $this->app->make(Schedule::class);

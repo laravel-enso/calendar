@@ -8,7 +8,9 @@ use LaravelEnso\Calendar\app\Contracts\ResolvesEvents;
 
 class Events
 {
-    private static $resolvers = [];
+    private static $resolvers = [
+        ResolvesEvents::class
+    ];
 
     private $request;
 
@@ -19,8 +21,7 @@ class Events
 
     public function get()
     {
-        return $this->baseEvents()
-            ->concat($this->localEvents());
+        return $this->events();
     }
 
     public static function addResolver($resolver)
@@ -28,27 +29,19 @@ class Events
         self::$resolvers[] = $resolver;
     }
 
-    private function baseEvents()
-    {
-        return app()->make(ResolvesEvents::class)
-            ->get($this->request);
-    }
-
-    private function localEvents()
+    private function events()
     {
         return collect(self::$resolvers)
             ->reduce(function ($events, $resolver) {
-                return $events->concat(
-                    $this->resolve(new $resolver())
-                        ->filter(function (ProvidesEvent $model) {
-                            return $model;
-                        })
-                );
+                return $events->concat($this->resolveEvents($resolver));
             }, collect());
     }
 
-    private function resolve(ResolvesEvents $resolver)
+    private function resolveEvents($resolver)
     {
-        return $resolver->get($this->request);
+        return app()->make($resolver)->getEvents($this->request)
+            ->filter(function (ProvidesEvent $model) {
+                return $model;
+            });
     }
 }

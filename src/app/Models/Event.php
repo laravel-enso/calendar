@@ -41,17 +41,20 @@ class Event extends Model implements ProvidesEvent
 
     public function setStartsAtAttribute($value)
     {
-        $this->fillDateAttribute('starts_at', $value, 'Y-m-d H:i:s');
+        $this->fillDateAttribute('starts_at', $value,
+            config('enso.config.dateFormat').' H:i');
     }
 
     public function setEndsAtAttribute($value)
     {
-        $this->fillDateAttribute('ends_at', $value, 'Y-m-d H:i:s');
+        $this->fillDateAttribute('ends_at', $value,
+            config('enso.config.dateFormat').' H:i');
     }
 
     public function setRecurrenceEndsAtAttribute($value)
     {
-        $this->fillDateAttribute('recurrence_ends_at', $value, 'Y-m-d H:i:s');
+        $this->fillDateAttribute('recurrence_ends_at', $value,
+            config('enso.config.dateFormat').' H:i');
     }
 
     public function updateReminders($reminders)

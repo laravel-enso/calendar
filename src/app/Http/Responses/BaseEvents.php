@@ -9,7 +9,7 @@ use LaravelEnso\Calendar\app\Contracts\ResolvesEvents;
 
 class BaseEvents implements ResolvesEvents
 {
-    public function get(Request $request): Collection
+    public function getEvents(Request $request): Collection
     {
         return Event::allowed()
             ->with(['attendees', 'reminders'])
