@@ -12,7 +12,7 @@ class Calendar extends JsonResource
             'id' => $this->getKey(),
             'name' => $this->name(),
             'color' => $this->color(),
-            'readonly' => $this->readonly()
+            'readonly' => $this->readonly(),
         ];
     }
 }

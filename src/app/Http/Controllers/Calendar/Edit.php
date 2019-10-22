@@ -4,8 +4,8 @@ namespace LaravelEnso\Calendar\app\Http\Controllers\Calendar;
 
 use Illuminate\Routing\Controller;
 use LaravelEnso\Calendar\app\Models\Calendar;
-use LaravelEnso\Calendar\app\Forms\Builders\CalendarForm;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use LaravelEnso\Calendar\app\Forms\Builders\CalendarForm;
 
 class Edit extends Controller
 {

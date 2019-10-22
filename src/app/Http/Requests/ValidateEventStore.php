@@ -50,7 +50,7 @@ class ValidateEventStore extends FormRequest
     public function reminders()
     {
         return collect($this->get('reminders'))
-            ->reject(function ($reminder){
+            ->reject(function ($reminder) {
                 return empty($reminder['remind_at']);
             });
     }

@@ -6,8 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Builder;
 use LaravelEnso\Calendar\app\Services\Request;
-use LaravelEnso\Calendar\app\Contracts\ProvidesEvent;
 use LaravelEnso\Calendar\app\Services\FrequentEvent;
+use LaravelEnso\Calendar\app\Contracts\ProvidesEvent;
 
 abstract class BaseFrequency
 {
@@ -20,7 +20,8 @@ abstract class BaseFrequency
 
     abstract public function query(Builder $query);
 
-    public function events(Collection $events) :Collection {
+    public function events(Collection $events) :Collection
+    {
         return $this->filter($events)->reduce(function ($events, $event) {
             return $events->concat($this->frequentEvents($event));
         }, collect());

@@ -12,7 +12,7 @@ class Once extends BaseFrequency
 
     public function query(Builder $query)
     {
-         $query->where('frequence', $this->frequency)
+        $query->where('frequence', $this->frequency)
              ->where('starts_at', '<=', $this->endDate())
              ->where('ends_at', '>=', $this->startDate());
     }

@@ -25,8 +25,8 @@ class Yearly extends BaseFrequency
     {
         return $this->period($event)
             ->filter(function (Carbon $date) use ($event) {
-                return $date->month == $event->start()->month
-                    && $date->day == $event->start()->day;
+                return $date->month === $event->start()->month
+                    && $date->day === $event->start()->day;
             });
     }
 }
