@@ -14,13 +14,11 @@ class EventForm
 
     public function __construct()
     {
-        $this->format = config('enso.config.dateFormat').' H:i';
-
         $this->form = (new Form(static::FormPath))
-            ->meta('starts_at', 'format', $this->format)
-            ->meta('ends_at', 'format', $this->format)
-            ->meta('recurrence_ends_at', 'format', $this->format)
-            ->meta('reminders', 'format', $this->format);
+            ->meta('starts_at', 'format', $this->dateTimeFormat())
+            ->meta('ends_at', 'format', $this->dateTimeFormat())
+            ->meta('recurrence_ends_at', 'format', $this->dateFormat())
+            ->meta('reminders', 'format', $this->dateTimeFormat());
     }
 
     public function create()
@@ -31,25 +29,31 @@ class EventForm
 
     public function edit(Event $event)
     {
-        if ($event->is_readonly) {
-            $this->form->actions(['create']);
-        }
-
         return $this->form->value('attendees', $event->attendeeList())
             ->meta('recurrence_ends_at', 'hidden', $event->frequence === Frequencies::Once)
             ->value('reminders', $this->reminders($event))
-            ->actions(['destroy', 'create', 'update'])
+            ->actions(['destroy', 'update'])
             ->edit($event);
     }
 
     private function reminders($event)
     {
         return $event->reminders->map(function ($reminder) {
-            $remind_at = $reminder->remind_at->format($this->format);
-            $item = $reminder->toArray();
-            $item['remind_at'] = $remind_at;
+            $remindAt = $reminder->remind_at
+                ->format($this->dateTimeFormat());
 
-            return $item;
+            return ['remind_at' => $remindAt] +
+                $reminder->toArray();
         });
+    }
+
+    private function dateFormat()
+    {
+        return config('enso.config.dateFormat');
+    }
+
+    private function dateTimeFormat(): string
+    {
+        return $this->dateFormat().' H:i';
     }
 }

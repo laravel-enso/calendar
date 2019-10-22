@@ -8,12 +8,12 @@ class CreateEventsTable extends Migration
 {
     public function up()
     {
-        Schema::create('events', function (Blueprint $table) {
+        Schema::create('calendar_events', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('calendar_id')->unsigned()->index();
 
             $table->string('title');
             $table->text('body')->nullable();
-            $table->tinyInteger('calendar');
             $table->tinyInteger('frequence');
 
             $table->datetime('starts_at');

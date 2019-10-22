@@ -51,11 +51,12 @@
             "fields": [
                 {
                     "label": "Calendar",
-                    "name": "calendar",
-                    "value": null,
+                    "name": "calendar_id",
+                    "value": [],
                     "meta": {
                         "type": "select",
-                        "options": "LaravelEnso\\Calendar\\app\\Enums\\Calendars"
+                        "source": "core.calendar.options",
+                        "label": "name"
                     }
                 },
                 {
@@ -123,7 +124,7 @@
                     "name": "frequence",
                     "value": 1,
                     "meta": {
-                        "disabled": true,
+                        "disabled": false,
                         "custom": true,
                         "type": "select",
                         "options": "LaravelEnso\\Calendar\\app\\Enums\\Frequencies"
@@ -134,7 +135,7 @@
                     "name": "recurrence_ends_at",
                     "value": null,
                     "meta": {
-                        "disabled": true,
+                        "disabled": false,
                         "min": null,
                         "max": null,
                         "hidden": true,

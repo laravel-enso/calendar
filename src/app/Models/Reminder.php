@@ -12,6 +12,8 @@ class Reminder extends Model
 {
     use CreatedBy, DateAttributes;
 
+    protected $table = 'calendar_reminders';
+
     protected $fillable = ['event_id', 'remind_at', 'reminded_at'];
 
     protected $dates = ['remind_at'];
@@ -36,6 +38,7 @@ class Reminder extends Model
 
     public function setRemindAtAttribute($value)
     {
-        $this->fillDateAttribute('remind_at', $value, 'Y-m-d H:i:s');
+        $this->fillDateAttribute('remind_at', $value,
+            config('enso.config.dateFormat').' H:i');
     }
 }

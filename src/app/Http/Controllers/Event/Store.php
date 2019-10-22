@@ -4,8 +4,8 @@ namespace LaravelEnso\Calendar\app\Http\Controllers\Event;
 
 use Illuminate\Routing\Controller;
 use LaravelEnso\Calendar\app\Models\Event;
-use LaravelEnso\Calendar\app\Http\Requests\ValidateEventStore;
 use LaravelEnso\Calendar\app\Http\Resources\Event as Resource;
+use LaravelEnso\Calendar\app\Http\Requests\ValidateEventStore;
 
 class Store extends Controller
 {
@@ -14,14 +14,7 @@ class Store extends Controller
         tap($event)->fill($request->validated())
             ->save();
 
-        //if (! empty($request->get('reminders'))) {
-        //    $event->reminders()->createMany(
-        //        collect($request->get('reminders'))
-        //            ->except(function ($reminder) {
-        //                return empty($reminder['remind_at']);
-        //            })->toArray()
-        //    );
-        //}
+        $event->reminders()->createMany($request->reminders());
 
         return [
             'message' => __('The event was created!'),

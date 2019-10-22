@@ -2,10 +2,10 @@
 
 namespace LaravelEnso\Calendar\app\Policies;
 
-use LaravelEnso\Calendar\app\Models\Event;
+use LaravelEnso\Calendar\app\Models\Calendar;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class EventPolicy
+class CalendarPolicy
 {
     use HandlesAuthorization;
 
@@ -14,8 +14,8 @@ class EventPolicy
         return $user->belongsToAdminGroup();
     }
 
-    public function handle($user, Event $event)
+    public function handle($user, Calendar $calendar)
     {
-        return $user->id === $event->created_by;
+        return $user->id === $calendar->created_by;
     }
 }

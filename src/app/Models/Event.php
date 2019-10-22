@@ -6,8 +6,9 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use LaravelEnso\Core\app\Models\User;
 use Illuminate\Database\Eloquent\Model;
-// use LaravelEnso\Calendar\app\Enums\Frequencies;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
+use LaravelEnso\Calendar\app\Services\Request;
+use LaravelEnso\Calendar\app\Services\Frequency;
 use LaravelEnso\Helpers\app\Traits\DateAttributes;
 use LaravelEnso\Calendar\app\Contracts\ProvidesEvent;
 
@@ -15,18 +16,26 @@ class Event extends Model implements ProvidesEvent
 {
     use CreatedBy, DateAttributes;
 
+    protected $table = 'calendar_events';
+
     protected $fillable = [
         'title', 'body', 'calendar', 'frequence', 'location', 'lat', 'lng',
-        'starts_at', 'ends_at', 'frequence_ends_at', 'is_all_day', 'is_readonly',
+        'starts_at', 'ends_at', 'recurrence_ends_at', 'is_all_day', 'is_readonly',
+        'calendar_id', 'starts_time_at', 'ends_time_at'
     ];
 
     protected $casts = ['is_all_day' => 'boolean', 'is_readonly' => 'boolean'];
 
-    protected $dates = ['starts_at', 'ends_at', 'frequence_ends_at'];
+    protected $dates = ['starts_at', 'ends_at', 'recurrence_ends_at'];
 
     public function attendees()
     {
         return $this->belongsToMany(User::class);
+    }
+
+    public function calendar()
+    {
+        return $this->belongsTo(Calendar::class, 'calendar_id', 'id');
     }
 
     public function attendeeList()
@@ -37,6 +46,18 @@ class Event extends Model implements ProvidesEvent
     public function reminders()
     {
         return $this->hasMany(Reminder::class);
+    }
+
+    public function setStartsTimeAtAttribute($value)
+    {
+        $this->starts_at = $this->starts_at
+            ->setTimeFromTimeString($value);
+    }
+
+    public function setEndsTimeAtAttribute($value)
+    {
+        $this->ends_at = $this->ends_at
+            ->setTimeFromTimeString($value);
     }
 
     public function setStartsAtAttribute($value)
@@ -54,16 +75,11 @@ class Event extends Model implements ProvidesEvent
     public function setRecurrenceEndsAtAttribute($value)
     {
         $this->fillDateAttribute('recurrence_ends_at', $value,
-            config('enso.config.dateFormat').' H:i');
+            config('enso.config.dateFormat'));
     }
 
     public function updateReminders($reminders)
     {
-        $reminders = collect($reminders)
-            ->except(function ($reminder) {
-                return empty($reminder['remind_at']);
-            });
-
         $this->reminders()
             ->whereNotIn('id', $reminders->pluck('id'))
             ->delete();
@@ -100,9 +116,9 @@ class Event extends Model implements ProvidesEvent
         return $this->location;
     }
 
-    public function calendar()
+    public function getCalendar()
     {
-        return $this->calendar;
+        return Calendar::cacheGet($this->calendar_id);
     }
 
     public function frequence()
@@ -136,48 +152,15 @@ class Event extends Model implements ProvidesEvent
         });
     }
 
-    public function scopeBetween($query, $startDate, $endDate)
+    public function scopeCalendars($query, $calendars)
     {
-        $startDate = Carbon::parse($startDate);
-        $endDate = Carbon::parse($endDate);
-
-        $query->when($startDate->eq($endDate), function ($query) use ($startDate) {
-            $query->whereDate('starts_at', $startDate)
-                ->orWhere(function ($query) use ($startDate) {
-                    $query->where('starts_at', '<', $startDate)
-                        ->where('ends_at', '>=', $startDate);
-                });
-            // ->orWhere(function ($query) use ($startDate) {
-            //     $query->where('frequence', '<>', Frequencies::Once)
-            //         ->whereDay('starts_at', $startDate->format('d'));
-            // });
+        $query->whereHas('calendar', function($calendar) use ($calendars) {
+            $calendar->whereIn('id', $calendars);
         });
+    }
 
-        $query->whereBetween('starts_at', [$startDate, $endDate])
-            ->orWhere(function ($query) use ($startDate) {
-                $query->where('starts_at', '<', $startDate)
-                    ->where('ends_at', '>=', $startDate);
-            });
-        //     ->orWhere(function ($query) use ($startDate, $endDate) {
-        //     $query->where('frequence', '<>', Frequencies::Once)
-        //         ->where('frequence_ends_at', '>', $startDate)
-        //         ->where(function ($query) use ($startDate, $endDate) {
-        //             $query->whereIn('frequence', [Frequencies::Daily, Frequencies::Weekdays])
-        //                 ->orWhere(function ($query) use ($startDate, $endDate) {
-        //                     $query->where('frequence', '=', Frequencies::Weekly)
-        //                         ->whereMonth('starts_at', $startDate->format('m'));
-        //                 })->orWhere(function ($query) use ($startDate, $endDate) {
-        //                     $query->where('frequence', '=', Frequencies::Monthly)
-        //                             ->whereDay('starts_at', '>=', $startDate->format('d'))
-        //                             ->whereDay('starts_at', '<', $endDate->format('d'))
-        //                             ->whereMonth('starts_at', $startDate->format('m'));
-        //                 })->orWhere(function ($query) use ($startDate, $endDate) {
-        //                     $query->where('frequence', '=', Frequencies::Yearly)
-        //                             ->whereDay('starts_at', '>=', $startDate->format('d'))
-        //                             ->whereDay('starts_at', '<', $endDate->format('d'))
-        //                             ->whereMonth('starts_at', $startDate->format('m'));
-        //                 });
-        //         });
-        // });
+    public function scopeBetween($query, Request $request)
+    {
+        (new Frequency($request))->query($query);
     }
 }

@@ -18,7 +18,7 @@ interface ProvidesEvent
 
     public function location();
 
-    public function calendar();
+    public function getCalendar();
 
     public function frequence();
 
