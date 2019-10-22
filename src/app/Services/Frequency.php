@@ -29,8 +29,10 @@ class Frequency
         $this->request = $request;
     }
 
-    public function events(Collection $events) :Collection
+    public function events(Builder $query): Collection
     {
+        $events = $this->query($query)->get();
+
         return collect(static::$frequencies)
             ->reduce(function ($result, $frequency) use ($events) {
                 return $result->concat(
@@ -39,9 +41,9 @@ class Frequency
             }, collect());
     }
 
-    public function query(Builder $query)
+    private function query(Builder $query): Builder
     {
-        $query->where(function ($query) {
+        return $query->where(function ($query) {
             collect(static::$frequencies)->each(function ($frequency) use ($query) {
                 $query->orWhere(function ($query) use ($frequency) {
                     $this->frequency($frequency)->query($query);

@@ -8,7 +8,6 @@ class ValidateEventUpdate extends ValidateEventStore
     {
         return [
             'ends_at' => 'filled:is_all_day,true|nullable|date|after:starts_at',
-            'starts_time_at' => 'nullable|date_format:H:i',
             'ends_time_at' => 'nullable|date_format:H:i',
         ] + parent::rules();
     }

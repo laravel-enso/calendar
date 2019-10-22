@@ -7,7 +7,7 @@ use LaravelEnso\Calendar\app\Enums\Frequencies;
 
 trait HasEvent
 {
-    public function frequence()
+    public function frequence(): int
     {
         return Frequencies::Once;
     }
@@ -17,12 +17,12 @@ trait HasEvent
         return null;
     }
 
-    public function allDay()
+    public function allDay(): bool
     {
         return true;
     }
 
-    public function readonly()
+    public function readonly(): bool
     {
         return true;
     }
@@ -30,5 +30,15 @@ trait HasEvent
     public function end(): Carbon
     {
         return $this->start();
+    }
+
+    public function body(): ?string
+    {
+        return null;
+    }
+
+    public function location(): ?string
+    {
+        return null;
     }
 }

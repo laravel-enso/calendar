@@ -7,13 +7,13 @@ use LaravelEnso\Calendar\app\Services\Request;
 
 interface Calendar
 {
-    public static function getEvents(Request $request): Collection;
+    public static function events(Request $request): Collection;
 
     public function getKey();
 
-    public function name();
+    public function name(): string;
 
-    public function color();
+    public function color(): string;
 
-    public function readonly();
+    public function readonly(): bool;
 }

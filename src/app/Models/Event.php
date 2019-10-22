@@ -6,11 +6,10 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use LaravelEnso\Core\app\Models\User;
 use Illuminate\Database\Eloquent\Model;
-use LaravelEnso\Calendar\app\Services\Request;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
-use LaravelEnso\Calendar\app\Services\Frequency;
 use LaravelEnso\Helpers\app\Traits\DateAttributes;
 use LaravelEnso\Calendar\app\Contracts\ProvidesEvent;
+use LaravelEnso\Calendar\app\Contracts\Calendar as CalendarContract;
 
 class Event extends Model implements ProvidesEvent
 {
@@ -21,7 +20,7 @@ class Event extends Model implements ProvidesEvent
     protected $fillable = [
         'title', 'body', 'calendar', 'frequence', 'location', 'lat', 'lng',
         'starts_at', 'ends_at', 'recurrence_ends_at', 'is_all_day', 'is_readonly',
-        'calendar_id', 'starts_time_at', 'ends_time_at',
+        'calendar_id', 'ends_time_at',
     ];
 
     protected $casts = ['is_all_day' => 'boolean', 'is_readonly' => 'boolean'];
@@ -46,12 +45,6 @@ class Event extends Model implements ProvidesEvent
     public function reminders()
     {
         return $this->hasMany(Reminder::class);
-    }
-
-    public function setStartsTimeAtAttribute($value)
-    {
-        $this->starts_at = $this->starts_at
-            ->setTimeFromTimeString($value);
     }
 
     public function setEndsTimeAtAttribute($value)
@@ -91,12 +84,12 @@ class Event extends Model implements ProvidesEvent
         });
     }
 
-    public function title()
+    public function title(): string
     {
         return $this->title;
     }
 
-    public function body()
+    public function body(): ?string
     {
         return $this->body;
     }
@@ -111,17 +104,17 @@ class Event extends Model implements ProvidesEvent
         return $this->ends_at;
     }
 
-    public function location()
+    public function location(): ?string
     {
         return $this->location;
     }
 
-    public function getCalendar()
+    public function getCalendar(): CalendarContract
     {
         return Calendar::cacheGet($this->calendar_id);
     }
 
-    public function frequence()
+    public function frequence(): int
     {
         return $this->frequence;
     }
@@ -131,12 +124,12 @@ class Event extends Model implements ProvidesEvent
         return $this->recurrence_ends_at;
     }
 
-    public function allDay()
+    public function allDay(): bool
     {
         return $this->is_all_day;
     }
 
-    public function readonly()
+    public function readonly(): bool
     {
         return $this->is_readonly;
     }
@@ -157,10 +150,5 @@ class Event extends Model implements ProvidesEvent
         $query->whereHas('calendar', function ($calendar) use ($calendars) {
             $calendar->whereIn('id', $calendars);
         });
-    }
-
-    public function scopeBetween($query, Request $request)
-    {
-        (new Frequency($request))->query($query);
     }
 }

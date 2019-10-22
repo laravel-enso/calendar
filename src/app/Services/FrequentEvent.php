@@ -4,7 +4,9 @@ namespace LaravelEnso\Calendar\app\Services;
 
 use Carbon\Carbon;
 use LaravelEnso\Calendar\app\DTOs\Route;
+use LaravelEnso\Calendar\app\Contracts\Calendar;
 use LaravelEnso\Calendar\app\Contracts\ProvidesEvent;
+use LaravelEnso\Calendar\app\Contracts\RoutableEvent;
 
 class FrequentEvent implements ProvidesEvent
 {
@@ -22,12 +24,12 @@ class FrequentEvent implements ProvidesEvent
         return $this->event->getKey();
     }
 
-    public function title()
+    public function title(): string
     {
         return $this->event->title();
     }
 
-    public function body()
+    public function body(): ?string
     {
         return $this->event->body();
     }
@@ -42,17 +44,17 @@ class FrequentEvent implements ProvidesEvent
         return $this->event->end()->setDateFrom($this->date);
     }
 
-    public function location()
+    public function location(): ?string
     {
         return $this->event->location();
     }
 
-    public function getCalendar()
+    public function getCalendar(): Calendar
     {
         return $this->event->getCalendar();
     }
 
-    public function frequence()
+    public function frequence(): int
     {
         return $this->event->frequence();
     }
@@ -62,18 +64,20 @@ class FrequentEvent implements ProvidesEvent
         return $this->event->recurrenceEnds();
     }
 
-    public function allDay()
+    public function allDay(): bool
     {
         return $this->event->allDay();
     }
 
-    public function readonly()
+    public function readonly(): bool
     {
         return $this->event->readonly();
     }
 
     public function route(): ?Route
     {
-        return $this->event->route();
+        return $this->event instanceof RoutableEvent
+            ? $this->event->route()
+            : null;
     }
 }

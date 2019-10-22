@@ -12,7 +12,7 @@ trait IsCalendar
         return $this->name();
     }
 
-    public static function getEvents(Request $request) :Collection
+    public static function events(Request $request): Collection
     {
         return (new static())->getQuery()->whereBetween(
             (new static())->eventDateField(),
@@ -20,7 +20,7 @@ trait IsCalendar
         )->get();
     }
 
-    public function readonly()
+    public function readonly(): bool
     {
         return true;
     }

@@ -52,7 +52,7 @@
                 {
                     "label": "Calendar",
                     "name": "calendar_id",
-                    "value": [],
+                    "value": null,
                     "meta": {
                         "type": "select",
                         "source": "core.calendar.options",

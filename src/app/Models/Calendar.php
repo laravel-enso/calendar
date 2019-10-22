@@ -15,35 +15,26 @@ class Calendar extends Model implements Contract, Rememberable
 {
     use CreatedBy, IsRememberable;
 
-    protected $fillable = [
-        'name', 'color',
-    ];
+    protected $fillable = ['name', 'color'];
 
-    public function events()
+    public static function events(Request $request): Collection
     {
-        return $this->hasMany(Event::class);
+        return (new Frequency($request))->events(
+            Event::calendars($request->calendars())
+        );
     }
 
-    public function name()
+    public function name(): string
     {
         return $this->name;
     }
 
-    public function color()
+    public function color(): string
     {
         return $this->color;
     }
 
-    public static function getEvents(Request $request): Collection
-    {
-        $events = Event::between($request)
-            ->calendars($request->calendars())
-            ->get();
-
-        return (new Frequency($request))->events($events);
-    }
-
-    public function readonly()
+    public function readonly(): bool
     {
         return false;
     }

@@ -19,8 +19,8 @@ class Index extends Controller
             })
             ->values()->unique()
             ->reduce(function ($events, $calendar) use ($request) {
-                return $events->merge(
-                    $calendar::getEvents(new CalendarRequest($request))
+                return $events->concat(
+                    $calendar::events(new CalendarRequest($request))
                 );
             }, collect());
 

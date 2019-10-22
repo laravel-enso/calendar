@@ -9,8 +9,6 @@ use LaravelEnso\Calendar\app\Services\Calendars;
 
 class AppServiceProvider extends ServiceProvider
 {
-    protected $resolvers = [];
-
     public $singletons = [
         'calendars' => Calendars::class,
     ];
@@ -41,10 +39,6 @@ class AppServiceProvider extends ServiceProvider
 
     private function publisDependencies()
     {
-        $this->publishes([
-            __DIR__.'/config' => config_path('enso'),
-        ], 'enso-config');
-
         $this->publishes([
             __DIR__.'/../stubs/CalendarServiceProvider.stub' => app_path('Providers/CalendarServiceProvider.php'),
         ], 'calendar-provider');

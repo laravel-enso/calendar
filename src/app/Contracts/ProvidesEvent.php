@@ -8,23 +8,23 @@ interface ProvidesEvent
 {
     public function getKey();
 
-    public function title();
+    public function title(): string;
 
-    public function body();
+    public function body(): ?string;
 
     public function start(): Carbon;
 
     public function end(): Carbon;
 
-    public function location();
+    public function location(): ?string;
 
-    public function getCalendar();
+    public function getCalendar(): Calendar;
 
-    public function frequence();
+    public function frequence(): int;
 
     public function recurrenceEnds(): ?Carbon;
 
-    public function allDay();
+    public function allDay(): bool;
 
-    public function readonly();
+    public function readonly(): bool;
 }

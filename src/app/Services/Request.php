@@ -16,7 +16,7 @@ class Request
         $this->request = $request;
     }
 
-    public function startDate() :Carbon
+    public function startDate(): Carbon
     {
         $this->startDate = $this->startDate ?:
             Carbon::parse($this->request->get('startDate'))->setTime(0, 0);
@@ -24,7 +24,7 @@ class Request
         return $this->startDate;
     }
 
-    public function endDate() :Carbon
+    public function endDate(): Carbon
     {
         $this->endDate = $this->endDate ?:
             Carbon::parse($this->request->get('endDate'))->setTime(23, 59, 59);
