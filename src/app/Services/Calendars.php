@@ -7,6 +7,7 @@ use LaravelEnso\Calendar\app\Models\Calendar;
 class Calendars
 {
     private $calendars;
+    private $ready;
 
     public function __construct()
     {
@@ -30,15 +31,16 @@ class Calendars
 
     public function all()
     {
+        if (! $this->ready) {
+            $this->register(Calendar::get());
+            $this->ready = true;
+        }
+
         return $this->calendars;
     }
 
     private function initCalendars()
     {
         $this->calendars = collect();
-
-        if (! app()->runningUnitTests()) {
-            $this->register(Calendar::get());
-        }
     }
 }
