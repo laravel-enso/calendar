@@ -4,13 +4,12 @@ namespace LaravelEnso\Calendar\app\Services;
 
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Builder;
-use LaravelEnso\Calendar\app\Contracts\ProvidesEvent;
 use LaravelEnso\Calendar\app\Services\Frequencies\Once;
 use LaravelEnso\Calendar\app\Services\Frequencies\Daily;
 use LaravelEnso\Calendar\app\Services\Frequencies\Weekly;
 use LaravelEnso\Calendar\app\Services\Frequencies\Yearly;
-use LaravelEnso\Calendar\app\Services\Frequencies\Weekday;
 use LaravelEnso\Calendar\app\Services\Frequencies\Monthly;
+use LaravelEnso\Calendar\app\Services\Frequencies\Weekday;
 
 class Frequency
 {
@@ -53,6 +52,6 @@ class Frequency
 
     private function frequency($frequency)
     {
-        return (new $frequency($this->request));
+        return new $frequency($this->request);
     }
 }

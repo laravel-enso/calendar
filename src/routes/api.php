@@ -14,7 +14,6 @@ Route::middleware(['web', 'auth', 'core'])
                 Route::patch('{calendar}', 'Update')->name('update');
                 Route::delete('{calendar}', 'Destroy')->name('destroy');
                 Route::get('options', 'Options')->name('options');
-
             });
 
         Route::namespace('Event')

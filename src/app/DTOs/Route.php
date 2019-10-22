@@ -20,5 +20,4 @@ class Route
             'params' => $this->params,
         ];
     }
-
 }

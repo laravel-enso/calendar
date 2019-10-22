@@ -4,8 +4,8 @@ namespace LaravelEnso\Calendar\app\Models;
 
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
-use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 use LaravelEnso\Calendar\app\Services\Request;
+use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 use LaravelEnso\Calendar\app\Services\Frequency;
 use LaravelEnso\Rememberable\app\Traits\IsRememberable;
 use LaravelEnso\Rememberable\app\Contracts\Rememberable;
@@ -16,7 +16,7 @@ class Calendar extends Model implements Contract, Rememberable
     use CreatedBy, IsRememberable;
 
     protected $fillable = [
-        'name', 'color'
+        'name', 'color',
     ];
 
     public function events()

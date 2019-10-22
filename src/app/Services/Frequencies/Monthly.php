@@ -25,6 +25,5 @@ class Monthly extends BaseFrequency
             ->filter(function (Carbon $date) use ($event) {
                 return $date->day === $event->start()->day;
             });
-
     }
 }

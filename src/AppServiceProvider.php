@@ -19,7 +19,6 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->commands(Notify::class);
 
-
         $this->app->booted(function () {
             $schedule = $this->app->make(Schedule::class);
             $schedule->command('enso:calendar:notify')->everyMinute();

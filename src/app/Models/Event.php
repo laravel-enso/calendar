@@ -6,8 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use LaravelEnso\Core\app\Models\User;
 use Illuminate\Database\Eloquent\Model;
-use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 use LaravelEnso\Calendar\app\Services\Request;
+use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 use LaravelEnso\Calendar\app\Services\Frequency;
 use LaravelEnso\Helpers\app\Traits\DateAttributes;
 use LaravelEnso\Calendar\app\Contracts\ProvidesEvent;
@@ -21,7 +21,7 @@ class Event extends Model implements ProvidesEvent
     protected $fillable = [
         'title', 'body', 'calendar', 'frequence', 'location', 'lat', 'lng',
         'starts_at', 'ends_at', 'recurrence_ends_at', 'is_all_day', 'is_readonly',
-        'calendar_id', 'starts_time_at', 'ends_time_at'
+        'calendar_id', 'starts_time_at', 'ends_time_at',
     ];
 
     protected $casts = ['is_all_day' => 'boolean', 'is_readonly' => 'boolean'];
@@ -154,7 +154,7 @@ class Event extends Model implements ProvidesEvent
 
     public function scopeCalendars($query, $calendars)
     {
-        $query->whereHas('calendar', function($calendar) use ($calendars) {
+        $query->whereHas('calendar', function ($calendar) use ($calendars) {
             $calendar->whereIn('id', $calendars);
         });
     }
