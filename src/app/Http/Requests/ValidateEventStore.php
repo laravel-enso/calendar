@@ -25,6 +25,7 @@ class ValidateEventStore extends FormRequest
             'lng' => 'nullable',
             'starts_at' => $this->genericRule().'|date',
             'ends_at' => 'required_unless:is_all_day,true|nullable|date|after:starts_at',
+            'attendees.*' => 'exists:users,id',
             'recurrence_ends_at' => $this->has('frequence') && $this->get('frequence') !== Frequencies::Once
                 ? 'date|required|after:starts_at'
                 : 'nullable',

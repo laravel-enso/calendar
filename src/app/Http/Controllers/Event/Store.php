@@ -15,6 +15,7 @@ class Store extends Controller
             ->save();
 
         $event->reminders()->createMany($request->reminders());
+        $event->attendees()->sync($request->get('attendees'));
 
         return [
             'message' => __('The event was created!'),

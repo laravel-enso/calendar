@@ -19,6 +19,8 @@ class Update extends Controller
         tap($event)->update($request->validated())
             ->updateReminders($request->reminders());
 
+        $event->attendees()->sync($request->get('attendees'));
+
         return [
             'message' => __('The event was updated!'),
             'event' => new Resource($event),

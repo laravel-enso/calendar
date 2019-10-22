@@ -39,7 +39,7 @@ class Event extends Model implements ProvidesEvent
 
     public function attendeeList()
     {
-        return $this->attendees->pluck('id');
+        return $this->attendees->pluck('id')->toArray();
     }
 
     public function reminders()
@@ -82,6 +82,8 @@ class Event extends Model implements ProvidesEvent
                 ? Reminder::find($reminder['id'])->update($reminder)
                 : Reminder::create($reminder);
         });
+
+        return $this;
     }
 
     public function title(): string

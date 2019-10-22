@@ -15,8 +15,13 @@ class Monthly extends BaseFrequency
     {
         $query->where('frequence', $this->frequency)
             ->where('recurrence_ends_at', '>=', $this->startDate())
-            ->whereDay('starts_at', '>=', $this->startDate()->format('d'))
-            ->whereDay('starts_at', '<=', $this->endDate()->format('d'));
+            ->when($this->diffInMonths() === 0, function (Builder $query) {
+                $query->whereDay('starts_at', '>=', $this->startDate()->format('d'))
+                    ->whereDay('starts_at', '<=', $this->endDate()->format('d'));
+            })->when($this->diffInMonths() === 1 && $this->diffInDays() < 30, function (Builder $query) {
+                $query->whereDay('starts_at', '>=', $this->startDate()->format('d'))
+                    ->orWhereDay('starts_at', '<=', $this->endDate()->format('d'));
+            });
     }
 
     protected function dates(ProvidesEvent $event)

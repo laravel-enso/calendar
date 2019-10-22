@@ -39,6 +39,16 @@ abstract class BaseFrequency
         return $this->request->endDate();
     }
 
+    protected function diffInMonths(): int
+    {
+        return $this->startDate()->diffInMonths($this->endDate());
+    }
+
+    protected function diffInDays(): int
+    {
+        return $this->startDate()->diffInDays($this->endDate());
+    }
+
     protected function filter($events)
     {
         return $events->filter(function (ProvidesEvent $event) {
@@ -50,7 +60,6 @@ abstract class BaseFrequency
     {
         $start = $this->startDate()->max($event->start());
         $end = $event->recurrenceEnds()->min($this->endDate());
-
         return collect($start->daysUntil($end)->toArray());
     }
 
