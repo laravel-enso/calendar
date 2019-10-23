@@ -10,7 +10,7 @@ class CreateEventUserPivotTable extends Migration
     {
         Schema::create('event_user', function (Blueprint $table) {
             $table->integer('event_id')->unsigned()->index();
-            $table->foreign('event_id')->references('id')->on('events')
+            $table->foreign('event_id')->references('id')->on('calendar_events')
                 ->onUpdate('cascade')->onDelete('cascade');
 
             $table->integer('user_id')->unsigned()->index();
