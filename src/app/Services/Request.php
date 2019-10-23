@@ -19,7 +19,7 @@ class Request
     public function startDate(): Carbon
     {
         $this->startDate = $this->startDate ?:
-            Carbon::parse($this->request->get('startDate'))->setTime(0, 0);
+            Carbon::parse($this->request->get('startDate'))->startOfDay();
 
         return $this->startDate;
     }
@@ -27,7 +27,7 @@ class Request
     public function endDate(): Carbon
     {
         $this->endDate = $this->endDate ?:
-            Carbon::parse($this->request->get('endDate'))->setTime(23, 59, 59);
+            Carbon::parse($this->request->get('endDate'))->endOfDay();
 
         return $this->endDate;
     }
