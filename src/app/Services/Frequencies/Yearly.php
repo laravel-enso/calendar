@@ -32,7 +32,6 @@ class Yearly extends BaseFrequency
                         ->orWhereMonth('starts_at', '<=', $this->endDate()->format('m'));
                 });
             });
-
     }
 
     protected function dates(ProvidesEvent $event) :Collection

@@ -60,6 +60,7 @@ abstract class BaseFrequency
     {
         $start = $this->startDate()->max($event->start());
         $end = $event->recurrenceEnds()->min($this->endDate());
+
         return collect($start->daysUntil($end)->toArray());
     }
 
