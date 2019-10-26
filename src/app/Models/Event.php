@@ -55,20 +55,23 @@ class Event extends Model implements ProvidesEvent
 
     public function setStartsAtAttribute($value)
     {
-        $this->fillDateAttribute('starts_at', $value,
-            config('enso.config.dateFormat').' H:i');
+        $this->fillDateAttribute(
+            'starts_at', $value, config('enso.config.dateFormat').' H:i'
+        );
     }
 
     public function setEndsAtAttribute($value)
     {
-        $this->fillDateAttribute('ends_at', $value,
-            config('enso.config.dateFormat').' H:i');
+        $this->fillDateAttribute(
+            'ends_at', $value, config('enso.config.dateFormat').' H:i'
+        );
     }
 
     public function setRecurrenceEndsAtAttribute($value)
     {
-        $this->fillDateAttribute('recurrence_ends_at', $value,
-            config('enso.config.dateFormat'));
+        $this->fillDateAttribute(
+            'recurrence_ends_at', $value, config('enso.config.dateFormat')
+        );
     }
 
     public function updateReminders($reminders)
@@ -78,9 +81,9 @@ class Event extends Model implements ProvidesEvent
             ->delete();
 
         $reminders->each(function ($reminder) {
-            return isset($reminder['id'])
-                ? Reminder::find($reminder['id'])->update($reminder)
-                : Reminder::create($reminder);
+            Reminder::updateOrCreate(
+                ['id' => $reminder['id']], $reminder
+            );
         });
 
         return $this;
@@ -138,19 +141,19 @@ class Event extends Model implements ProvidesEvent
 
     public function scopeAllowed($query)
     {
-        $query->when(! Auth::user()->belongsToAdminGroup(), function ($query) {
-            $query->whereHas('createdBy.person.companies', function ($companies) {
-                $companies->whereIn(
-                    'id', Auth::user()->person->companies()->pluck('id')
-                );
-            });
+        $query->when(
+            ! Auth::user()->isAdmin() && ! Auth::user()->isSupervisor(),
+            function ($query) {
+                $query->whereHas('createdBy.person.companies', function ($companies) {
+                    $companies->whereIn(
+                        'id', Auth::user()->person->companies()->pluck('id')
+                    );
+                });
         });
     }
 
-    public function scopeCalendars($query, $calendars)
+    public function scopeFor($query, $calendars)
     {
-        $query->whereHas('calendar', function ($calendar) use ($calendars) {
-            $calendar->whereIn('id', $calendars);
-        });
+        $query->whereIn('calendar_id', $calendars->pluck('id'));
     }
 }

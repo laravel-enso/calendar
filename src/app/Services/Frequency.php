@@ -2,6 +2,7 @@
 
 namespace LaravelEnso\Calendar\app\Services;
 
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Builder;
 use LaravelEnso\Calendar\app\Services\Frequencies\Once;
@@ -22,11 +23,13 @@ class Frequency
         Yearly::class,
     ];
 
-    protected $request;
+    protected $startDate;
+    protected $endDate;
 
-    public function __construct(Request $request)
+    public function __construct(Carbon $startDate, Carbon $endDate)
     {
-        $this->request = $request;
+        $this->startDate = $startDate;
+        $this->endDate = $endDate;
     }
 
     public function events(Builder $query): Collection
@@ -34,8 +37,8 @@ class Frequency
         $events = $this->query($query)->get();
 
         return collect(static::$frequencies)
-            ->reduce(function ($result, $frequency) use ($events) {
-                return $result->concat(
+            ->reduce(function ($occurencies, $frequency) use ($events) {
+                return $occurencies->concat(
                     $this->frequency($frequency)->events($events)
                 );
             }, collect());
@@ -54,6 +57,6 @@ class Frequency
 
     private function frequency($frequency)
     {
-        return new $frequency($this->request);
+        return new $frequency($this->startDate, $this->endDate);
     }
 }

@@ -7,7 +7,7 @@ use LaravelEnso\Calendar\app\Models\Reminder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use LaravelEnso\Calendar\app\Notifications\ReminderNotification;
 
-class NotifyTest extends TestCase
+class SendNotificationsTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -31,7 +31,7 @@ class NotifyTest extends TestCase
         \Notification::fake();
 
         factory(Reminder::class)->create([
-            'remind_at'=> Carbon::now()->addDay(),
+            'scheduled_at'=> Carbon::now()->addDay(),
             'created_by'=>$this->user->id
         ]);
 
@@ -46,8 +46,8 @@ class NotifyTest extends TestCase
         \Notification::fake();
 
         $reminder = factory(Reminder::class)->create([
-            'remind_at' => Carbon::now()->subDay(),
-            'reminded_at'=>null,
+            'scheduled_at' => Carbon::now()->subDay(),
+            'sent_at'=>null,
             'created_by' => $this->user->id
         ]);
 
@@ -58,6 +58,6 @@ class NotifyTest extends TestCase
             ReminderNotification::class
         );
 
-        $this->assertNotNull($reminder->refresh()->reminded_at);
+        $this->assertNotNull($reminder->refresh()->sent_at);
     }
 }

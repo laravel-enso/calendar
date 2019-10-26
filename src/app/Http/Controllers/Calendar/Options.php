@@ -10,6 +10,5 @@ class Options extends Controller
 {
     use OptionsBuilder;
 
-    protected $queryAttributes = ['name'];
     protected $model = Calendar::class;
 }

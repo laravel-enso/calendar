@@ -18,8 +18,8 @@ class CreateCalendarRemindersTable extends Migration
             $table->integer('created_by')->unsigned()->index();
             $table->foreign('created_by')->references('id')->on('users');
 
-            $table->datetime('remind_at')->index();
-            $table->datetime('reminded_at')->nullable()->index();
+            $table->datetime('scheduled_at')->index();
+            $table->datetime('sent_at')->nullable()->index();
 
             $table->timestamps();
         });

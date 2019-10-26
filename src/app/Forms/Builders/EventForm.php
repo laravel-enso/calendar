@@ -39,10 +39,10 @@ class EventForm
     private function reminders($event)
     {
         return $event->reminders->map(function ($reminder) {
-            $remindAt = $reminder->remind_at
+            $remindAt = $reminder->scheduled_at
                 ->format($this->dateTimeFormat());
 
-            return ['remind_at' => $remindAt] +
+            return ['scheduled_at' => $remindAt] +
                 $reminder->toArray();
         });
     }

@@ -17,6 +17,7 @@ class ValidateCalendarRequest extends FormRequest
         return [
             'name' => 'required',
             'color' => 'required|in:'.Colors::keys()->implode(','),
+            'private' => 'required|boolean',
         ];
     }
 }

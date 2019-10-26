@@ -1,29 +1,35 @@
 {
     "routePrefix": "core.calendar",
-    "sections": [
-        {
-            "columns" : 2,
-            "fields": [
-                {
-                    "label": "Name",
-                    "name": "name",
-                    "value": "",
-                    "meta": {
-                        "type": "input",
-                        "content": "text"
-                    }
-                },
-                {
-                    "label": "Color",
-                    "name": "color",
-                    "value": null,
-                    "meta": {
-                        "custom": true,
-                        "type": "select",
-                        "options": "LaravelEnso\\Calendar\\app\\Enums\\Colors"
-                    }
-                }
-            ]
-        }
-    ]
+    "sections": [{
+        "columns" : "custom",
+        "fields": [{
+            "column": 12,
+            "label": "Name",
+            "name": "name",
+            "value": "",
+            "meta": {
+                "type": "input",
+                "content": "text"
+            }
+        }, {
+            "column": 6,
+            "label": "Color",
+            "name": "color",
+            "value": null,
+            "meta": {
+                "custom": true,
+                "type": "select",
+                "options": "LaravelEnso\\Calendar\\app\\Enums\\Colors"
+            }
+        }, {
+            "column": 6,
+            "label": "Private",
+            "name": "private",
+            "value": false,
+            "meta": {
+                "type": "input",
+                "content": "checkbox"
+            }
+        }]
+    }]
 }

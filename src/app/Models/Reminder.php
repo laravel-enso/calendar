@@ -14,31 +14,32 @@ class Reminder extends Model
 
     protected $table = 'calendar_reminders';
 
-    protected $fillable = ['event_id', 'remind_at', 'reminded_at'];
+    protected $fillable = ['event_id', 'scheduled_at', 'sent_at'];
 
-    protected $dates = ['remind_at'];
+    protected $dates = ['scheduled_at'];
 
     public function event()
     {
         return $this->belongsTo(Event::class);
     }
 
-    public function notify()
+    public function send()
     {
         $this->createdBy->notify(new ReminderNotification($this));
 
-        $this->update(['reminded_at' => Carbon::now()]);
+        $this->update(['sent_at' => Carbon::now()]);
     }
 
-    public function scopeReadyForNotify($query)
+    public function scopeReadyToNotify($query)
     {
-        return $query->whereNull('reminded_at')
-            ->where('remind_at', '<=', Carbon::now());
+        return $query->whereNull('sent_at')
+            ->where('scheduled_at', '<=', Carbon::now());
     }
 
     public function setRemindAtAttribute($value)
     {
-        $this->fillDateAttribute('remind_at', $value,
-            config('enso.config.dateFormat').' H:i');
+        $this->fillDateAttribute(
+            'scheduled_at', $value, config('enso.config.dateFormat').' H:i'
+        );
     }
 }

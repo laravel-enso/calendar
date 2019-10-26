@@ -8,7 +8,7 @@ use LaravelEnso\Calendar\app\Contracts\Calendar;
 use LaravelEnso\Calendar\app\Contracts\ProvidesEvent;
 use LaravelEnso\Calendar\app\Contracts\RoutableEvent;
 
-class FrequentEvent implements ProvidesEvent
+class Occurrence implements ProvidesEvent
 {
     protected $event;
     protected $date;

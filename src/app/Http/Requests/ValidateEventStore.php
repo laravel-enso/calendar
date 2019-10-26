@@ -3,6 +3,7 @@
 namespace LaravelEnso\Calendar\app\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use LaravelEnso\Calendar\app\Models\Calendar;
 use LaravelEnso\Calendar\app\Enums\Frequencies;
 use LaravelEnso\Calendar\app\Facades\Calendars;
 
@@ -18,7 +19,7 @@ class ValidateEventStore extends FormRequest
         return [
             'title' => $this->genericRule(),
             'body' => 'nullable',
-            'calendar_id' => $this->genericRule().'|in:'.Calendars::all()->keys()->implode(','),
+            'calendar_id' => $this->genericRule().'|in:'.Calendar::pluck('id')->implode(','),
             'frequence' => $this->genericRule().'|in:'.Frequencies::keys()->implode(','),
             'location' => 'nullable',
             'lat' => 'nullable',
@@ -52,7 +53,7 @@ class ValidateEventStore extends FormRequest
     {
         return collect($this->get('reminders'))
             ->reject(function ($reminder) {
-                return empty($reminder['remind_at']);
+                return empty($reminder['scheduled_at']);
             });
     }
 }

@@ -7,21 +7,27 @@ use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\Calendar\app\Services\Request;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 use LaravelEnso\Calendar\app\Services\Frequency;
-use LaravelEnso\Rememberable\app\Traits\IsRememberable;
-use LaravelEnso\Rememberable\app\Contracts\Rememberable;
+use LaravelEnso\Rememberable\app\Traits\Rememberable;
 use LaravelEnso\Calendar\app\Contracts\Calendar as Contract;
 
-class Calendar extends Model implements Contract, Rememberable
+class Calendar extends Model implements Contract
 {
-    use CreatedBy, IsRememberable;
+    use CreatedBy, Rememberable;
 
-    protected $fillable = ['name', 'color'];
+    protected $fillable = ['name', 'color', 'private'];
 
-    public static function events(Request $request): Collection
+    protected $casts = ['private' => 'boolean'];
+
+    // public static function events(Request $request): Collection
+    // {
+    //     return (new Frequency($request))->events(
+    //         Event::calendars($request->calendars())
+    //     );
+    // }
+
+    public function events()
     {
-        return (new Frequency($request))->events(
-            Event::calendars($request->calendars())
-        );
+        return $this->hasMany(Event::class);
     }
 
     public function name(): string
@@ -34,8 +40,13 @@ class Calendar extends Model implements Contract, Rememberable
         return $this->color;
     }
 
+    public function private(): bool
+    {
+        return $this->private;
+    }
+
     public function readonly(): bool
     {
         return false;
-    }
+    }    
 }

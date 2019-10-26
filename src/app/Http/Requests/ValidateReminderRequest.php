@@ -16,7 +16,7 @@ class ValidateReminderRequest extends FormRequest
         return [
             'event_id' => 'required|exists:events,id',
             'user_id' => 'required|exists:users,id',
-            'remind_at' => 'required|date',
+            'scheduled_at' => 'required|date',
         ];
     }
 }
