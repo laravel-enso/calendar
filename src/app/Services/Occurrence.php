@@ -36,12 +36,12 @@ class Occurrence implements ProvidesEvent
 
     public function start(): Carbon
     {
-        return $this->event->start()->setDateFrom($this->date);
+        return $this->event->start()->addDays($this->days());
     }
 
     public function end(): Carbon
     {
-        return $this->event->end()->setDateFrom($this->date);
+        return $this->event->end()->addDays($this->days());
     }
 
     public function location(): ?string
@@ -79,5 +79,11 @@ class Occurrence implements ProvidesEvent
         return $this->event instanceof RoutableEvent
             ? $this->event->route()
             : null;
+    }
+
+    private function days()
+    {
+        return $this->event->start()
+            ->diffInDays($this->date);
     }
 }
