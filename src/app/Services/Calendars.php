@@ -25,11 +25,12 @@ class Calendars
         return $this->calendars;
     }
 
-    public function only(array $calendars)
+    public function only(?array $calendars)
     {
-        return $this->all()->filter(function ($calendar) use ($calendars) {
-            return in_array($calendar->getKey(), $calendars);
-        });
+        return $calendars
+            ? $this->all()->filter(function ($calendar) use ($calendars) {
+                return in_array($calendar->getKey(), $calendars);
+            }) : collect();
     }
 
     public function keys()
@@ -58,7 +59,7 @@ class Calendars
 
     private function registered($calendar)
     {
-        return $this->calendars->contains(function($existing) use ($calendar) {
+        return $this->calendars->contains(function ($existing) use ($calendar) {
             return $existing->getKey() === $calendar->getKey();
         });
     }
