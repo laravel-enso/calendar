@@ -2,9 +2,8 @@
 
 namespace LaravelEnso\Calendar\app\Services;
 
-use Carbon\Carbon;
-use Illuminate\Support\Collection;
-use Illuminate\Database\Eloquent\Builder;
+use LaravelEnso\Calendar\app\Models\Event;
+use LaravelEnso\Calendar\app\Enums\Frequencies;
 use LaravelEnso\Calendar\app\Services\Frequencies\Once;
 use LaravelEnso\Calendar\app\Services\Frequencies\Daily;
 use LaravelEnso\Calendar\app\Services\Frequencies\Weekly;
@@ -15,48 +14,40 @@ use LaravelEnso\Calendar\app\Services\Frequencies\Weekday;
 class Frequency
 {
     private static $frequencies = [
-        Once::class,
-        Daily::class,
-        Weekly::class,
-        Weekday::class,
-        Monthly::class,
-        Yearly::class,
+        Frequencies::Once => Once::class,
+        Frequencies::Daily => Daily::class,
+        Frequencies::Weekly => Weekly::class,
+        Frequencies::Weekdays => Weekday::class,
+        Frequencies::Monthly => Monthly::class,
+        Frequencies::Yearly => Yearly::class,
     ];
 
-    protected $startDate;
-    protected $endDate;
+    private $event;
 
-    public function __construct(Carbon $startDate, Carbon $endDate)
+    public function __construct(Event $event)
     {
-        $this->startDate = $startDate;
-        $this->endDate = $endDate;
+        $this->event = $event;
     }
 
-    public function events(Builder $query): Collection
+    public function update()
     {
-        $events = $this->query($query)->get();
-
-        return collect(static::$frequencies)
-            ->reduce(function ($occurencies, $frequency) use ($events) {
-                return $occurencies->concat(
-                    $this->frequency($frequency)->events($events)
-                );
-            }, collect());
+        $this->frequency()->update();
     }
 
-    private function query(Builder $query): Builder
+    public function insert()
     {
-        return $query->where(function ($query) {
-            collect(static::$frequencies)->each(function ($frequency) use ($query) {
-                $query->orWhere(function ($query) use ($frequency) {
-                    $this->frequency($frequency)->query($query);
-                });
-            });
-        });
+        $this->frequency()->insert();
     }
 
-    private function frequency($frequency)
+    public function delete()
     {
-        return new $frequency($this->startDate, $this->endDate);
+        $this->frequency()->delete();
+    }
+
+    private function frequency()
+    {
+        $class = self::$frequencies[$this->event->frequence()];
+
+        return new $class($this->event);
     }
 }

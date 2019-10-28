@@ -14,6 +14,8 @@ class CreateCalendarEventsTable extends Migration
             $table->integer('calendar_id')->unsigned()->index();
             $table->foreign('calendar_id')->references('id')->on('calendars');
 
+            $table->integer('parent_id')->nullable()->unsigned()->index();
+
             $table->string('title');
             $table->text('body')->nullable();
             $table->tinyInteger('frequence');

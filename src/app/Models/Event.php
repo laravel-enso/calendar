@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use LaravelEnso\Core\app\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
+use LaravelEnso\Calendar\app\Services\Frequency;
 use LaravelEnso\Helpers\app\Traits\DateAttributes;
 use LaravelEnso\Calendar\app\Contracts\ProvidesEvent;
 use LaravelEnso\Calendar\app\Contracts\Calendar as CalendarContract;
@@ -20,12 +21,22 @@ class Event extends Model implements ProvidesEvent
     protected $fillable = [
         'title', 'body', 'calendar', 'frequence', 'location', 'lat', 'lng',
         'starts_at', 'ends_at', 'recurrence_ends_at', 'is_all_day', 'is_readonly',
-        'calendar_id', 'ends_time_at',
+        'calendar_id', 'ends_time_at', 'parent_id'
     ];
 
     protected $casts = ['is_all_day' => 'boolean', 'is_readonly' => 'boolean'];
 
     protected $dates = ['starts_at', 'ends_at', 'recurrence_ends_at'];
+
+    public function parent()
+    {
+        return $this->belongsTo(static::class, 'parent_id');
+    }
+
+    public function events()
+    {
+        return $this->hasMany(static::class, 'parent_id');
+    }
 
     public function attendees()
     {
@@ -155,5 +166,11 @@ class Event extends Model implements ProvidesEvent
     public function scopeFor($query, $calendars)
     {
         $query->whereIn('calendar_id', $calendars->pluck('id'));
+    }
+
+    public function scopeBetween($query, $start, $end)
+    {
+        $query->where('ends_at', '<=', $end)
+            ->where('starts_at', '>=', $start);
     }
 }

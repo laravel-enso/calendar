@@ -10,20 +10,11 @@ use LaravelEnso\Calendar\app\Contracts\ProvidesEvent;
 
 class Weekly extends Frequency
 {
-    protected $frequency = Frequencies::Weekly;
-
-    public function query(Builder $query)
+    protected function dates(): Collection
     {
-        $query->whereFrequence($this->frequency)
-            ->where('recurrence_ends_at', '>=', $this->startDate)
-            ->where('starts_at', '<=', $this->endDate);
-    }
-
-    protected function dates(ProvidesEvent $event): Collection
-    {
-        return $this->interval($event)
-            ->filter(function (Carbon $date) use ($event) {
-                return $event->start()->dayOfWeek === $date->dayOfWeek;
+        return $this->interval()
+            ->filter(function (Carbon $date) {
+                return $this->event->start()->dayOfWeek === $date->dayOfWeek;
             });
     }
 }

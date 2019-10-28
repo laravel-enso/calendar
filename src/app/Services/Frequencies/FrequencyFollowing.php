@@ -5,33 +5,30 @@ namespace LaravelEnso\Calendar\app\Services\Frequencies;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use LaravelEnso\Calendar\app\Models\Event;
+use LaravelEnso\Calendar\app\Enums\UpdateType;
 
-abstract class Frequency
+abstract class FrequencyFollowing
 {
     protected $event;
 
-    public function __construct(Event $event)
+    private $updateType;
+
+    public function __construct(Event $event, $updateType)
     {
         $this->event = $event;
+        $this->updateType = $updateType;
     }
 
     abstract protected function dates(): Collection;
 
-    public function update()
+    public function generate()
     {
-        $this->insert()->updateTimes()->deleteTimes();
-    }
-
-    public function delete()
-    {
-        Event::whereParentId($this->parent()->id)
-            ->orWhere('id', $this->parent()->id)
-            ->delete();
+        $this->insert()->update()->delete();
     }
 
     protected function interval()
     {
-        $start = $this->parent()->start();
+        $start = $this->start();
         $end = $this->event->recurrenceEnds();
 
         return collect($start->daysUntil($end)->toArray());
@@ -41,13 +38,13 @@ abstract class Frequency
     {
         $events = $this->dates()->filter(function ($date) {
                 return $this->events()->first(function (Event $event) use ($date) {
-                    echo $date->toDateString().' === '. $event->start()->toDateString().PHP_EOL;
+                    //echo $date->toDateString().' === '. $event->start()->toDateString().PHP_EOL;
                     return $date->toDateString() === $event->start()->toDateString();
                 }) === null;
             })->map(function ($date) {
                 return $this->event->replicate(['id'])->fill([
-                    'parent_id' => $this->event->id,
-                    'starts_at' => $this->event->start()->setDateFrom($date),
+                    'parent_id' => $this->parent()->id,
+                    'starts_at' => $this->start()->setDateFrom($date),
                     'ends_at' => $this->event->end()->setDateFrom($date),
                 ]);
             });
@@ -57,47 +54,63 @@ abstract class Frequency
         return $this;
     }
 
-    protected function updateTimes()
+    protected function update()
     {
+        $startsAt = DB::raw("CONCAT(DATE(starts_at), ' {$this->start()->toTimeString()}')");
+        $endsAt = DB::raw("CONCAT(DATE(ends_at), ' {$this->event->end()->toTimeString()}')");
+
         $updatable = collect();
 
-        if ($this->event->wasChanged('starts_at')) {
+        if ($this->event->isDirty('starts_at')) {
             $updatable->put('starts_at',
-                DB::raw("CONCAT(DATE(starts_at), ' {$this->event->start()->toTimeString()}')"));
+                DB::raw("CONCAT(DATE(starts_at), ' {$this->start()->toTimeString()}')"));
         }
 
-        if ($this->event->wasChanged('ends_at')) {
+        if ($this->event->isDirty('ends_at')) {
             $updatable->put('ends_at',
                 DB::raw("CONCAT(DATE(ends_at), ' {$this->event->end()->toTimeString()}')"));
         }
 
-        if ($this->event->wasChanged('recurrence_ends_at')) {
-            $updatable->put('recurrence_ends_at', $this->event->recurrenceEnds());
+        if ($this->event->isDirty('recurrence_ends_at')) {
+            $updatable->put('ends_at', $this->event->recurrenceEnds());
         }
 
+
         if ($updatable->isNotEmpty()) {
-            Event::whereId($this->parent()->id)
-                ->orWhere('parent_id', $this->parent()->id)
-                ->update($updatable->toArray());
+            $this->query()->update($updatable->toArray());
         }
 
         return $this;
     }
 
-    protected function deleteTimes()
+    protected function delete()
     {
-        Event::whereParentId($this->parent()->id)
-            ->where(function ($query) {
-                $query->where('starts_at', '<', $this->parent()->start())
+        $this->query()->where(function ($query) {
+                $query->where('starts_at', '<', $this->start())
                     ->orWhere('ends_at', '>', $this->event->recurrenceEnds());
             })->delete();
 
         return $this;
     }
 
+    protected function query()
+    {
+        switch ($this->updateType) {
+            case UpdateType::Single:
+                return Event::whereId($this->event->id);
+            case UpdateType::All:
+                return Event::whereParentId($this->parent()->id);
+            default:
+                return Event::whereParentId($this->parent()->id)
+                    ->where('starts_at', '>', $this->start());
+        }
+    }
+
     protected function start()
     {
-        return $this->event->start();
+        return $this->updateType === UpdateType::All
+            ? $this->parent()->start()
+            : $this->event->start();
     }
 
     protected function parent()

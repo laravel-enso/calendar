@@ -25,6 +25,7 @@ Route::middleware(['web', 'auth', 'core'])
                 Route::post('', 'Store')->name('store');
                 Route::get('{event}/edit', 'Edit')->name('edit');
                 Route::patch('{event}', 'Update')->name('update');
-                Route::delete('{event}', 'Destroy')->name('destroy');
+                //Route::delete('{event}', 'Destroy')->name('destroy');
+                Route::delete('{event}/{updateType}', 'Destroy')->name('destroy');
             });
     });

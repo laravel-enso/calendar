@@ -2,6 +2,7 @@
 
 namespace LaravelEnso\Calendar\app\Traits;
 
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use LaravelEnso\Calendar\app\Services\Request;
 
@@ -12,11 +13,11 @@ trait IsCalendar
         return $this->name();
     }
 
-    public static function events(Request $request): Collection
+    public function events(Carbon $startDate, Carbon $endDate): Collection
     {
         return (new static())->getQuery()->whereBetween(
             (new static())->eventDateField(),
-            [$request->startDate(), $request->endDate()]
+            [$startDate, $endDate]
         )->get();
     }
 

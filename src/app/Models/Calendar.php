@@ -2,11 +2,9 @@
 
 namespace LaravelEnso\Calendar\app\Models;
 
-use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\Calendar\app\Services\Request;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
-use LaravelEnso\Calendar\app\Services\Frequency;
 use LaravelEnso\Rememberable\app\Traits\Rememberable;
 use LaravelEnso\Calendar\app\Contracts\Calendar as Contract;
 
@@ -48,5 +46,5 @@ class Calendar extends Model implements Contract
     public function readonly(): bool
     {
         return false;
-    }    
+    }
 }

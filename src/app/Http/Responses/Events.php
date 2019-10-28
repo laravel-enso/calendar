@@ -33,12 +33,13 @@ class Events implements Responsable
             return $this->isNative($calendar);
         });
 
-        return (new Frequency(
-            $this->request->get('startDate'),
-            $this->request->get('endDate')
-        ))->events(Event::for($nativeCalendars));
+        return Event::for($nativeCalendars)
+            ->between(
+                $this->request->get('startDate'),
+                $this->request->get('endDate')
+            )->get();
     }
-    
+
     private function custom()
     {
         return $this->calendars->reject(function($calendar) {

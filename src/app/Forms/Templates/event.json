@@ -66,6 +66,16 @@
                 "type": "input",
                 "content": "checkbox"
             }
+        }, {
+            "label": "Update Type",
+            "name": "update_type",
+            "value": null,
+            "meta": {
+                "hidden": true,
+                "custom": true,
+                "type": "select",
+                "options": "LaravelEnso\\Calendar\\app\\Enums\\UpdateType"
+            }
         }]
     }, {
     "tab": "Details",
