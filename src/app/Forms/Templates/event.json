@@ -69,6 +69,7 @@
             "name": "calendar_id",
             "value": null,
             "meta": {
+                "custom": true,
                 "type": "select",
                 "source": "core.calendar.options",
                 "label": "name"
@@ -91,7 +92,7 @@
                 "content": "checkbox"
             }
         }, {
-            "label": "Update Type",
+            "label": "Update Occurrence",
             "name": "update_type",
             "value": null,
             "meta": {
