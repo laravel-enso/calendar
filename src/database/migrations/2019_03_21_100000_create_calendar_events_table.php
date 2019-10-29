@@ -20,8 +20,11 @@ class CreateCalendarEventsTable extends Migration
             $table->text('body')->nullable();
             $table->tinyInteger('frequence');
 
-            $table->datetime('starts_at');
-            $table->datetime('ends_at');
+            $table->date('starts_on')->index();
+            $table->time('starts_time');
+            $table->date('ends_on')->index();
+            $table->time('ends_time');
+
             $table->date('recurrence_ends_at')->nullable();
 
             $table->boolean('is_all_day');
@@ -40,6 +43,6 @@ class CreateCalendarEventsTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('events');
+        Schema::dropIfExists('calendar_events');
     }
 }

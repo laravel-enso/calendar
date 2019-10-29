@@ -27,6 +27,6 @@ class CreateCalendarRemindersTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('reminders');
+        Schema::dropIfExists('calendar_reminders');
     }
 }

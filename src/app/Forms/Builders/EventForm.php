@@ -16,8 +16,8 @@ class EventForm
     public function __construct()
     {
         $this->form = (new Form(static::FormPath))
-            ->meta('starts_at', 'format', $this->dateTimeFormat())
-            ->meta('ends_at', 'format', $this->dateTimeFormat())
+            ->meta('starts_on', 'format', $this->dateFormat())
+            ->meta('ends_on', 'format', $this->dateFormat())
             ->meta('recurrence_ends_at', 'format', $this->dateFormat())
             ->meta('reminders', 'format', $this->dateTimeFormat());
     }
@@ -35,7 +35,10 @@ class EventForm
             ->meta('update_type', 'hidden', $event->frequence === Frequencies::Once)
             ->value('reminders', $this->reminders($event))
             ->value('update_type', UpdateType::All)
-            ->actions(['destroy', 'update'])
+            ->value('starts_time', date('H:i',strtotime($event->starts_time)))
+            ->value('ends_time', date('H:i',strtotime($event->ends_time)))
+            ->value('update_type', UpdateType::Single)
+            ->actions(['update'])
             ->edit($event);
     }
 

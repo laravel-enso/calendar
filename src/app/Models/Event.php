@@ -7,9 +7,12 @@ use Illuminate\Support\Facades\Auth;
 use LaravelEnso\Core\app\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
-use LaravelEnso\Calendar\app\Services\Frequency;
+use LaravelEnso\Calendar\app\Enums\UpdateType;
 use LaravelEnso\Helpers\app\Traits\DateAttributes;
 use LaravelEnso\Calendar\app\Contracts\ProvidesEvent;
+use LaravelEnso\Calendar\app\Services\Frequency\Create;
+use LaravelEnso\Calendar\app\Services\Frequency\Update;
+use LaravelEnso\Calendar\app\Services\Frequency\Delete;
 use LaravelEnso\Calendar\app\Contracts\Calendar as CalendarContract;
 
 class Event extends Model implements ProvidesEvent
@@ -20,13 +23,13 @@ class Event extends Model implements ProvidesEvent
 
     protected $fillable = [
         'title', 'body', 'calendar', 'frequence', 'location', 'lat', 'lng',
-        'starts_at', 'ends_at', 'recurrence_ends_at', 'is_all_day', 'is_readonly',
-        'calendar_id', 'ends_time_at', 'parent_id'
+        'starts_on', 'ends_on', 'starts_time', 'ends_time', 'is_all_day',
+        'recurrence_ends_at', 'is_readonly', 'calendar_id', 'parent_id'
     ];
 
     protected $casts = ['is_all_day' => 'boolean', 'is_readonly' => 'boolean'];
 
-    protected $dates = ['starts_at', 'ends_at', 'recurrence_ends_at'];
+    protected $dates = ['starts_on', 'ends_on', 'recurrence_ends_at'];
 
     public function parent()
     {
@@ -58,23 +61,17 @@ class Event extends Model implements ProvidesEvent
         return $this->hasMany(Reminder::class);
     }
 
-    public function setEndsTimeAtAttribute($value)
-    {
-        $this->ends_at = $this->ends_at
-            ->setTimeFromTimeString($value);
-    }
-
-    public function setStartsAtAttribute($value)
+    public function setStartsOnAttribute($value)
     {
         $this->fillDateAttribute(
-            'starts_at', $value, config('enso.config.dateFormat').' H:i'
+            'starts_on', $value, config('enso.config.dateFormat')
         );
     }
 
-    public function setEndsAtAttribute($value)
+    public function setEndsOnAttribute($value)
     {
         $this->fillDateAttribute(
-            'ends_at', $value, config('enso.config.dateFormat').' H:i'
+            'ends_on', $value, config('enso.config.dateFormat')
         );
     }
 
@@ -112,12 +109,14 @@ class Event extends Model implements ProvidesEvent
 
     public function start(): Carbon
     {
-        return $this->starts_at;
+        return $this->starts_on
+            ->setTimeFromTimeString($this->starts_time);
     }
 
     public function end(): Carbon
     {
-        return $this->ends_at;
+        return $this->ends_on
+            ->setTimeFromTimeString($this->ends_time);
     }
 
     public function location(): ?string
@@ -150,6 +149,47 @@ class Event extends Model implements ProvidesEvent
         return $this->is_readonly;
     }
 
+    public function createEvent($attributes)
+    {
+        tap($this)->fill($attributes)->save();
+
+        (new Create($this))->handle();
+
+        return $this;
+    }
+
+    public function updateEvent($attributes, $updateType)
+    {
+        $this->update($attributes);
+
+        (new Update($this))->handle($updateType);
+
+        return $this;
+    }
+
+    public function deleteEvent($updateType)
+    {
+        $this->delete();
+
+        (new Delete($this))->handle($updateType);
+
+        return $this;
+    }
+
+    public function createReminders($reminders)
+    {
+        $this->reminders()->createMany($reminders);
+
+        return $this;
+    }
+
+    public function syncAttendees($attendees)
+    {
+        $this->attendees()->sync($attendees);
+
+        return $this;
+    }
+
     public function scopeAllowed($query)
     {
         $query->when(
@@ -168,9 +208,9 @@ class Event extends Model implements ProvidesEvent
         $query->whereIn('calendar_id', $calendars->pluck('id'));
     }
 
-    public function scopeBetween($query, $start, $end)
+    public function scopeBetween($query, Carbon $start, Carbon $end)
     {
-        $query->where('ends_at', '<=', $end)
-            ->where('starts_at', '>=', $start);
+        $query->where('ends_on', '<=', $end)
+            ->where('starts_on', '>=', $start);
     }
 }

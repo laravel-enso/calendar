@@ -15,26 +15,50 @@
         }]
     }, {
         "tab": "Event",
-        "columns": 2,
+        "columns": "custom",
         "fields": [{
+            "column": 3,
             "label": "Starts At",
-            "name": "starts_at",
+            "name": "starts_on",
             "value": null,
             "meta": {
                 "custom": true,
                 "type": "datepicker",
+                "time": false,
+                "max": null
+            }
+        }, {
+            "column": 3,
+            "label": "time",
+            "name": "starts_time",
+            "value": null,
+            "meta": {
+                "type": "timepicker",
+                "format": "H:i",
                 "time": true,
                 "max": null
             }
         }, {
+            "column": 3,
             "label": "Ends At",
-            "name": "ends_at",
+            "name": "ends_on",
             "value": null,
             "meta": {
                 "custom": true,
                 "type": "datepicker",
                 "time": true,
                 "min": null
+            }
+        }, {
+            "column": 3,
+            "label": "time",
+            "name": "ends_time",
+            "value": null,
+            "meta": {
+                "type": "timepicker",
+                "format": "H:i",
+                "time": true,
+                "max": null
             }
         }]
     }, {
