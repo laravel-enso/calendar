@@ -14,7 +14,7 @@ class Delete extends Frequency
             return;
         }
 
-        if($updateType === UpdateType::All) {
+        if ($updateType === UpdateType::All) {
             Event::whereParentId($this->parent()->id)
                 ->orWhere('id', $this->parent()->id)
                 ->delete();
@@ -32,7 +32,7 @@ class Delete extends Frequency
         $nextEventId = $this->parent()->events->first()->id;
 
         Event::whereParentId($this->parent()->id)->update([
-            'parent_id' => DB::raw("IF(id = {$nextEventId},NULL,{$nextEventId})")
+            'parent_id' => DB::raw("IF(id = {$nextEventId},NULL,{$nextEventId})"),
         ]);
     }
 }

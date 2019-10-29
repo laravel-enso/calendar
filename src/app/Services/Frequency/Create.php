@@ -18,5 +18,4 @@ class Create extends Frequency
 
         return $this;
     }
-
 }

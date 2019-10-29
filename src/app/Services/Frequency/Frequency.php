@@ -8,8 +8,8 @@ use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Once;
 use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Daily;
 use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Weekly;
 use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Yearly;
-use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Weekday;
 use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Monthly;
+use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Weekday;
 
 abstract class Frequency
 {

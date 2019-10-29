@@ -13,7 +13,7 @@ class ValidateEventIndexRequest extends FormRequest
     }
 
     public function rules()
-    {   
+    {
         return [
             'startDate' => 'nullable|date',
             'endDate' => 'nullable|date',

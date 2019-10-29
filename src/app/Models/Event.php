@@ -7,12 +7,11 @@ use Illuminate\Support\Facades\Auth;
 use LaravelEnso\Core\app\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
-use LaravelEnso\Calendar\app\Enums\UpdateType;
 use LaravelEnso\Helpers\app\Traits\DateAttributes;
 use LaravelEnso\Calendar\app\Contracts\ProvidesEvent;
 use LaravelEnso\Calendar\app\Services\Frequency\Create;
-use LaravelEnso\Calendar\app\Services\Frequency\Update;
 use LaravelEnso\Calendar\app\Services\Frequency\Delete;
+use LaravelEnso\Calendar\app\Services\Frequency\Update;
 use LaravelEnso\Calendar\app\Contracts\Calendar as CalendarContract;
 
 class Event extends Model implements ProvidesEvent
@@ -24,7 +23,7 @@ class Event extends Model implements ProvidesEvent
     protected $fillable = [
         'title', 'body', 'calendar', 'frequence', 'location', 'lat', 'lng',
         'starts_on', 'ends_on', 'starts_time', 'ends_time', 'is_all_day',
-        'recurrence_ends_at', 'is_readonly', 'calendar_id', 'parent_id'
+        'recurrence_ends_at', 'is_readonly', 'calendar_id', 'parent_id',
     ];
 
     protected $casts = ['is_all_day' => 'boolean', 'is_readonly' => 'boolean'];
@@ -200,7 +199,7 @@ class Event extends Model implements ProvidesEvent
                         'id', Auth::user()->person->companies()->pluck('id')
                     );
                 });
-        });
+            });
     }
 
     public function scopeFor($query, $calendars)
