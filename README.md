@@ -15,7 +15,7 @@ For live examples and demos, you may visit [laravel-enso.com](https://www.larave
 
 ### Installation, Configuration & Usage
 
-Be sure to check out the full documentation for this package available at [docs.laravel-enso.com](https://docs.laravel-enso.com/backend/tables.html)
+Be sure to check out the full documentation for this package available at [docs.laravel-enso.com](https://docs.laravel-enso.com/backend/calendar.html)
 
 ### Contributions
 
