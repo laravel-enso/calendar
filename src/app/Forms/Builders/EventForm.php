@@ -35,8 +35,8 @@ class EventForm
             ->meta('update_type', 'hidden', $event->frequence === Frequencies::Once)
             ->value('reminders', $this->reminders($event))
             ->value('update_type', UpdateType::All)
-            ->value('starts_time', date('H:i',strtotime($event->starts_time)))
-            ->value('ends_time', date('H:i',strtotime($event->ends_time)))
+            ->value('starts_time', date('H:i', strtotime($event->starts_time)))
+            ->value('ends_time', date('H:i', strtotime($event->ends_time)))
             ->value('update_type', UpdateType::Single)
             ->actions(['update'])
             ->edit($event);

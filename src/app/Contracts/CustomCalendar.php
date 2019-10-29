@@ -9,5 +9,3 @@ interface CustomCalendar extends Calendar
 {
     public function events(Carbon $startDate, Carbon $endDate): Collection;
 }
-
-

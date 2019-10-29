@@ -40,7 +40,7 @@ class Events implements Responsable
 
     private function custom()
     {
-        return $this->calendars->reject(function($calendar) {
+        return $this->calendars->reject(function ($calendar) {
             return $this->isNative($calendar);
         })->reduce(function ($events, CustomCalendar $calendar) {
             return $events->concat(
