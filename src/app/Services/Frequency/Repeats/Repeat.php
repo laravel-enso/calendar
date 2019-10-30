@@ -18,7 +18,7 @@ abstract class Repeat
 
     protected function interval()
     {
-        $start = $this->event->starts_on;
+        $start = $this->event->starts_date;
         $end = $this->event->recurrenceEnds();
 
         return collect($start->daysUntil($end)->toArray());

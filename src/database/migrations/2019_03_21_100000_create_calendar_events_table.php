@@ -12,7 +12,8 @@ class CreateCalendarEventsTable extends Migration
             $table->increments('id');
 
             $table->integer('calendar_id')->unsigned()->index();
-            $table->foreign('calendar_id')->references('id')->on('calendars');
+            $table->foreign('calendar_id')->index()
+                ->references('id')->on('calendars')->onDelete('cascade');
 
             $table->integer('parent_id')->nullable()->unsigned()->index();
 
@@ -20,9 +21,9 @@ class CreateCalendarEventsTable extends Migration
             $table->text('body')->nullable();
             $table->tinyInteger('frequence');
 
-            $table->date('starts_on')->index();
+            $table->date('starts_date')->index();
             $table->time('starts_time');
-            $table->date('ends_on')->index();
+            $table->date('ends_date')->index();
             $table->time('ends_time');
 
             $table->date('recurrence_ends_at')->nullable();

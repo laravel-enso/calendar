@@ -11,13 +11,19 @@ class Update extends Frequency
 
     public function handle($updateType)
     {
-        if ($updateType === UpdateType::All) {
-            $this->insert()->updateTimes()->deleteOutside();
+        if ($updateType === UpdateType::Single) {
+            return;
         }
+
+        $this->insert()->updateTimes($updateType)->deleteOutside();
     }
 
     protected function insert()
     {
+        if (! $this->intervalChanged()) {
+            return $this;
+        }
+
         $eventDates = $this->eventDates();
 
         $this->dates()
@@ -32,14 +38,15 @@ class Update extends Frequency
         return $this;
     }
 
-    protected function updateTimes()
+    protected function updateTimes($updateType)
     {
         collect($this->event->getChanges())
             ->intersectByKeys(collect(static::$attributes)->flip())
-            ->whenNotEmpty(function ($attributes) {
-                Event::whereId($this->parent()->id)
-                    ->orWhere('parent_id', $this->parent()->id)
-                    ->update($attributes->toArray());
+            ->whenNotEmpty(function ($attributes) use ($updateType) {
+                Event::sequence($this->parent()->id)
+                    ->when($updateType === UpdateType::Futures, function ($query) {
+                        $query->where('starts_date', '>', $this->event->starts_date);
+                    })->update($attributes->toArray());
             });
 
         return $this;
@@ -47,10 +54,10 @@ class Update extends Frequency
 
     protected function deleteOutside()
     {
-        if ($this->event->wasChanged(['starts_on', 'recurrence_ends_at'])) {
+        if ($this->intervalChanged()) {
             Event::whereParentId($this->parent()->id)->where(function ($query) {
-                $query->where('starts_on', '<=', $this->parent()->starts_on)
-                    ->orWhere('ends_on', '>', $this->event->recurrenceEnds());
+                $query->where('starts_date', '<=', $this->parent()->starts_date)
+                    ->orWhere('ends_date', '>', $this->event->recurrenceEnds());
             })->delete();
         }
 
@@ -62,7 +69,13 @@ class Update extends Frequency
         return collect([$this->parent()])
             ->concat($this->parent()->events)
             ->map(function (Event $event) {
-                return $event->starts_on->toDateString();
+                return $event->starts_date->toDateString();
             });
+    }
+
+    protected function intervalChanged(): bool
+    {
+        return $this->event->wasChanged('recurrence_ends_at')
+            || ( $this->isParent() && $this->event->wasChanged('starts_date')) ;
     }
 }

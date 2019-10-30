@@ -11,7 +11,7 @@ class Store extends Controller
 {
     public function __invoke(ValidateCalendarRequest $request, Calendar $calendar)
     {
-        tap($calendar)->fill($request->validated())
+        $calendar->fill($request->validated())
             ->save();
 
         return [

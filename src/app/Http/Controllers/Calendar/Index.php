@@ -10,6 +10,6 @@ class Index extends Controller
 {
     public function __invoke()
     {
-        return Calendar::collection(Calendars::all()->values());
+        return Calendar::collection(Calendars::all());
     }
 }

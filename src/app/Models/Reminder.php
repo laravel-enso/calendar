@@ -36,7 +36,7 @@ class Reminder extends Model
             ->where('scheduled_at', '<=', Carbon::now());
     }
 
-    public function setRemindAtAttribute($value)
+    public function setScheduledAtAttribute($value)
     {
         $this->fillDateAttribute(
             'scheduled_at', $value, config('enso.config.dateFormat').' H:i'

@@ -25,12 +25,11 @@ class Calendars
         return $this->calendars;
     }
 
-    public function only(?array $calendars)
+    public function only(array $calendars)
     {
-        return $calendars
-            ? $this->all()->filter(function ($calendar) use ($calendars) {
-                return in_array($calendar->getKey(), $calendars);
-            }) : collect();
+        return $this->all()->filter(function ($calendar) use ($calendars) {
+            return in_array($calendar->getKey(), $calendars);
+        });
     }
 
     public function keys()

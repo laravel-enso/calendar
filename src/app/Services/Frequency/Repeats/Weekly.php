@@ -11,7 +11,7 @@ class Weekly extends Repeat
     {
         return $this->interval()
             ->filter(function (Carbon $date) {
-                return $this->event->starts_on->dayOfWeek === $date->dayOfWeek;
+                return $this->event->starts_date->dayOfWeek === $date->dayOfWeek;
             });
     }
 }

@@ -7,6 +7,6 @@ use LaravelEnso\Enums\app\Services\Enum;
 class UpdateType extends Enum
 {
     const Single = 'single';
-    //const Following = 'following';
+    const Futures = 'futures';
     const All = 'all';
 }

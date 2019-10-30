@@ -19,7 +19,7 @@
         "fields": [{
             "column": 3,
             "label": "Starts At",
-            "name": "starts_on",
+            "name": "starts_date",
             "value": null,
             "meta": {
                 "custom": true,
@@ -41,7 +41,7 @@
         }, {
             "column": 3,
             "label": "Ends At",
-            "name": "ends_on",
+            "name": "ends_date",
             "value": null,
             "meta": {
                 "custom": true,
@@ -140,7 +140,7 @@
             "name": "frequence",
             "value": 1,
             "meta": {
-                "disabled": false,
+                "disabled": true,
                 "custom": true,
                 "type": "select",
                 "options": "LaravelEnso\\Calendar\\app\\Enums\\Frequencies"

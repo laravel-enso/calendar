@@ -20,21 +20,10 @@ class CreateCalendarsTable extends Migration
 
             $table->timestamps();
         });
-
-        Schema::table('events', function (Blueprint $table) {
-            if (Schema::hasColumn('events', 'calendar_id')) {
-                $table->foreign('calendar_id')->references('id')->on('calendars')
-                    ->onDelete('cascade');
-            }
-        });
     }
 
     public function down()
     {
         Schema::dropIfExists('events');
-
-        Schema::table('events', function (Blueprint $table) {
-            $table->dropIndex('calendar_id');
-        });
     }
 }

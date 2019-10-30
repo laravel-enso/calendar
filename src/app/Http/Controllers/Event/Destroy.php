@@ -14,7 +14,7 @@ class Destroy extends Controller
     {
         $this->authorize('handle', $event);
 
-        tap($event)->deleteEvent($updateType);
+        $event->deleteEvent($updateType);
 
         return ['message' => __('The event was successfully deleted')];
     }

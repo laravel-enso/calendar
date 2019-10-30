@@ -6,6 +6,7 @@ use LaravelEnso\Forms\app\Services\Form;
 use LaravelEnso\Calendar\app\Models\Event;
 use LaravelEnso\Calendar\app\Enums\UpdateType;
 use LaravelEnso\Calendar\app\Enums\Frequencies;
+use LaravelEnso\Calendar\app\Http\Resources\Reminder;
 
 class EventForm
 {
@@ -16,8 +17,8 @@ class EventForm
     public function __construct()
     {
         $this->form = (new Form(static::FormPath))
-            ->meta('starts_on', 'format', $this->dateFormat())
-            ->meta('ends_on', 'format', $this->dateFormat())
+            ->meta('starts_date', 'format', $this->dateFormat())
+            ->meta('ends_date', 'format', $this->dateFormat())
             ->meta('recurrence_ends_at', 'format', $this->dateFormat())
             ->meta('reminders', 'format', $this->dateTimeFormat());
     }
@@ -33,24 +34,12 @@ class EventForm
         return $this->form->value('attendees', $event->attendeeList())
             ->meta('recurrence_ends_at', 'hidden', $event->frequence === Frequencies::Once)
             ->meta('update_type', 'hidden', $event->frequence === Frequencies::Once)
-            ->value('reminders', $this->reminders($event))
-            ->value('update_type', UpdateType::All)
+            ->value('reminders', Reminder::collection($event->reminders))
             ->value('starts_time', date('H:i', strtotime($event->starts_time)))
             ->value('ends_time', date('H:i', strtotime($event->ends_time)))
             ->value('update_type', UpdateType::Single)
             ->actions(['update'])
             ->edit($event);
-    }
-
-    private function reminders($event)
-    {
-        return $event->reminders->map(function ($reminder) {
-            $remindAt = $reminder->scheduled_at
-                ->format($this->dateTimeFormat());
-
-            return ['scheduled_at' => $remindAt] +
-                $reminder->toArray();
-        });
     }
 
     private function dateFormat()

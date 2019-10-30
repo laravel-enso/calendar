@@ -71,7 +71,7 @@ class Events implements Responsable
             'endDate' => $request->get('endDate')
                 ? Carbon::parse($request->get('endDate'))
                 : null,
-            'calendars' => $request->get('calendars'),
+            'calendars' => $request->get('calendars', []),
         ]);
 
         return $request;

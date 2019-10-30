@@ -18,21 +18,21 @@ class ValidateEventRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => $this->genericRule(),
+            'title' => $this->requiredOrFilled(),
             'body' => 'nullable',
-            'calendar_id' => $this->genericRule().'|in:'.Calendar::pluck('id')->implode(','),
-            'frequence' => $this->genericRule().'|in:'.Frequencies::keys()->implode(','),
+            'calendar_id' => $this->requiredOrFilled().'|in:'.Calendar::pluck('id')->implode(','),
+            'frequence' => $this->requiredOrFilled().'|in:'.Frequencies::keys()->implode(','),
             'location' => 'nullable',
             'lat' => 'nullable',
             'lng' => 'nullable',
-            'starts_on' => $this->genericRule().'|date',
-            'ends_on' => $this->genericRule().'|nullable|date|after_or_equal:starts_on',
-            'starts_time' => $this->genericRule().'|date_format:H:i',
-            'ends_time' => $this->genericRule().'|nullable|date_format:H:i',
+            'starts_date' => $this->requiredOrFilled().'|date',
+            'ends_date' => $this->requiredOrFilled().'|nullable|date|after_or_equal:starts_date',
+            'starts_time' => $this->requiredOrFilled().'|date_format:H:i',
+            'ends_time' => $this->requiredOrFilled().'|nullable|date_format:H:i',
             'attendees.*' => 'exists:users,id',
             'recurrence_ends_at' => 'nullable',
-            'is_all_day' => $this->genericRule().'|boolean',
-            'is_readonly' => $this->genericRule().'|boolean',
+            'is_all_day' => $this->requiredOrFilled().'|boolean',
+            'is_readonly' => $this->requiredOrFilled().'|boolean',
             'update_type' => 'nullable|in:'.UpdateType::keys()->implode(','),
         ];
     }
@@ -40,11 +40,11 @@ class ValidateEventRequest extends FormRequest
     public function withValidator(Validator $validator)
     {
         $validator->sometimes('ends_time', 'after:starts_time', function () {
-            return $this->has(['starts_on', 'ends_on'])
-                && $this->get('starts_on') === $this->get('ends_on');
+            return $this->has(['starts_date', 'ends_date'])
+                && $this->get('starts_date') === $this->get('ends_date');
         });
 
-        $validator->sometimes('recurrence_ends_at', 'date|required|after:starts_on', function () {
+        $validator->sometimes('recurrence_ends_at', 'date|required|after:starts_date', function () {
             return $this->has('frequence')
                 && $this->get('frequence') !== Frequencies::Once;
         });
@@ -56,7 +56,7 @@ class ValidateEventRequest extends FormRequest
         }
     }
 
-    protected function genericRule()
+    protected function requiredOrFilled()
     {
         return $this->getMethod() === 'POST'
             ? 'required'

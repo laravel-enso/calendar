@@ -22,13 +22,13 @@ class Event extends Model implements ProvidesEvent
 
     protected $fillable = [
         'title', 'body', 'calendar', 'frequence', 'location', 'lat', 'lng',
-        'starts_on', 'ends_on', 'starts_time', 'ends_time', 'is_all_day',
+        'starts_date', 'ends_date', 'starts_time', 'ends_time', 'is_all_day',
         'recurrence_ends_at', 'is_readonly', 'calendar_id', 'parent_id',
     ];
 
     protected $casts = ['is_all_day' => 'boolean', 'is_readonly' => 'boolean'];
 
-    protected $dates = ['starts_on', 'ends_on', 'recurrence_ends_at'];
+    protected $dates = ['starts_date', 'ends_date', 'recurrence_ends_at'];
 
     public function parent()
     {
@@ -60,25 +60,19 @@ class Event extends Model implements ProvidesEvent
         return $this->hasMany(Reminder::class);
     }
 
-    public function setStartsOnAttribute($value)
+    public function setStartsDateAttribute($value)
     {
-        $this->fillDateAttribute(
-            'starts_on', $value, config('enso.config.dateFormat')
-        );
+        $this->fillDateAttribute('starts_date', $value);
     }
 
-    public function setEndsOnAttribute($value)
+    public function setEndsDateAttribute($value)
     {
-        $this->fillDateAttribute(
-            'ends_on', $value, config('enso.config.dateFormat')
-        );
+        $this->fillDateAttribute('ends_date', $value);
     }
 
     public function setRecurrenceEndsAtAttribute($value)
     {
-        $this->fillDateAttribute(
-            'recurrence_ends_at', $value, config('enso.config.dateFormat')
-        );
+        $this->fillDateAttribute('recurrence_ends_at', $value);
     }
 
     public function updateReminders($reminders)
@@ -108,13 +102,13 @@ class Event extends Model implements ProvidesEvent
 
     public function start(): Carbon
     {
-        return $this->starts_on
+        return $this->starts_date
             ->setTimeFromTimeString($this->starts_time);
     }
 
     public function end(): Carbon
     {
-        return $this->ends_on
+        return $this->ends_date
             ->setTimeFromTimeString($this->ends_time);
     }
 
@@ -150,7 +144,7 @@ class Event extends Model implements ProvidesEvent
 
     public function createEvent($attributes)
     {
-        tap($this)->fill($attributes)->save();
+        $this->fill($attributes)->save();
 
         (new Create($this))->handle();
 
@@ -207,9 +201,17 @@ class Event extends Model implements ProvidesEvent
         $query->whereIn('calendar_id', $calendars->pluck('id'));
     }
 
+    public function scopeSequence($query, $parentId)
+    {
+        $query->where(function ($query) use ($parentId) {
+            $query->whereParentId($parentId)
+                ->orWhere('id', $parentId);
+        });
+    }
+
     public function scopeBetween($query, Carbon $start, Carbon $end)
     {
-        $query->where('ends_on', '<=', $end)
-            ->where('starts_on', '>=', $start);
+        $query->where('ends_date', '<=', $end)
+            ->where('starts_date', '>=', $start);
     }
 }
