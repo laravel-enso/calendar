@@ -1,8 +1,6 @@
 <?php
 
-
 namespace LaravelEnso\Calendar\app\Services\Calendars;
-
 
 use Carbon\Carbon;
 use LaravelEnso\People\app\Models\Person;
