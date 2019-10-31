@@ -33,11 +33,9 @@ class Events implements Responsable
         });
 
         return Event::for($nativeCalendars)->between(
-                $this->request->get('startDate'),
-                $this->request->get('endDate')
-            )
-            ->with('calendar')
-            ->get();
+            $this->request->get('startDate'),
+            $this->request->get('endDate')
+        )->get();
     }
 
     private function custom()
