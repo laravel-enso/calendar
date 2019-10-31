@@ -11,11 +11,11 @@ class CreateCalendarEventsTable extends Migration
         Schema::create('calendar_events', function (Blueprint $table) {
             $table->increments('id');
 
+            $table->integer('parent_id')->nullable()->unsigned()->index();
+
             $table->integer('calendar_id')->unsigned()->index();
             $table->foreign('calendar_id')->index()
                 ->references('id')->on('calendars')->onDelete('cascade');
-
-            $table->integer('parent_id')->nullable()->unsigned()->index();
 
             $table->string('title');
             $table->text('body')->nullable();
