@@ -76,6 +76,6 @@ class Update extends Frequency
     protected function intervalChanged(): bool
     {
         return $this->event->wasChanged('recurrence_ends_at')
-            || ( $this->isParent() && $this->event->wasChanged('starts_date')) ;
+            || ($this->isParent() && $this->event->wasChanged('starts_date'));
     }
 }

@@ -1,18 +1,15 @@
 <?php
 
-
 namespace LaravelEnso\Calendar\app\Services\Calendars;
-
 
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
-use LaravelEnso\Calendar\app\Contracts\CustomCalendar;
-use LaravelEnso\Calendar\app\Enums\Colors;
 use LaravelEnso\People\app\Models\Person;
+use LaravelEnso\Calendar\app\Enums\Colors;
+use LaravelEnso\Calendar\app\Contracts\CustomCalendar;
 
 class BirthdayCalendar implements CustomCalendar
 {
-
     public function getKey()
     {
         return 'birthday-calendar';
@@ -25,7 +22,7 @@ class BirthdayCalendar implements CustomCalendar
 
     public function color(): string
     {
-        return Colors::Green;
+        return Colors::Purple;
     }
 
     public function private(): bool

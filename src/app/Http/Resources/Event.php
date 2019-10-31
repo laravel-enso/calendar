@@ -4,7 +4,6 @@ namespace LaravelEnso\Calendar\app\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use LaravelEnso\Calendar\app\Contracts\RoutableEvent;
-use LaravelEnso\DynamicMethods\app\Traits\Relations;
 
 class Event extends JsonResource
 {
