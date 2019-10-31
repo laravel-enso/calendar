@@ -22,7 +22,7 @@ class Events implements Responsable
         $this->calendars = $this->calendars();
 
         return Resource::collection(
-            $this->native()->merge($this->custom())
+            $this->native()->concat($this->custom())
         );
     }
 
@@ -35,7 +35,9 @@ class Events implements Responsable
         return Event::for($nativeCalendars)->between(
                 $this->request->get('startDate'),
                 $this->request->get('endDate')
-            )->get();
+            )
+            ->with('calendar')
+            ->get();
     }
 
     private function custom()

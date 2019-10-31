@@ -24,6 +24,6 @@ class CreateCalendarsTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('events');
+        Schema::dropIfExists('calendars');
     }
 }

@@ -4,6 +4,7 @@ namespace LaravelEnso\Calendar\app\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use LaravelEnso\Calendar\app\Contracts\RoutableEvent;
+use LaravelEnso\Calendar\app\Contracts\Calendar;
 
 class Event extends JsonResource
 {
@@ -16,7 +17,6 @@ class Event extends JsonResource
             'start' => $this->start()->format('Y-m-d H:i'),
             'end' => $this->end()->format('Y-m-d H:i'),
             'location' => $this->location(),
-            'calendar' => new Calendar($this->getCalendar()),
             'frequence' => $this->frequence(),
             'recurrenceEnds' => optional($this->recurrenceEnds())
                 ->format(config('enso.config.dateFormat')),
