@@ -4,20 +4,28 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEventsTable extends Migration
+class CreateCalendarEventsTable extends Migration
 {
     public function up()
     {
-        Schema::create('events', function (Blueprint $table) {
+        Schema::create('calendar_events', function (Blueprint $table) {
             $table->increments('id');
+
+            $table->integer('calendar_id')->unsigned()->index();
+            $table->foreign('calendar_id')->index()
+                ->references('id')->on('calendars')->onDelete('cascade');
+
+            $table->integer('parent_id')->nullable()->unsigned()->index();
 
             $table->string('title');
             $table->text('body')->nullable();
-            $table->tinyInteger('calendar');
             $table->tinyInteger('frequence');
 
-            $table->datetime('starts_at');
-            $table->datetime('ends_at');
+            $table->date('starts_date')->index();
+            $table->time('starts_time');
+            $table->date('ends_date')->index();
+            $table->time('ends_time');
+
             $table->date('recurrence_ends_at')->nullable();
 
             $table->boolean('is_all_day');
@@ -36,6 +44,6 @@ class CreateEventsTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('events');
+        Schema::dropIfExists('calendar_events');
     }
 }

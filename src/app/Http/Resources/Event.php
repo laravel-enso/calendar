@@ -2,9 +2,8 @@
 
 namespace LaravelEnso\Calendar\app\Http\Resources;
 
-use LaravelEnso\Calendar\app\Enums\Classes;
 use Illuminate\Http\Resources\Json\JsonResource;
-use LaravelEnso\TrackWho\app\Http\Resources\TrackWho;
+use LaravelEnso\Calendar\app\Contracts\RoutableEvent;
 
 class Event extends JsonResource
 {
@@ -17,16 +16,22 @@ class Event extends JsonResource
             'start' => $this->start()->format('Y-m-d H:i'),
             'end' => $this->end()->format('Y-m-d H:i'),
             'location' => $this->location(),
-            'calendar' => $this->calendar(),
             'frequence' => $this->frequence(),
             'recurrenceEnds' => optional($this->recurrenceEnds())
                 ->format(config('enso.config.dateFormat')),
-            'class' => Classes::get($this->calendar()),
             'allDay' => $this->allDay(),
             'readonly' => $this->readonly(),
-            // 'attendees' => Attendee::collection($this->whenLoaded('users')),
-            // 'reminders' => Reminder::collection($this->whenLoaded('reminders')),
-            'owner' => new TrackWho($this->whenLoaded('createdBy')),
+            'class' => $this->getCalendar()->color(),
+            'route' => $this->route(),
+            'deletable' => ! $this->readonly(),
+            'resizable' => ! $this->readonly(),
         ];
+    }
+
+    private function route()
+    {
+        return $this->resource instanceof RoutableEvent
+            ? $this->resource->route()->toArray()
+            : null;
     }
 }

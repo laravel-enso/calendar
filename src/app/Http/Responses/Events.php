@@ -2,53 +2,78 @@
 
 namespace LaravelEnso\Calendar\app\Http\Responses;
 
-use Illuminate\Http\Request;
-use LaravelEnso\Calendar\app\Contracts\ProvidesEvent;
-use LaravelEnso\Calendar\app\Contracts\ResolvesEvents;
+use Carbon\Carbon;
+use LaravelEnso\Calendar\app\Models\Event;
+use Illuminate\Contracts\Support\Responsable;
+use LaravelEnso\Calendar\app\Models\Calendar;
+use LaravelEnso\Calendar\app\Facades\Calendars;
+use LaravelEnso\Calendar\app\Contracts\CustomCalendar;
+use LaravelEnso\Calendar\app\Http\Resources\Event as Resource;
 
-class Events
+class Events implements Responsable
 {
-    private static $resolvers = [];
-
     private $request;
+    private $calendars;
 
-    public function __construct(Request $request)
+    public function toResponse($request)
     {
-        $this->request = $request;
+        $this->request = $this->request($request);
+
+        $this->calendars = $this->calendars();
+
+        return Resource::collection(
+            $this->native()->concat($this->custom())
+        );
     }
 
-    public function get()
+    private function native()
     {
-        return $this->baseEvents()
-            ->concat($this->localEvents());
+        $nativeCalendars = $this->calendars->filter(function ($calendar) {
+            return $this->isNative($calendar);
+        });
+
+        return Event::for($nativeCalendars)->between(
+            $this->request->get('startDate'),
+            $this->request->get('endDate')
+        )->get();
     }
 
-    public static function addResolver($resolver)
+    private function custom()
     {
-        self::$resolvers[] = $resolver;
+        return $this->calendars->reject(function ($calendar) {
+            return $this->isNative($calendar);
+        })->reduce(function ($events, CustomCalendar $calendar) {
+            return $events->concat(
+                $calendar->events(
+                    $this->request->get('startDate'),
+                    $this->request->get('endDate')
+                )
+            );
+        }, collect());
     }
 
-    private function baseEvents()
+    private function isNative($calendar)
     {
-        return app()->make(ResolvesEvents::class)
-            ->get($this->request);
+        return $calendar instanceof Calendar;
     }
 
-    private function localEvents()
+    private function calendars()
     {
-        return collect(self::$resolvers)
-            ->reduce(function ($events, $resolver) {
-                return $events->concat(
-                    $this->resolve(new $resolver())
-                        ->filter(function (ProvidesEvent $model) {
-                            return $model;
-                        })
-                );
-            }, collect());
+        return Calendars::only($this->request->get('calendars'));
     }
 
-    private function resolve(ResolvesEvents $resolver)
+    private function request($request)
     {
-        return $resolver->get($this->request);
+        $request->replace([
+            'startDate' => $request->get('startDate')
+                ? Carbon::parse($request->get('startDate'))
+                : null,
+            'endDate' => $request->get('endDate')
+                ? Carbon::parse($request->get('endDate'))
+                : null,
+            'calendars' => $request->get('calendars', []),
+        ]);
+
+        return $request;
     }
 }

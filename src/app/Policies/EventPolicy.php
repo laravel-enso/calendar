@@ -11,9 +11,7 @@ class EventPolicy
 
     public function before($user)
     {
-        if ($user->belongsToAdminGroup()) {
-            return true;
-        }
+        return $user->belongsToAdminGroup();
     }
 
     public function handle($user, Event $event)

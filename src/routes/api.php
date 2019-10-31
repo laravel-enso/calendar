@@ -8,6 +8,12 @@ Route::middleware(['web', 'auth', 'core'])
         Route::namespace('Calendar')
             ->group(function () {
                 Route::get('', 'Index')->name('index');
+                Route::get('create', 'Create')->name('create');
+                Route::post('', 'Store')->name('store');
+                Route::get('{calendar}/edit', 'Edit')->name('edit');
+                Route::patch('{calendar}', 'Update')->name('update');
+                Route::delete('{calendar}', 'Destroy')->name('destroy');
+                Route::get('options', 'Options')->name('options');
             });
 
         Route::namespace('Event')
@@ -19,18 +25,6 @@ Route::middleware(['web', 'auth', 'core'])
                 Route::post('', 'Store')->name('store');
                 Route::get('{event}/edit', 'Edit')->name('edit');
                 Route::patch('{event}', 'Update')->name('update');
-                Route::delete('{event}', 'Destroy')->name('destroy');
+                Route::delete('{event}/{updateType}', 'Destroy')->name('destroy');
             });
-
-        // Route::namespace('Reminder')
-        //      ->prefix('reminders')
-        //     ->as('reminders.')
-        //     ->group(function() {
-        //         Route::get('', 'Index')->name('index');
-        //         Route::get('create', 'Create')->name('create');
-        //         Route::post('', 'Store')->name('store');
-        //         Route::get('{event}/edit', 'Edit')->name('edit');
-        //         Route::patch('{event}', 'Update')->name('update');
-        //         Route::delete('{event}', 'Destroy')->name('destroy');
-        //     });
     });

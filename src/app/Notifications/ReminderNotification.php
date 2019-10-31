@@ -2,7 +2,6 @@
 
 namespace LaravelEnso\Calendar\app\Notifications;
 
-use URL;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;

@@ -4,17 +4,22 @@ namespace LaravelEnso\Calendar\app\Http\Controllers\Event;
 
 use Illuminate\Routing\Controller;
 use LaravelEnso\Calendar\app\Models\Event;
+use LaravelEnso\Calendar\app\Enums\UpdateType;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use LaravelEnso\Calendar\app\Http\Resources\Event as Resource;
-use LaravelEnso\Calendar\app\Http\Requests\ValidateEventUpdate;
+use LaravelEnso\Calendar\app\Http\Requests\ValidateEventRequest;
 
 class Update extends Controller
 {
-    public function __invoke(ValidateEventUpdate $request, Event $event)
+    use AuthorizesRequests;
+
+    public function __invoke(ValidateEventRequest $request, Event $event)
     {
         $this->authorize('handle', $event);
 
-        tap($event)->update($request->validated())
-            ->updateReminders($request->get('reminders'));
+        $event->updateEvent($request->validated(), $request->get('update_type', UpdateType::Single))
+            ->updateReminders($request->reminders())
+            ->syncAttendees($request->get('attendees'));
 
         return [
             'message' => __('The event was updated!'),

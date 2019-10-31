@@ -2,16 +2,11 @@
 
 namespace App\Providers;
 
-use LaravelEnso\Calendar\AppServiceProvider as ServiceProvider;
+use LaravelEnso\Calendar\CalendarServiceProvider as ServiceProvider;
 
 class CalendarServiceProvider extends ServiceProvider
 {
-    protected $resolvers = [
+    protected $register = [
         //
     ];
-
-    public function baseResolver()
-    {
-        //
-    }
 }

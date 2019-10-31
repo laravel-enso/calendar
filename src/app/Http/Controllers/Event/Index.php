@@ -2,17 +2,14 @@
 
 namespace LaravelEnso\Calendar\app\Http\Controllers\Event;
 
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use LaravelEnso\Calendar\app\Http\Responses\Events;
-use LaravelEnso\Calendar\app\Http\Resources\Event as Resource;
+use LaravelEnso\Calendar\app\Http\Requests\ValidateEventIndexRequest;
 
 class Index extends Controller
 {
-    public function __invoke(Request $request)
+    public function __invoke(ValidateEventIndexRequest $request)
     {
-        return Resource::collection(
-            (new Events($request))->get()
-        );
+        return new Events();
     }
 }

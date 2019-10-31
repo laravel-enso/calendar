@@ -1,158 +1,170 @@
 {
     "routePrefix": "core.calendar.events",
     "tabs": true,
-    "sections": [
-        {
-            "tab": "Event",
-            "columns": 1,
-            "fields": [
-                {
-                    "label": "Title",
-                    "name": "title",
-                    "value": "",
-                    "meta": {
-                        "type": "input",
-                        "content": "text"
-                    }
-                }
-            ]
-        },
-        {
-            "tab": "Event",
-            "columns": 2,
-            "fields": [
-                {
-                    "label": "Starts At",
-                    "name": "starts_at",
-                    "value": null,
-                    "meta": {
-                        "custom": true,
-                        "type": "datepicker",
-                        "time": true,
-                        "max": null
-                    }
-                },
-                {
-                    "label": "Ends At",
-                    "name": "ends_at",
-                    "value": null,
-                    "meta": {
-                        "custom": true,
-                        "type": "datepicker",
-                        "time": true,
-                        "min": null
-                    }
-                }
-            ]
-        },
-        {
-            "tab": "Event",
-            "columns" : 2,
-            "fields": [
-                {
-                    "label": "Calendar",
-                    "name": "calendar",
-                    "value": null,
-                    "meta": {
-                        "type": "select",
-                        "options": "LaravelEnso\\Calendar\\app\\Enums\\Calendars"
-                    }
-                },
-                {
-                    "label": "All Day",
-                    "name": "is_all_day",
-                    "value": false,
-                    "meta": {
-                        "type": "input",
-                        "content": "checkbox"
-                    }
-                },
-                {
-                    "label": "Readonly",
-                    "name": "is_readonly",
-                    "value": false,
-                    "meta": {
-                        "hidden": true,
-                        "type": "input",
-                        "content": "checkbox"
-                    }
-                }
-            ]
-        },
-        {
-            "tab": "Details",
-            "columns": 1,
-            "fields": [
-                {
-                    "label": "Location",
-                    "name": "location",
-                    "value": "",
-                    "meta": {
-                        "type": "input",
-                        "content": "text"
-                    }
-                },
-                {
-                    "label": "Body",
-                    "name": "body",
-                    "value": null,
-                    "meta": {
-                        "type": "textarea",
-                        "rows": 2
-                    }
-                },
-                {
-                    "label": "Attendees",
-                    "name": "attendees",
-                    "value": [],
-                    "meta": {
-                        "type": "select",
-                        "multiple": true,
-                        "source": "administration.users.options",
-                        "label": "person.name"
-                    }
-                }
-            ]
-        },
-        {
-            "tab": "Frequence & Alerts",
-            "columns": 1,
-            "fields": [
-                {
-                    "label": "Frequence",
-                    "name": "frequence",
-                    "value": 1,
-                    "meta": {
-                        "disabled": true,
-                        "custom": true,
-                        "type": "select",
-                        "options": "LaravelEnso\\Calendar\\app\\Enums\\Frequencies"
-                    }
-                },
-                {
-                    "label": "Recurrence Ends",
-                    "name": "recurrence_ends_at",
-                    "value": null,
-                    "meta": {
-                        "disabled": true,
-                        "min": null,
-                        "max": null,
-                        "hidden": true,
-                        "type": "datepicker"
-                    }
-                },
-                {
-                    "label": "Reminders",
-                    "name": "reminders",
-                    "value": [],
-                    "meta": {
-                        "custom": true,
-                        "time": true,
-                        "max": null
-                    }
-                }
-            ]
-        }
-
-    ]
+    "sections": [{
+        "tab": "Event",
+        "columns": 1,
+        "fields": [{
+            "label": "Title",
+            "name": "title",
+            "value": "",
+            "meta": {
+                "type": "input",
+                "content": "text"
+            }
+        }]
+    }, {
+        "tab": "Event",
+        "columns": "custom",
+        "fields": [{
+            "column": 3,
+            "label": "Starts At",
+            "name": "starts_date",
+            "value": null,
+            "meta": {
+                "custom": true,
+                "type": "datepicker",
+                "time": false,
+                "max": null
+            }
+        }, {
+            "column": 3,
+            "label": "time",
+            "name": "starts_time",
+            "value": null,
+            "meta": {
+                "type": "timepicker",
+                "format": "H:i",
+                "time": true,
+                "max": null
+            }
+        }, {
+            "column": 3,
+            "label": "Ends At",
+            "name": "ends_date",
+            "value": null,
+            "meta": {
+                "custom": true,
+                "type": "datepicker",
+                "time": true,
+                "min": null
+            }
+        }, {
+            "column": 3,
+            "label": "time",
+            "name": "ends_time",
+            "value": null,
+            "meta": {
+                "type": "timepicker",
+                "format": "H:i",
+                "time": true,
+                "max": null
+            }
+        }]
+    }, {
+        "tab": "Event",
+        "columns" : 2,
+        "fields": [{
+            "label": "Calendar",
+            "name": "calendar_id",
+            "value": null,
+            "meta": {
+                "custom": true,
+                "type": "select",
+                "source": "core.calendar.options",
+                "label": "name"
+            }
+        }, {
+            "label": "All Day",
+            "name": "is_all_day",
+            "value": false,
+            "meta": {
+                "type": "input",
+                "content": "checkbox"
+            }
+        }, {
+            "label": "Readonly",
+            "name": "is_readonly",
+            "value": false,
+            "meta": {
+                "hidden": true,
+                "type": "input",
+                "content": "checkbox"
+            }
+        }, {
+            "label": "Update Occurrence",
+            "name": "update_type",
+            "value": null,
+            "meta": {
+                "hidden": true,
+                "custom": true,
+                "type": "select",
+                "options": "LaravelEnso\\Calendar\\app\\Enums\\UpdateType"
+            }
+        }]
+    }, {
+    "tab": "Details",
+        "columns": 1,
+        "fields": [{
+            "label": "Location",
+            "name": "location",
+            "value": "",
+            "meta": {
+                "type": "input",
+                "content": "text"
+            }
+        }, {
+            "label": "Body",
+            "name": "body",
+            "value": null,
+            "meta": {
+                "type": "textarea",
+                "rows": 2
+            }
+        }, {
+            "label": "Attendees",
+            "name": "attendees",
+            "value": [],
+            "meta": {
+                "type": "select",
+                "multiple": true,
+                "source": "administration.users.options",
+                "label": "person.name"
+            }
+        }]
+    }, {
+        "tab": "Frequence & Alerts",
+        "columns": 1,
+        "fields": [{
+            "label": "Frequence",
+            "name": "frequence",
+            "value": 1,
+            "meta": {
+                "disabled": true,
+                "custom": true,
+                "type": "select",
+                "options": "LaravelEnso\\Calendar\\app\\Enums\\Frequencies"
+            }
+        }, {
+            "label": "Recurrence Ends",
+            "name": "recurrence_ends_at",
+            "value": null,
+            "meta": {
+                "disabled": false,
+                "min": null,
+                "max": null,
+                "hidden": true,
+                "type": "datepicker"
+            }
+        }, {
+            "label": "Reminders",
+            "name": "reminders",
+            "value": [],
+            "meta": {
+                "custom": true,
+                "time": true,
+                "max": null
+            }
+        }]
+    }]
 }
