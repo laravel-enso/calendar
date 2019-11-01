@@ -2,8 +2,8 @@
 
 namespace LaravelEnso\Calendar\app\Services;
 
-use LaravelEnso\Calendar\app\Models\Calendar;
 use LaravelEnso\Calendar\app\Contracts\Calendar as Contract;
+use LaravelEnso\Calendar\app\Models\Calendar;
 
 class Calendars
 {

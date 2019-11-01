@@ -2,11 +2,11 @@
 
 namespace LaravelEnso\Calendar\app\Forms\Builders;
 
-use LaravelEnso\Forms\app\Services\Form;
-use LaravelEnso\Calendar\app\Models\Event;
-use LaravelEnso\Calendar\app\Enums\UpdateType;
 use LaravelEnso\Calendar\app\Enums\Frequencies;
+use LaravelEnso\Calendar\app\Enums\UpdateType;
 use LaravelEnso\Calendar\app\Http\Resources\Reminder;
+use LaravelEnso\Calendar\app\Models\Event;
+use LaravelEnso\Forms\app\Services\Form;
 
 class EventForm
 {

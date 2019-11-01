@@ -3,16 +3,16 @@
 namespace LaravelEnso\Calendar\app\Models;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
-use LaravelEnso\Core\app\Models\User;
 use Illuminate\Database\Eloquent\Model;
-use LaravelEnso\TrackWho\app\Traits\CreatedBy;
-use LaravelEnso\Helpers\app\Traits\DateAttributes;
+use Illuminate\Support\Facades\Auth;
+use LaravelEnso\Calendar\app\Contracts\Calendar as CalendarContract;
 use LaravelEnso\Calendar\app\Contracts\ProvidesEvent;
 use LaravelEnso\Calendar\app\Services\Frequency\Create;
 use LaravelEnso\Calendar\app\Services\Frequency\Delete;
 use LaravelEnso\Calendar\app\Services\Frequency\Update;
-use LaravelEnso\Calendar\app\Contracts\Calendar as CalendarContract;
+use LaravelEnso\Core\app\Models\User;
+use LaravelEnso\Helpers\app\Traits\DateAttributes;
+use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 
 class Event extends Model implements ProvidesEvent
 {

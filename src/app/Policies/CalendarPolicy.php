@@ -2,8 +2,8 @@
 
 namespace LaravelEnso\Calendar\app\Policies;
 
-use LaravelEnso\Calendar\app\Models\Calendar;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use LaravelEnso\Calendar\app\Models\Calendar;
 
 class CalendarPolicy
 {

@@ -3,12 +3,12 @@
 namespace LaravelEnso\Calendar\app\Http\Responses;
 
 use Carbon\Carbon;
-use LaravelEnso\Calendar\app\Models\Event;
 use Illuminate\Contracts\Support\Responsable;
-use LaravelEnso\Calendar\app\Models\Calendar;
-use LaravelEnso\Calendar\app\Facades\Calendars;
 use LaravelEnso\Calendar\app\Contracts\CustomCalendar;
+use LaravelEnso\Calendar\app\Facades\Calendars;
 use LaravelEnso\Calendar\app\Http\Resources\Event as Resource;
+use LaravelEnso\Calendar\app\Models\Calendar;
+use LaravelEnso\Calendar\app\Models\Event;
 
 class Events implements Responsable
 {
