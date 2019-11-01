@@ -52,8 +52,8 @@ abstract class Frequency
     {
         return $this->event->replicate(['id'])->fill([
             'parent_id' => $this->parent()->id,
-            'starts_date' => $date,
-            'ends_date' => $date,
+            'start_date' => $date,
+            'end_date' => $date,
         ]);
     }
 }

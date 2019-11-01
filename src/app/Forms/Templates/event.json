@@ -19,7 +19,7 @@
         "fields": [{
             "column": 3,
             "label": "Starts At",
-            "name": "starts_date",
+            "name": "start_date",
             "value": null,
             "meta": {
                 "custom": true,
@@ -30,7 +30,7 @@
         }, {
             "column": 3,
             "label": "time",
-            "name": "starts_time",
+            "name": "start_time",
             "value": null,
             "meta": {
                 "type": "timepicker",
@@ -41,7 +41,7 @@
         }, {
             "column": 3,
             "label": "Ends At",
-            "name": "ends_date",
+            "name": "end_date",
             "value": null,
             "meta": {
                 "custom": true,
@@ -52,7 +52,7 @@
         }, {
             "column": 3,
             "label": "time",
-            "name": "ends_time",
+            "name": "end_time",
             "value": null,
             "meta": {
                 "type": "timepicker",

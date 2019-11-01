@@ -22,13 +22,13 @@ class Event extends Model implements ProvidesEvent
 
     protected $fillable = [
         'title', 'body', 'calendar', 'frequence', 'location', 'lat', 'lng',
-        'starts_date', 'ends_date', 'starts_time', 'ends_time', 'is_all_day',
+        'start_date', 'end_date', 'start_time', 'end_time', 'is_all_day',
         'recurrence_ends_at', 'is_readonly', 'calendar_id', 'parent_id',
     ];
 
     protected $casts = ['is_all_day' => 'boolean', 'is_readonly' => 'boolean'];
 
-    protected $dates = ['starts_date', 'ends_date', 'recurrence_ends_at'];
+    protected $dates = ['start_date', 'end_date', 'recurrence_ends_at'];
 
     public function parent()
     {
@@ -42,7 +42,8 @@ class Event extends Model implements ProvidesEvent
 
     public function attendees()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class,
+            'calendar_event_user', 'user_id', 'event_id');
     }
 
     public function calendar()
@@ -62,12 +63,12 @@ class Event extends Model implements ProvidesEvent
 
     public function setStartsDateAttribute($value)
     {
-        $this->fillDateAttribute('starts_date', $value);
+        $this->fillDateAttribute('start_date', $value);
     }
 
     public function setEndsDateAttribute($value)
     {
-        $this->fillDateAttribute('ends_date', $value);
+        $this->fillDateAttribute('end_date', $value);
     }
 
     public function setRecurrenceEndsAtAttribute($value)
@@ -102,14 +103,14 @@ class Event extends Model implements ProvidesEvent
 
     public function start(): Carbon
     {
-        return $this->starts_date
-            ->setTimeFromTimeString($this->starts_time);
+        return $this->start_date
+            ->setTimeFromTimeString($this->start_time);
     }
 
     public function end(): Carbon
     {
-        return $this->ends_date
-            ->setTimeFromTimeString($this->ends_time);
+        return $this->end_date
+            ->setTimeFromTimeString($this->end_time);
     }
 
     public function location(): ?string
@@ -211,7 +212,7 @@ class Event extends Model implements ProvidesEvent
 
     public function scopeBetween($query, Carbon $start, Carbon $end)
     {
-        $query->where('ends_date', '<=', $end)
-            ->where('starts_date', '>=', $start);
+        $query->where('end_date', '<=', $end)
+            ->where('start_date', '>=', $start);
     }
 }

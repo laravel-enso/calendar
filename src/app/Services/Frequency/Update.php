@@ -7,7 +7,7 @@ use LaravelEnso\Calendar\app\Enums\UpdateType;
 
 class Update extends Frequency
 {
-    private static $attributes = ['starts_time', 'ends_time', 'recurrence_ends_at'];
+    private static $attributes = ['start_time', 'end_time', 'recurrence_ends_at'];
 
     public function handle($updateType)
     {
@@ -45,7 +45,7 @@ class Update extends Frequency
             ->whenNotEmpty(function ($attributes) use ($updateType) {
                 Event::sequence($this->parent()->id)
                     ->when($updateType === UpdateType::Futures, function ($query) {
-                        $query->where('starts_date', '>', $this->event->starts_date);
+                        $query->where('start_date', '>', $this->event->start_date);
                     })->update($attributes->toArray());
             });
 
@@ -56,8 +56,8 @@ class Update extends Frequency
     {
         if ($this->intervalChanged()) {
             Event::whereParentId($this->parent()->id)->where(function ($query) {
-                $query->where('starts_date', '<=', $this->parent()->starts_date)
-                    ->orWhere('ends_date', '>', $this->event->recurrenceEnds());
+                $query->where('start_date', '<=', $this->parent()->start_date)
+                    ->orWhere('end_date', '>', $this->event->recurrenceEnds());
             })->delete();
         }
 
@@ -69,13 +69,13 @@ class Update extends Frequency
         return collect([$this->parent()])
             ->concat($this->parent()->events)
             ->map(function (Event $event) {
-                return $event->starts_date->toDateString();
+                return $event->start_date->toDateString();
             });
     }
 
     protected function intervalChanged(): bool
     {
         return $this->event->wasChanged('recurrence_ends_at')
-            || ($this->isParent() && $this->event->wasChanged('starts_date'));
+            || ($this->isParent() && $this->event->wasChanged('start_date'));
     }
 }

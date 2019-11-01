@@ -8,7 +8,7 @@ class CreateEventUserPivotTable extends Migration
 {
     public function up()
     {
-        Schema::create('event_user', function (Blueprint $table) {
+        Schema::create('calendar_event_user', function (Blueprint $table) {
             $table->integer('event_id')->unsigned()->index();
             $table->foreign('event_id')->references('id')->on('calendar_events')
                 ->onUpdate('cascade')->onDelete('cascade');
@@ -25,6 +25,6 @@ class CreateEventUserPivotTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('event_user');
+        Schema::dropIfExists('calendar_event_user');
     }
 }

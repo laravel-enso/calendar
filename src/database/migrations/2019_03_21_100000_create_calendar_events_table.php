@@ -21,10 +21,10 @@ class CreateCalendarEventsTable extends Migration
             $table->text('body')->nullable();
             $table->tinyInteger('frequence');
 
-            $table->date('starts_date')->index();
-            $table->time('starts_time');
-            $table->date('ends_date')->index();
-            $table->time('ends_time');
+            $table->date('start_date')->index();
+            $table->time('start_time');
+            $table->date('end_date')->index();
+            $table->time('end_time');
 
             $table->date('recurrence_ends_at')->nullable();
 

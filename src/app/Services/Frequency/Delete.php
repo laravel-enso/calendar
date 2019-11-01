@@ -22,14 +22,14 @@ class Delete extends Frequency
 
         Event::sequence($this->parent()->id)
             ->when($updateType === UpdateType::Futures, function ($query) {
-                $query->where('starts_date', '>', $this->event->starts_date);
+                $query->where('start_date', '>', $this->event->start_date);
             })->delete();
     }
 
     protected function changeParent()
     {
         $nextEventId = $this->parent()->events
-            ->sortBy('starts_date')->first()->id;
+            ->sortBy('start_date')->first()->id;
 
         Event::whereParentId($this->parent()->id)->update([
             'parent_id' => DB::raw("IF(id = {$nextEventId},NULL,{$nextEventId})"),
