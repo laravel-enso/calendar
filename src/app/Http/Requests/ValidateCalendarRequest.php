@@ -2,8 +2,8 @@
 
 namespace LaravelEnso\Calendar\app\Http\Requests;
 
-use LaravelEnso\Calendar\app\Enums\Colors;
 use Illuminate\Foundation\Http\FormRequest;
+use LaravelEnso\Calendar\app\Enums\Colors;
 
 class ValidateCalendarRequest extends FormRequest
 {

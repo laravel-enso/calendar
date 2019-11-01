@@ -2,11 +2,11 @@
 
 namespace LaravelEnso\Calendar\app\Http\Requests;
 
-use Illuminate\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use LaravelEnso\Calendar\app\Models\Calendar;
-use LaravelEnso\Calendar\app\Enums\UpdateType;
+use Illuminate\Validation\Validator;
 use LaravelEnso\Calendar\app\Enums\Frequencies;
+use LaravelEnso\Calendar\app\Enums\UpdateType;
+use LaravelEnso\Calendar\app\Models\Calendar;
 
 class ValidateEventRequest extends FormRequest
 {

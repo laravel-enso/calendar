@@ -4,9 +4,9 @@ namespace LaravelEnso\Calendar\app\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use LaravelEnso\TrackWho\app\Traits\CreatedBy;
-use LaravelEnso\Helpers\app\Traits\DateAttributes;
 use LaravelEnso\Calendar\app\Notifications\ReminderNotification;
+use LaravelEnso\Helpers\app\Traits\DateAttributes;
+use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 
 class Reminder extends Model
 {

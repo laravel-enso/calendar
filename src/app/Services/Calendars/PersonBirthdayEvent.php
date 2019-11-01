@@ -3,10 +3,10 @@
 namespace LaravelEnso\Calendar\app\Services\Calendars;
 
 use Carbon\Carbon;
-use LaravelEnso\People\app\Models\Person;
-use LaravelEnso\Calendar\app\Enums\Frequencies;
 use LaravelEnso\Calendar\app\Contracts\Calendar;
 use LaravelEnso\Calendar\app\Contracts\ProvidesEvent;
+use LaravelEnso\Calendar\app\Enums\Frequencies;
+use LaravelEnso\People\app\Models\Person;
 
 class PersonBirthdayEvent implements ProvidesEvent
 {
