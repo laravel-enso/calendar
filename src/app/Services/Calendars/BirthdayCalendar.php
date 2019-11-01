@@ -45,7 +45,7 @@ class BirthdayCalendar implements CustomCalendar
 
         return Person::query()
             ->when($this->withinSameYear(), $this->sameYearQuery())
-            ->when(!$this->withinSameYear(), $this->differentYearQuery())
+            ->when(! $this->withinSameYear(), $this->differentYearQuery())
             ->get()
             ->map(function ($person) {
                 return new PersonBirthdayEvent($person, $this->year($person));
