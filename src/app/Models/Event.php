@@ -61,12 +61,12 @@ class Event extends Model implements ProvidesEvent
         return $this->hasMany(Reminder::class);
     }
 
-    public function setStartsDateAttribute($value)
+    public function setStartDateAttribute($value)
     {
         $this->fillDateAttribute('start_date', $value);
     }
 
-    public function setEndsDateAttribute($value)
+    public function setEndDateAttribute($value)
     {
         $this->fillDateAttribute('end_date', $value);
     }
