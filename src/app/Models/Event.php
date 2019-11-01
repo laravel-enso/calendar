@@ -42,8 +42,7 @@ class Event extends Model implements ProvidesEvent
 
     public function attendees()
     {
-        return $this->belongsToMany(User::class,
-            'calendar_event_user', 'user_id', 'event_id');
+        return $this->belongsToMany(User::class, 'calendar_event_user');
     }
 
     public function calendar()
