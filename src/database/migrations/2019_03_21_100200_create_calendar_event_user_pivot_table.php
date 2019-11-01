@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEventUserPivotTable extends Migration
+class CreateCalendarEventUserPivotTable extends Migration
 {
     public function up()
     {
