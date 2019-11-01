@@ -4,9 +4,9 @@ namespace LaravelEnso\Calendar\app\Services\Calendars;
 
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
-use LaravelEnso\People\app\Models\Person;
-use LaravelEnso\Calendar\app\Enums\Colors;
 use LaravelEnso\Calendar\app\Contracts\CustomCalendar;
+use LaravelEnso\Calendar\app\Enums\Colors;
+use LaravelEnso\People\app\Models\Person;
 
 class BirthdayCalendar implements CustomCalendar
 {
@@ -37,12 +37,15 @@ class BirthdayCalendar implements CustomCalendar
 
     public function events(Carbon $startDate, Carbon $endDate): Collection
     {
+        $year = $endDate->format('Y');
+        $start = $startDate->format('Y-m-d');
+        $end = $endDate->format('Y-m-d');
+
         return Person::query()
-            ->whereRaw("DATE_FORMAT(birthday, '%m-%d') >= ? ", [$startDate->format('m-d')])
-            ->whereRaw("DATE_FORMAT(birthday, '%m-%d') <= ? ", [$endDate->format('m-d')])
+            ->whereRaw("STR_TO_DATE(DATE_FORMAT(birthday, '$year-%m-%d'), '%Y-%m-%d') BETWEEN '$start' AND '$end' ")
             ->get()
-            ->map(function ($person) use ($startDate) {
-                return new PersonBirthdayEvent($person, $startDate->year);
+            ->map(function ($person) use ($endDate) {
+                return new PersonBirthdayEvent($person, $endDate->year);
             });
     }
 }
