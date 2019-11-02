@@ -3,12 +3,12 @@
 namespace LaravelEnso\Calendar\app\Services\Calendars;
 
 use Carbon\Carbon;
+use LaravelEnso\People\app\Models\Person;
+use LaravelEnso\Calendar\app\Enums\Frequencies;
 use LaravelEnso\Calendar\app\Contracts\Calendar;
 use LaravelEnso\Calendar\app\Contracts\ProvidesEvent;
-use LaravelEnso\Calendar\app\Enums\Frequencies;
-use LaravelEnso\People\app\Models\Person;
 
-class PersonBirthdayEvent implements ProvidesEvent
+class BirthdayEvent implements ProvidesEvent
 {
     private $person;
     private $year;
@@ -36,15 +36,12 @@ class PersonBirthdayEvent implements ProvidesEvent
 
     public function start(): Carbon
     {
-        return $this->person->birthday
-            ->setYear($this->year)
-            ->setTime(11, 00, 00);
+        return $this->person->birthday->setYear($this->year)->startOfDay();
     }
 
     public function end(): Carbon
     {
-        return $this->start()
-            ->addHours(2);
+        return $this->start()->endOfDay();
     }
 
     public function location(): ?string
