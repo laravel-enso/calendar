@@ -3,7 +3,7 @@
 namespace LaravelEnso\Calendar\app\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use LaravelEnso\Calendar\app\Contracts\RoutableEvent;
+use LaravelEnso\Calendar\app\Contracts\Routable;
 
 class Event extends JsonResource
 {
@@ -30,8 +30,8 @@ class Event extends JsonResource
 
     private function route()
     {
-        return $this->resource instanceof RoutableEvent
-            ? $this->resource->route()->toArray()
+        return $this->resource instanceof Routable
+            ? $this->resource->route()
             : null;
     }
 }
