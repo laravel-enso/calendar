@@ -31,7 +31,7 @@ class Event extends JsonResource
     private function route()
     {
         return $this->resource instanceof Routable
-            ? $this->resource->route()
+            ? $this->resource->route()->toArray()
             : null;
     }
 }
