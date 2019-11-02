@@ -4,9 +4,9 @@ namespace LaravelEnso\Calendar\app\Calendars;
 
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
-use LaravelEnso\People\app\Models\Person;
-use LaravelEnso\Calendar\app\Enums\Colors;
 use LaravelEnso\Calendar\app\Contracts\CustomCalendar;
+use LaravelEnso\Calendar\app\Enums\Colors;
+use LaravelEnso\People\app\Models\Person;
 
 class BirthdayCalendar implements CustomCalendar
 {
