@@ -8,6 +8,18 @@
             "email": "aocneanu@gmail.com",
             "homepage": "https://laravel-enso.com",
             "role": "Developer"
+        },
+        {
+            "name": "Reza Fouladi",
+            "email": "raftx24@gmail.com",
+            "homepage": "https://laravel-enso.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Mihai Ocneanu",
+            "email": "mihai.ocneanu@gmail.com",
+            "homepage": "https://laravel-enso.com",
+            "role": "Developer"
         }
     ],
     "keywords": [
