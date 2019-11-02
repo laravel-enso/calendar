@@ -2,8 +2,9 @@
 
 namespace LaravelEnso\Calendar\app\Services;
 
-use LaravelEnso\Calendar\app\Contracts\Calendar as Contract;
+use Illuminate\Support\Facades\Auth;
 use LaravelEnso\Calendar\app\Models\Calendar;
+use LaravelEnso\Calendar\app\Contracts\Calendar as Contract;
 
 class Calendars
 {
@@ -22,7 +23,13 @@ class Calendars
             $this->ready = true;
         }
 
-        return $this->calendars;
+        return Auth::user()->isAdmin() || Auth::user()->isSupervisor()
+            ? $this->calendars
+            : $this->calendars->filter(function($calendar) {
+                return ! $calendar->private()
+                    || $calendar instanceof Calendar
+                        && Auth::user()->id === $calendar->created_by;
+            });
     }
 
     public function only(array $calendars)
