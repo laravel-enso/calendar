@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelEnso\Calendar\app\Services\Calendars;
+namespace LaravelEnso\Calendar\app\Calendars;
 
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
