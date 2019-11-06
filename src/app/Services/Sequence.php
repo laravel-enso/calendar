@@ -33,7 +33,7 @@ class Sequence
 
         Event::sequence($this->root->id)->update([
             'recurrence_ends_at' => $event->start_date->clone()
-                ->subDays(),
+                ->subDay(),
         ]);
     }
 
@@ -48,7 +48,7 @@ class Sequence
         ]);
     }
 
-    protected function nextEvent(Carbon $date)
+    private function nextEvent(Carbon $date)
     {
         return $this->root->events
             ->sortBy('start_date')
@@ -57,19 +57,8 @@ class Sequence
             });
     }
 
-    protected function isParent($event = null)
+    private function isParent($event = null)
     {
         return $event->parent_id === null;
-    }
-
-    public function root()
-    {
-        return $this->root;
-    }
-
-    protected function isLast($event = null)
-    {
-        return $this->root->events->isEmpty()
-            || $this->root->events->last()->is($event);
     }
 }

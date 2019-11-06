@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use LaravelEnso\Calendar\app\Models\Event;
 use LaravelEnso\Calendar\app\Enums\UpdateType;
-use LaravelEnso\Calendar\app\Enums\Frequencies;
 use LaravelEnso\Calendar\app\Services\Sequence;
 
 class Update extends Frequency
@@ -42,7 +41,7 @@ class Update extends Frequency
         return $this;
     }
 
-    protected function insert()
+    private function insert()
     {
         $eventDates = $this->eventDates();
 
@@ -58,7 +57,7 @@ class Update extends Frequency
         return $this;
     }
 
-    protected function delete()
+    private function delete()
     {
         $interval = $this->interval()->map->toDateString();
 
@@ -66,17 +65,17 @@ class Update extends Frequency
             ->reject(function (Event $event) use ($interval) {
                 return $interval->contains($event->start_date->toDateString());
             })->whenNotEmpty(function ($events) {
-                Event::whereIn('id', $events->pluck('id'))
-                    ->delete();
+                Event::whereIn('id', $events->pluck('id'))->delete();
             });
     }
 
-    protected function update()
+    private function update()
     {
         collect($this->changes)->only(static::$attributes)
             ->reject(function ($value, $attribute) {
                 return $value === $this->event->{$attribute};
-            })->merge($this->changeDates())
+            })
+            ->merge($this->changeDates())
             ->whenNotEmpty(function ($attributes) {
                 Event::sequence($this->rootEvent->id)
                     ->update($attributes->toArray());
@@ -94,16 +93,13 @@ class Update extends Frequency
             ->map(function ($date, $attribute) {
                 return $this->event->{$attribute}->startOfDay()
                     ->diffInDays($this->changes[$attribute], false);
-            })
-            ->filter()
+            })->filter()
             ->map(function ($deltaDay, $attribute) {
-                return DB::getDriverName() === 'sqlite'
-                    ? DB::raw("DATE({$attribute}, '$deltaDay DAY')")
-                    : DB::raw("DATE_ADD({$attribute}, INTERVAL $deltaDay DAY)");
+                return $this->addDays($attribute, $deltaDay);
             });
     }
 
-    protected function eventDates()
+    private function eventDates()
     {
         return collect([$this->rootEvent])
             ->concat($this->rootEvent->events)
@@ -112,7 +108,7 @@ class Update extends Frequency
             });
     }
 
-    protected function init()
+    private function init()
     {
         $this->rootEvent = $this->updateType === UpdateType::All
             ? $this->parent()
@@ -128,12 +124,19 @@ class Update extends Frequency
         return $this;
     }
 
-    protected function interval()
+    private function interval()
     {
         return $this->dates(
             $this->changes['frequence'] ?? $this->event->frequence,
             $this->rootEvent->start_date,
             $this->rootEvent->recurrence_ends_at ?? $this->rootEvent->start_date
         );
+    }
+
+    private function addDays($attribute, $deltaDay)
+    {
+        return DB::getDriverName() === 'sqlite'
+            ? DB::raw("DATE({$attribute}, '$deltaDay DAY')")
+            : DB::raw("DATE_ADD({$attribute}, INTERVAL $deltaDay DAY)");
     }
 }

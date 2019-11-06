@@ -17,7 +17,7 @@ abstract class BaseTest extends TestCase
     protected $event;
     protected $response;
     protected $date;
-    protected $interval;
+    protected $count;
     protected $parameters;
 
     protected function setUp() :void
@@ -32,7 +32,7 @@ abstract class BaseTest extends TestCase
 
         $this->date = now()->startOfDay();
         $this->event->frequence = Frequencies::Daily;
-        $this->interval = 5;
+        $this->count = 5;
 
         $this->parameters = [];
     }
@@ -75,16 +75,6 @@ abstract class BaseTest extends TestCase
         $this->assertEquals($expected->toDateString(), $actual->toDateString());
     }
 
-    protected function assertEvents($startDate, $endDate)
-    {
-        CarbonPeriod::create($startDate, $endDate)->forEach(function ($date) {
-            $this->assertNotNull(
-                Event::whereDate('start_date', $date)->first(),
-                'event for '.$date->format('Y-m-d').' not exists'
-            );
-        });
-    }
-
     protected function dateFormat($date)
     {
         return $date->format(config('enso.config.dateFormat'));
@@ -92,7 +82,7 @@ abstract class BaseTest extends TestCase
 
     protected function create()
     {
-        $recurrenceEndsAt = $this->date->clone()->addDays($this->interval - 1);
+        $recurrenceEndsAt = $this->date->clone()->addDays($this->count - 1);
 
         $this->response = $this->json('POST', route('core.calendar.events.store'),
             ['start_date' => $this->dateFormat($this->date)] +
@@ -101,19 +91,14 @@ abstract class BaseTest extends TestCase
             $this->event->toArray()
         );
 
-        $this->event = Event::first();
-
         return $this;
     }
 
     protected function update($eventId, string $updateType)
     {
-        $event = Event::find($eventId);
-
         $parameters = $this->parameters +
             ['update_type' => $updateType] +
-            $event->only(['start_date','end_date','recurrence_ends_at']) +
-            $event->toArray();
+            Event::find($eventId)->toArray();
 
         $parameters = collect($parameters)->map(function($value) {
             return $value instanceof Carbon
@@ -127,7 +112,7 @@ abstract class BaseTest extends TestCase
             $parameters->toArray()
         );
 
-        return $event->refresh();
+        return Event::find($eventId);
     }
 
     protected function deleteEvent(int $eventId, string $updateType): void

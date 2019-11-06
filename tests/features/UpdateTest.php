@@ -15,7 +15,7 @@ class UpdateTest extends BaseTest
 
         $this->create()->update(3, UpdateType::All);
 
-        $this->assertCount($this->interval, Event::where($this->parameters)->get());
+        $this->assertCount($this->count, Event::where($this->parameters)->get());
     }
 
     /** @test */
@@ -26,7 +26,7 @@ class UpdateTest extends BaseTest
         $this->create()->update(3, UpdateType::Futures);
 
         $this->assertParents([null, 1, null, 3, 3]);
-        $this->assertCount($this->interval - 2, Event::where($this->parameters)->get());
+        $this->assertCount($this->count - 2, Event::where($this->parameters)->get());
     }
 
     /** @test */
@@ -65,7 +65,7 @@ class UpdateTest extends BaseTest
         $this->create()->update(1, UpdateType::All);
 
         $this->assertParents([null, 1, 1, 1, 1, 1, 1, 1]);
-        $this->assertEvents($this->date, now()->addDays(7));
+        $this->assertStartDates(range(0, 7));
     }
 
     /** @test */
@@ -95,16 +95,15 @@ class UpdateTest extends BaseTest
     {
         $this->event->frequence = Frequencies::Once;
 
-        $this->create();
-
         $this->parameters = [
             'frequence' => Frequencies::Daily,
-            'recurrence_ends_at' => $this->date->addDays($this->interval - 1),
+            'recurrence_ends_at' => $this->date->clone()->addDays(4),
         ];
 
-        $this->update(1, UpdateType::Futures);
+        $this->create()->update(1, UpdateType::Futures);
 
         $this->assertParents([null, 1, 1, 1, 1]);
+        $this->assertStartDates(range(0, 4));
     }
 
     /** @test */

@@ -2,18 +2,18 @@
 
 namespace LaravelEnso\Calendar\app\Services\Frequency;
 
-use LaravelEnso\Calendar\app\Enums\Frequencies;
 use LaravelEnso\Calendar\app\Models\Event;
-use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Daily;
-use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Monthly;
+use LaravelEnso\Calendar\app\Enums\Frequencies;
 use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Once;
-use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Weekday;
+use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Daily;
 use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Weekly;
 use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Yearly;
+use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Monthly;
+use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Weekday;
 
 abstract class Frequency
 {
-    private static $frequencies = [
+    private static $repeats = [
         Frequencies::Once => Once::class,
         Frequencies::Daily => Daily::class,
         Frequencies::Weekly => Weekly::class,
@@ -31,7 +31,7 @@ abstract class Frequency
 
     protected function dates($frequence, $start, $end)
     {
-        $class = self::$frequencies[$frequence];
+        $class = self::$repeats[$frequence];
 
         return (new $class($start, $end))->dates();
     }
@@ -50,7 +50,7 @@ abstract class Frequency
 
     protected function replicate($date)
     {
-        return $this->event->replicate(['id'])->fill([
+        return $this->event->replicate()->fill([
             'parent_id' => $this->parent()->id,
             'start_date' => $date,
             'end_date' => $date,

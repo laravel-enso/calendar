@@ -38,7 +38,7 @@ class DeleteTest extends BaseTest
     /** @test */
     public function can_delete_parent_event()
     {
-        $this->create()->deleteEvent($this->event->id, UpdateType::Single);
+        $this->create()->deleteEvent(1, UpdateType::Single);
 
         $this->assertParents([null, 2, 2, 2]);
     }
@@ -46,7 +46,7 @@ class DeleteTest extends BaseTest
     /** @test */
     public function can_delete_following_events()
     {
-        $this->interval = 5;
+        $this->count = 5;
 
         $this->create()->deleteEvent(3, UpdateType::Futures);
 
