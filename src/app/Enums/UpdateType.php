@@ -10,10 +10,19 @@ class UpdateType extends Enum
     const Futures = 'futures';
     const All = 'all';
 
+    protected static function attributes()
+    {
+        return [
+            static::Single => 'Only this event',
+            static::Futures => 'This and future events',
+            static::All => 'All',
+        ];
+    }
+
     public static function forParent()
     {
-        return self::select()->reject(function ($updateType) {
-            return $updateType->id === 'all';
+        return static::select()->reject(function ($updateType) {
+            return $updateType->id === static::All;
         });
     }
 }
