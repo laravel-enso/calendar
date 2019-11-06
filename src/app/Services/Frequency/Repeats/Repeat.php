@@ -21,7 +21,7 @@ abstract class Repeat
     protected function interval()
     {
         return collect(
-            $this->start->daysUntil($this->end)->toArray()
+            $this->start->daysUntil($this->end->endOfDay())->toArray()
         );
     }
 }
