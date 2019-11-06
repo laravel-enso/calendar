@@ -1,7 +1,7 @@
 <?php
 
 use Faker\Generator as Faker;
-use \LaravelEnso\Calendar\app\Models\Event;
+use LaravelEnso\Calendar\app\Models\Event;
 use LaravelEnso\Calendar\app\Models\Reminder;
 
 $factory->define(Reminder::class, function (Faker $faker) {
