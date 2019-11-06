@@ -16,7 +16,6 @@ class Sequence
             : $event;
     }
 
-
     public function break(Event $event)
     {
         if ($this->isParent($event)) {
@@ -29,23 +28,23 @@ class Sequence
             ]);
 
         $event->update([
-            'parent_id' => null
+            'parent_id' => null,
         ]);
 
         Event::sequence($this->root->id)->update([
             'recurrence_ends_at' => $event->start_date->clone()
-                ->subDays()
+                ->subDays(),
         ]);
     }
 
     public function extract(Event $event)
     {
-        if ($nextEvent = $this->nextEvent($event->start_date)){
+        if ($nextEvent = $this->nextEvent($event->start_date)) {
             $this->break($nextEvent);
         }
 
         $event->update([
-            'parent_id'=> null,
+            'parent_id' => null,
         ]);
     }
 
@@ -74,4 +73,3 @@ class Sequence
             || $this->root->events->last()->is($event);
     }
 }
-

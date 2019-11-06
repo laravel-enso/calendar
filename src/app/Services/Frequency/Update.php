@@ -4,10 +4,10 @@ namespace LaravelEnso\Calendar\app\Services\Frequency;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use LaravelEnso\Calendar\app\Models\Event;
-use LaravelEnso\Calendar\app\Enums\UpdateType;
-use LaravelEnso\Calendar\app\Services\Sequence;
 use LaravelEnso\Calendar\app\Enums\Frequencies;
+use LaravelEnso\Calendar\app\Enums\UpdateType;
+use LaravelEnso\Calendar\app\Models\Event;
+use LaravelEnso\Calendar\app\Services\Sequence;
 
 class Update extends Frequency
 {
@@ -97,7 +97,7 @@ class Update extends Frequency
                     ->diffInDays($this->changes[$attribute], false);
             })
             ->filter()
-            ->map(function($deltaDay, $attribute) {
+            ->map(function ($deltaDay, $attribute) {
                 return DB::getDriverName() === 'sqlite'
                     ? DB::raw("DATE({$attribute}, '$deltaDay DAY')")
                     : DB::raw("DATE_ADD({$attribute}, INTERVAL $deltaDay DAY)");

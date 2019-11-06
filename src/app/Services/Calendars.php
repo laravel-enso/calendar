@@ -3,8 +3,8 @@
 namespace LaravelEnso\Calendar\app\Services;
 
 use Illuminate\Support\Facades\Auth;
-use LaravelEnso\Calendar\app\Models\Calendar;
 use LaravelEnso\Calendar\app\Contracts\Calendar as Contract;
+use LaravelEnso\Calendar\app\Models\Calendar;
 
 class Calendars
 {
