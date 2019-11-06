@@ -110,7 +110,7 @@ class UpdateTest extends BaseTest
     /** @test */
     public function can_update_single_event()
     {
-        $this->parameters = ['end_time' => '20:20'];
+        $this->parameters = ['end_time' => '20:20', 'frequence' => Frequencies::Once];
 
         $event = $this->create()->update(3, UpdateType::Single);
 
@@ -126,7 +126,7 @@ class UpdateTest extends BaseTest
     public function can_update_non_frequent_event()
     {
         $this->event->frequence = Frequencies::Once;
-        $this->parameters = ['end_time' => '20:20'];
+        $this->parameters = ['end_time' => '20:20', 'frequence' => Frequencies::Once];
 
         $this->create()->update(1, UpdateType::Single);
 
@@ -136,7 +136,7 @@ class UpdateTest extends BaseTest
     /** @test */
     public function can_update_single_parent_event()
     {
-        $this->parameters = ['end_time' => '20:20'];
+        $this->parameters = ['end_time' => '20:20', 'frequence' => Frequencies::Once];
 
         $this->create()->update(1, UpdateType::Single);
 

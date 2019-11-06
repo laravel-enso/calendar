@@ -54,6 +54,12 @@ class ValidateEventRequest extends FormRequest
                 $validator->errors()->add('is_readonly', __('Must be false'));
             });
         }
+
+        if ($this->get('update_type') === UpdateType::Single && $this->get('frequence') !== Frequencies::Once) {
+            $validator->after(function ($validator) {
+                $validator->errors()->add('frequence', __('Must be once'));
+            });
+        }
     }
 
     protected function requiredOrFilled()

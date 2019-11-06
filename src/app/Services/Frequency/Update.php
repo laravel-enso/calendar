@@ -33,7 +33,6 @@ class Update extends Frequency
     {
         switch ($this->updateType) {
             case UpdateType::Single:
-                $this->changes['frequence'] = Frequencies::Once;
                 (new Sequence($this->event))->extract($this->event);
                 break;
             case UpdateType::Futures:
