@@ -25,7 +25,9 @@ class Calendars
 
         return Auth::user()->isAdmin() || Auth::user()->isSupervisor()
             ? $this->calendars
-            : $this->calendars->reject->private();
+            : $this->calendars->filter(function($calendar) {
+                return Auth::user()->can('access', $calendar);
+            });
     }
 
     public function only(array $calendars)
