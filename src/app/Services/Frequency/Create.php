@@ -8,7 +8,7 @@ class Create extends Frequency
 {
     public function handle()
     {
-        $this->dates()
+        $this->interval()
             ->reject->equalTo($this->event->start_date)
             ->map(function ($date) {
                 return $this->replicate($date)->attributesToArray();
@@ -17,5 +17,14 @@ class Create extends Frequency
             });
 
         return $this;
+    }
+
+    protected function interval()
+    {
+        return $this->dates(
+            $this->event->frequence(),
+            $this->event->start_date,
+            $this->event->recurrence_ends_at ?? $this->event->start_date
+        );
     }
 }

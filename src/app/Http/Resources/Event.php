@@ -4,6 +4,7 @@ namespace LaravelEnso\Calendar\app\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use LaravelEnso\Calendar\app\Contracts\Routable;
+use LaravelEnso\Calendar\app\Models\Event as EventModel;
 
 class Event extends JsonResource
 {
@@ -12,6 +13,7 @@ class Event extends JsonResource
         return [
             'id' => $this->getKey(),
             'title' => $this->title(),
+            'parent_id' => $this->parentId(),
             'body' => $this->body(),
             'start' => $this->start()->format('Y-m-d H:i'),
             'end' => $this->end()->format('Y-m-d H:i'),
@@ -32,6 +34,13 @@ class Event extends JsonResource
     {
         return $this->resource instanceof Routable
             ? $this->resource->route()->toArray()
+            : null;
+    }
+
+    protected function parentId()
+    {
+        return $this->resource instanceof EventModel
+            ? $this->parent_id
             : null;
     }
 }

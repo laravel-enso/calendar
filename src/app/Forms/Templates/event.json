@@ -140,7 +140,7 @@
             "name": "frequence",
             "value": 1,
             "meta": {
-                "disabled": true,
+                "disabled": false,
                 "custom": true,
                 "type": "select",
                 "options": "LaravelEnso\\Calendar\\app\\Enums\\Frequencies"

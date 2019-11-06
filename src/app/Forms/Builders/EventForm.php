@@ -37,7 +37,8 @@ class EventForm
             ->value('reminders', Reminder::collection($event->reminders))
             ->value('start_time', date('H:i', strtotime($event->start_time)))
             ->value('end_time', date('H:i', strtotime($event->end_time)))
-            ->value('update_type', UpdateType::Single)
+            ->value('update_type', UpdateType::Futures)
+            ->options('update_type', $this->updateTypeOptions($event))
             ->actions(['update'])
             ->edit($event);
     }
@@ -50,5 +51,12 @@ class EventForm
     private function dateTimeFormat(): string
     {
         return $this->dateFormat().' H:i';
+    }
+
+    protected function updateTypeOptions(Event $event)
+    {
+        return $event->parent_id
+            ? UpdateType::select()
+            : UpdateType::forParent();
     }
 }

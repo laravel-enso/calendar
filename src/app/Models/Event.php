@@ -153,9 +153,7 @@ class Event extends Model implements ProvidesEvent
 
     public function updateEvent($attributes, $updateType)
     {
-        $this->update($attributes);
-
-        (new Update($this))->handle($updateType);
+        (new Update($this))->handle($attributes, $updateType);
 
         return $this;
     }

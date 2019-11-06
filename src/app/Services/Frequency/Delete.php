@@ -2,37 +2,21 @@
 
 namespace LaravelEnso\Calendar\app\Services\Frequency;
 
-use Illuminate\Support\Facades\DB;
-use LaravelEnso\Calendar\app\Enums\UpdateType;
 use LaravelEnso\Calendar\app\Models\Event;
+use LaravelEnso\Calendar\app\Enums\UpdateType;
+use LaravelEnso\Calendar\app\Services\Sequence;
 
 class Delete extends Frequency
 {
     public function handle($updateType)
     {
-        if ($this->parent()->events->isEmpty()) {
-            return;
-        }
-
         if ($updateType === UpdateType::Single) {
-            return $this->isParent()
-                ? $this->changeParent()
-                : null;
+            return (new Sequence($this->event))->extract($this->event);
         }
 
         Event::sequence($this->parent()->id)
             ->when($updateType === UpdateType::Futures, function ($query) {
                 $query->where('start_date', '>', $this->event->start_date);
             })->delete();
-    }
-
-    protected function changeParent()
-    {
-        $nextEventId = $this->parent()->events
-            ->sortBy('start_date')->first()->id;
-
-        Event::whereParentId($this->parent()->id)->update([
-            'parent_id' => DB::raw("IF(id = {$nextEventId},NULL,{$nextEventId})"),
-        ]);
     }
 }

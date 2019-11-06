@@ -42,6 +42,11 @@
             "LaravelEnso\\Calendar\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "LaravelEnso\\Calendars\\tests\\": "tests/"
+        }
+    },
     "extra": {
         "laravel": {
             "providers": [

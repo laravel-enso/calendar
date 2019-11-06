@@ -44,7 +44,7 @@ class ValidateEventRequest extends FormRequest
                 && $this->get('start_date') === $this->get('end_date');
         });
 
-        $validator->sometimes('recurrence_ends_at', 'date|required|after:start_date', function () {
+        $validator->sometimes('recurrence_ends_at', 'date|required|after_or_equal:start_date', function () {
             return $this->has('frequence')
                 && $this->get('frequence') !== Frequencies::Once;
         });

@@ -9,4 +9,11 @@ class UpdateType extends Enum
     const Single = 'single';
     const Futures = 'futures';
     const All = 'all';
+
+    public static function forParent()
+    {
+        return self::select()->reject(function ($updateType){
+            return $updateType->id === 'all';
+        });
+    }
 }
