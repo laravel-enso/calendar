@@ -19,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->booted(function () {
             $schedule = $this->app->make(Schedule::class);
-            $schedule->command('enso:calendar:notify')->everyMinute();
+            $schedule->command('enso:calendar:send-reminders')->everyMinute();
         });
 
         $this->loadDependencies()

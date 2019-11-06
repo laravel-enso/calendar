@@ -1,5 +1,7 @@
 <?php
 
+namespace LaravelEnso\Calendars\tests\units;
+
 use Carbon\Carbon;
 use Tests\TestCase;
 use LaravelEnso\Core\app\Models\User;
@@ -13,7 +15,6 @@ class SendNotificationsTest extends TestCase
 
     private $user;
     private $faker;
-
 
     public function setUp(): void
     {
@@ -35,7 +36,7 @@ class SendNotificationsTest extends TestCase
             'created_by'=>$this->user->id
         ]);
 
-        $this->artisan('enso:calendar:notify');
+        $this->artisan('enso:calendar:send-reminders');
 
         \Notification::assertNothingSent();
     }
@@ -51,7 +52,7 @@ class SendNotificationsTest extends TestCase
             'created_by' => $this->user->id
         ]);
 
-        $this->artisan('enso:calendar:notify');
+        $this->artisan('enso:calendar:send-reminders');
 
         \Notification::assertSentTo(
             config('auth.providers.users.model')::find($this->user->id),
