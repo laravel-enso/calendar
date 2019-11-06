@@ -3,9 +3,9 @@
 namespace LaravelEnso\Calendar\app\Services;
 
 use Illuminate\Support\Facades\Auth;
-use LaravelEnso\Calendar\app\Models\Calendar;
 use LaravelEnso\Calendar\app\Calendars\BirthdayCalendar;
 use LaravelEnso\Calendar\app\Contracts\Calendar as Contract;
+use LaravelEnso\Calendar\app\Models\Calendar;
 
 class Calendars
 {
@@ -27,7 +27,7 @@ class Calendars
 
         return Auth::user()->isAdmin() || Auth::user()->isSupervisor()
             ? $this->calendars
-            : $this->calendars->filter(function($calendar) {
+            : $this->calendars->filter(function ($calendar) {
                 return Auth::user()->can('access', $calendar);
             });
     }
