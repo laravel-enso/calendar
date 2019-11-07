@@ -19,7 +19,7 @@ class Update extends Controller
 
         $event->updateEvent(
             $request->validated(),
-            $request->get('updateType', UpdateType::OnlyThisEvent)
+            (int) $request->get('updateType', UpdateType::OnlyThisEvent)
         )->updateReminders($request->reminders())
         ->syncAttendees($request->get('attendees'));
 

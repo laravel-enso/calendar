@@ -4,6 +4,7 @@ namespace LaravelEnso\Calendar\app\Services;
 
 use Carbon\Carbon;
 use LaravelEnso\Calendar\app\Models\Event;
+use LaravelEnso\Calendar\app\Enums\Frequencies;
 
 class Sequence
 {
@@ -45,6 +46,8 @@ class Sequence
 
         $event->update([
             'parent_id' => null,
+            'frequency' => Frequencies::Once,
+            'recurrence_ends_at' => null,
         ]);
     }
 

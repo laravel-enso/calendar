@@ -15,7 +15,7 @@ class Destroy extends Controller
     {
         $this->authorize('handle', $event);
 
-        $event->deleteEvent($request->get('updateType'));
+        $event->deleteEvent((int) $request->get('updateType'));
 
         return ['message' => __('The event was successfully deleted')];
     }

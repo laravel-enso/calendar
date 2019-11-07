@@ -2,18 +2,18 @@
 
 namespace LaravelEnso\Calendar\app\Services\Frequency;
 
-use LaravelEnso\Calendar\app\Enums\Frequencies;
 use LaravelEnso\Calendar\app\Models\Event;
-use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Daily;
-use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Monthly;
+use LaravelEnso\Calendar\app\Enums\Frequencies;
 use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Once;
-use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Weekday;
+use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Daily;
 use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Weekly;
 use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Yearly;
+use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Monthly;
+use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Weekday;
 
 abstract class Frequency
 {
-    private static $repeats = [
+    private static $options = [
         Frequencies::Once => Once::class,
         Frequencies::Daily => Daily::class,
         Frequencies::Weekly => Weekly::class,
@@ -31,7 +31,7 @@ abstract class Frequency
 
     protected function dates($frequence, $start, $end)
     {
-        $class = self::$repeats[$frequence];
+        $class = self::$options[$frequence];
 
         return (new $class($start, $end))->dates();
     }

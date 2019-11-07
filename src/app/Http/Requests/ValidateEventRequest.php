@@ -43,12 +43,16 @@ class ValidateEventRequest extends FormRequest
                 && $this->get('start_date') === $this->get('end_date');
         });
 
-        $validator->sometimes('recurrence_ends_at', 'date|required|after_or_equal:start_date', function () {
-            return $this->has('frequence')
-                && $this->get('frequence') !== Frequencies::Once;
-        });
+        $validator->sometimes(
+            'recurrence_ends_at',
+            'date|required|after_or_equal:start_date',
+            function () {
+                return $this->has('frequence')
+                    && $this->get('frequence') !== Frequencies::Once;
+            });
 
-        if ($this->get('updateType') === UpdateType::OnlyThisEvent && $this->get('frequence') !== Frequencies::Once) {
+        if ($this->get('updateType') === UpdateType::OnlyThisEvent
+            && $this->get('frequence') !== Frequencies::Once) {
             $validator->after(function ($validator) {
                 $validator->errors()->add('frequence', __('Must be once'));
             });
@@ -57,7 +61,7 @@ class ValidateEventRequest extends FormRequest
 
     protected function requiredOrFilled()
     {
-        return $this->getMethod() === 'POST'
+        return $this->method() === 'POST'
             ? 'required'
             : 'filled';
     }
