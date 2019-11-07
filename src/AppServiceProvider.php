@@ -2,10 +2,10 @@
 
 namespace LaravelEnso\Calendar;
 
-use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\ServiceProvider;
-use LaravelEnso\Calendar\app\Commands\SendReminders;
+use Illuminate\Console\Scheduling\Schedule;
 use LaravelEnso\Calendar\app\Services\Calendars;
+use LaravelEnso\Calendar\app\Commands\SendReminders;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -45,7 +45,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/database/factories' => database_path('factories'),
-        ], 'calendar-factory');
+        ], 'calendar-factories');
 
         $this->publishes([
             __DIR__.'/database/factories' => database_path('factories'),

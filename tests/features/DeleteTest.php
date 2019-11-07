@@ -19,7 +19,7 @@ class DeleteTest extends BaseTest
     /** @test */
     public function can_delete_single_event()
     {
-        $this->create()->deleteEvent(3, UpdateType::Single);
+        $this->create()->deleteEvent(3, UpdateType::OnlyThisEvent);
 
         $this->assertParents([null, 1, null, 4]);
     }
@@ -30,7 +30,7 @@ class DeleteTest extends BaseTest
     {
         $this->event->frequence = Frequencies::Once;
 
-        $this->create()->deleteEvent(1, UpdateType::Single);
+        $this->create()->deleteEvent(1, UpdateType::OnlyThisEvent);
 
         $this->assertEmpty(Event::all());
     }
@@ -38,7 +38,7 @@ class DeleteTest extends BaseTest
     /** @test */
     public function can_delete_parent_event()
     {
-        $this->create()->deleteEvent(1, UpdateType::Single);
+        $this->create()->deleteEvent(1, UpdateType::OnlyThisEvent);
 
         $this->assertParents([null, 2, 2, 2]);
     }
@@ -48,7 +48,7 @@ class DeleteTest extends BaseTest
     {
         $this->count = 5;
 
-        $this->create()->deleteEvent(3, UpdateType::Futures);
+        $this->create()->deleteEvent(3, UpdateType::ThisAndFutureEvents);
 
         $this->assertParents([null, 1]);
     }

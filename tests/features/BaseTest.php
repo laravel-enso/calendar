@@ -4,7 +4,6 @@ namespace LaravelEnso\Calendars\tests\features;
 
 use Carbon\Carbon;
 use Tests\TestCase;
-use Carbon\CarbonPeriod;
 use LaravelEnso\Core\app\Models\User;
 use LaravelEnso\Calendar\app\Models\Event;
 use LaravelEnso\Calendar\app\Enums\Frequencies;

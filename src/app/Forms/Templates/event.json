@@ -29,7 +29,7 @@
             }
         }, {
             "column": 3,
-            "label": "time",
+            "label": "Time",
             "name": "start_time",
             "value": null,
             "meta": {
@@ -51,7 +51,7 @@
             }
         }, {
             "column": 3,
-            "label": "time",
+            "label": "Time",
             "name": "end_time",
             "value": null,
             "meta": {
@@ -79,15 +79,6 @@
             "name": "is_all_day",
             "value": false,
             "meta": {
-                "type": "input",
-                "content": "checkbox"
-            }
-        }, {
-            "label": "Readonly",
-            "name": "is_readonly",
-            "value": false,
-            "meta": {
-                "hidden": true,
                 "type": "input",
                 "content": "checkbox"
             }

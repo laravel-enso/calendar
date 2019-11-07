@@ -2,11 +2,11 @@
 
 namespace LaravelEnso\Calendar\app\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
-use LaravelEnso\Calendar\app\Enums\Frequencies;
-use LaravelEnso\Calendar\app\Enums\UpdateType;
+use Illuminate\Foundation\Http\FormRequest;
 use LaravelEnso\Calendar\app\Models\Calendar;
+use LaravelEnso\Calendar\app\Enums\UpdateType;
+use LaravelEnso\Calendar\app\Enums\Frequencies;
 
 class ValidateEventRequest extends FormRequest
 {
@@ -32,8 +32,7 @@ class ValidateEventRequest extends FormRequest
             'attendees.*' => 'exists:users,id',
             'recurrence_ends_at' => 'nullable',
             'is_all_day' => $this->requiredOrFilled().'|boolean',
-            'is_readonly' => $this->requiredOrFilled().'|boolean',
-            'update_type' => 'nullable|in:'.UpdateType::keys()->implode(','),
+            'updateType' => 'nullable|in:'.UpdateType::keys()->implode(','),
         ];
     }
 
@@ -49,13 +48,7 @@ class ValidateEventRequest extends FormRequest
                 && $this->get('frequence') !== Frequencies::Once;
         });
 
-        if ($this->filled('is_readonly') && $this->get('is_readonly') !== false) {
-            $validator->after(function ($validator) {
-                $validator->errors()->add('is_readonly', __('Must be false'));
-            });
-        }
-
-        if ($this->get('update_type') === UpdateType::Single && $this->get('frequence') !== Frequencies::Once) {
+        if ($this->get('updateType') === UpdateType::OnlyThisEvent && $this->get('frequence') !== Frequencies::Once) {
             $validator->after(function ($validator) {
                 $validator->errors()->add('frequence', __('Must be once'));
             });

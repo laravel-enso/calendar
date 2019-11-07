@@ -2,9 +2,9 @@
 
 namespace LaravelEnso\Calendar\app\Policies;
 
+use LaravelEnso\Calendar\app\Models\Calendar;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use LaravelEnso\Calendar\app\Contracts\Calendar as Contract;
-use LaravelEnso\Calendar\app\Models\Calendar;
 
 class CalendarPolicy
 {
@@ -17,15 +17,15 @@ class CalendarPolicy
         }
     }
 
-    public function handle($user, Calendar $calendar)
-    {
-        return $user->id === $calendar->created_by;
-    }
-
     public function access($user, Contract $calendar)
     {
         return ! $calendar->private()
             || ($calendar instanceof Calendar
                 && $user->id === $calendar->created_by);
+    }
+
+    public function handle($user, Calendar $calendar)
+    {
+        return $user->id === $calendar->created_by;
     }
 }

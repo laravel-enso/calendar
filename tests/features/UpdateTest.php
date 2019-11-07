@@ -23,7 +23,7 @@ class UpdateTest extends BaseTest
     {
         $this->parameters = ['end_time' => '22:20'];
 
-        $this->create()->update(3, UpdateType::Futures);
+        $this->create()->update(3, UpdateType::ThisAndFutureEvents);
 
         $this->assertParents([null, 1, null, 3, 3]);
         $this->assertCount($this->count - 2, Event::where($this->parameters)->get());
@@ -37,7 +37,7 @@ class UpdateTest extends BaseTest
             'end_date' => now()->addDay(),
         ];
 
-        $this->create()->update(3, UpdateType::Futures);
+        $this->create()->update(3, UpdateType::ThisAndFutureEvents);
 
         $this->assertParents([null, 1, null, 3, 3, 3]);
         $this->assertStartDates([0, 1, 1, 2, 3, 4]);
@@ -100,7 +100,7 @@ class UpdateTest extends BaseTest
             'recurrence_ends_at' => $this->date->clone()->addDays(4),
         ];
 
-        $this->create()->update(1, UpdateType::Futures);
+        $this->create()->update(1, UpdateType::ThisAndFutureEvents);
 
         $this->assertParents([null, 1, 1, 1, 1]);
         $this->assertStartDates(range(0, 4));
@@ -111,7 +111,7 @@ class UpdateTest extends BaseTest
     {
         $this->parameters = ['end_time' => '20:20', 'frequence' => Frequencies::Once];
 
-        $event = $this->create()->update(3, UpdateType::Single);
+        $event = $this->create()->update(3, UpdateType::OnlyThisEvent);
 
         $this->assertParents([null, 1, null, null, 4]);
 
@@ -127,7 +127,7 @@ class UpdateTest extends BaseTest
         $this->event->frequence = Frequencies::Once;
         $this->parameters = ['end_time' => '20:20', 'frequence' => Frequencies::Once];
 
-        $this->create()->update(1, UpdateType::Single);
+        $this->create()->update(1, UpdateType::OnlyThisEvent);
 
         $this->assertCount(1, Event::where($this->parameters)->get());
     }
@@ -137,7 +137,7 @@ class UpdateTest extends BaseTest
     {
         $this->parameters = ['end_time' => '20:20', 'frequence' => Frequencies::Once];
 
-        $this->create()->update(1, UpdateType::Single);
+        $this->create()->update(1, UpdateType::OnlyThisEvent);
 
         $this->assertParents([null, null, 2, 2, 2]);
         $this->assertCount(1, Event::where($this->parameters)->get());

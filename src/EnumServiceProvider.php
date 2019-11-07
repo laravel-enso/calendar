@@ -2,9 +2,14 @@
 
 namespace LaravelEnso\Calendar;
 
-use Illuminate\Support\ServiceProvider;
+use LaravelEnso\Calendar\app\Enums\UpdateType;
+use LaravelEnso\Calendar\app\Enums\Frequencies;
+use LaravelEnso\Enums\EnumServiceProvider as ServiceProvider;
 
 class EnumServiceProvider extends ServiceProvider
 {
-    //TODO Remove
+    public $register = [
+        'eventUpdateType' => UpdateType::class,
+        'eventFrequencies' => Frequencies::class,
+    ];
 }

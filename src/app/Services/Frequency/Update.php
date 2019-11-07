@@ -4,8 +4,8 @@ namespace LaravelEnso\Calendar\app\Services\Frequency;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use LaravelEnso\Calendar\app\Enums\UpdateType;
 use LaravelEnso\Calendar\app\Models\Event;
+use LaravelEnso\Calendar\app\Enums\UpdateType;
 use LaravelEnso\Calendar\app\Services\Sequence;
 
 class Update extends Frequency
@@ -31,12 +31,30 @@ class Update extends Frequency
     private function break()
     {
         switch ($this->updateType) {
-            case UpdateType::Single:
+            case UpdateType::OnlyThisEvent:
                 (new Sequence($this->event))->extract($this->event);
                 break;
-            case UpdateType::Futures:
+            case UpdateType::ThisAndFutureEvents:
                 (new Sequence($this->event))->break($this->event);
         }
+
+        return $this;
+    }
+
+    private function update()
+    {
+        collect($this->changes)->only(static::$attributes)
+            ->reject(function ($value, $attribute) {
+                return $value === $this->event->{$attribute};
+            })
+            ->merge($this->changeDates())
+            ->whenNotEmpty(function ($attributes) {
+                Event::sequence($this->rootEvent->id)
+                    ->update($attributes->toArray());
+            });
+
+        $this->event->update($this->changes);
+        $this->rootEvent->refresh();
 
         return $this;
     }
@@ -69,24 +87,6 @@ class Update extends Frequency
             });
     }
 
-    private function update()
-    {
-        collect($this->changes)->only(static::$attributes)
-            ->reject(function ($value, $attribute) {
-                return $value === $this->event->{$attribute};
-            })
-            ->merge($this->changeDates())
-            ->whenNotEmpty(function ($attributes) {
-                Event::sequence($this->rootEvent->id)
-                    ->update($attributes->toArray());
-            });
-
-        $this->event->update($this->changes);
-        $this->rootEvent->refresh();
-
-        return $this;
-    }
-
     private function changeDates()
     {
         return collect($this->changes)->only(['start_date', 'end_date'])
@@ -108,22 +108,6 @@ class Update extends Frequency
             });
     }
 
-    private function init()
-    {
-        $this->rootEvent = $this->updateType === UpdateType::All
-            ? $this->parent()
-            : $this->event;
-
-        $this->changes = collect($this->changes)
-            ->map(function ($value, $attribute) {
-                return in_array($attribute, $this->event->getDates())
-                    ? Carbon::parse($value)
-                    : $value;
-            })->toArray();
-
-        return $this;
-    }
-
     private function interval()
     {
         return $this->dates(
@@ -138,5 +122,21 @@ class Update extends Frequency
         return DB::getDriverName() === 'sqlite'
             ? DB::raw("DATE({$attribute}, '$deltaDay DAY')")
             : DB::raw("DATE_ADD({$attribute}, INTERVAL $deltaDay DAY)");
+    }
+
+    private function init()
+    {
+        $this->rootEvent = $this->updateType === UpdateType::All
+            ? $this->parent()
+            : $this->event;
+
+        $this->changes = collect($this->changes)
+            ->map(function ($value, $attribute) {
+                return in_array($attribute, $this->event->getDates())
+                    ? Carbon::parse($value)
+                    : $value;
+            })->toArray();
+
+        return $this;
     }
 }

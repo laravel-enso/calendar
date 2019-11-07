@@ -37,7 +37,7 @@ class EventForm
             ->value('reminders', Reminder::collection($event->reminders))
             ->value('start_time', date('H:i', strtotime($event->start_time)))
             ->value('end_time', date('H:i', strtotime($event->end_time)))
-            ->value('update_type', UpdateType::Futures)
+            ->value('update_type', UpdateType::ThisAndFutureEvents)
             ->options('update_type', $this->updateTypeOptions($event))
             ->actions(['update'])
             ->edit($event);

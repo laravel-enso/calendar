@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class CreateCalendarEventsTable extends Migration
 {
@@ -29,7 +29,6 @@ class CreateCalendarEventsTable extends Migration
             $table->date('recurrence_ends_at')->nullable();
 
             $table->boolean('is_all_day');
-            $table->boolean('is_readonly');
 
             $table->string('location')->nullable();
             $table->decimal('lat', 10, 8)->nullable();

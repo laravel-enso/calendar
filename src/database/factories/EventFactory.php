@@ -1,9 +1,9 @@
 <?php
 
 use Faker\Generator as Faker;
-use LaravelEnso\Calendar\app\Enums\Frequencies;
-use LaravelEnso\Calendar\app\Models\Calendar;
 use LaravelEnso\Calendar\app\Models\Event;
+use LaravelEnso\Calendar\app\Models\Calendar;
+use LaravelEnso\Calendar\app\Enums\Frequencies;
 
 $factory->define(Event::class, function (Faker $faker) {
     $date = $faker->date(config('enso.config.dateFormat'));
@@ -20,7 +20,6 @@ $factory->define(Event::class, function (Faker $faker) {
         'end_time' => '14:00',
         'recurrence_ends_at' => $faker->dateTime->format(config('enso.config.dateFormat')),
         'is_all_day' => false,
-        'is_readonly' => false,
         'location' => $faker->city,
         'lat' => $faker->latitude,
         'lng' => $faker->longitude,
