@@ -22,7 +22,7 @@ class Create extends Frequency
     protected function interval()
     {
         return $this->dates(
-            $this->event->frequence(),
+            $this->event->frequency(),
             $this->event->start_date,
             $this->event->recurrence_ends_at ?? $this->event->start_date
         );

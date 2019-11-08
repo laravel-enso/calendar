@@ -22,13 +22,14 @@ class DeleteTest extends BaseTest
         $this->create()->deleteEvent(3, UpdateType::OnlyThisEvent);
 
         $this->assertParents([null, 1, null, 4]);
+        $this->assertDate(now()->addDay(), Event::first()->recurrence_ends_at);
     }
 
 
     /** @test */
     public function can_delete_non_frequent_event()
     {
-        $this->event->frequence = Frequencies::Once;
+        $this->event->frequency = Frequencies::Once;
 
         $this->create()->deleteEvent(1, UpdateType::OnlyThisEvent);
 
@@ -51,6 +52,7 @@ class DeleteTest extends BaseTest
         $this->create()->deleteEvent(3, UpdateType::ThisAndFutureEvents);
 
         $this->assertParents([null, 1]);
+        $this->assertDate(now()->addDay(), Event::first()->recurrence_ends_at);
     }
 
 }

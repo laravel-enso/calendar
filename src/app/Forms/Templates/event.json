@@ -82,16 +82,6 @@
                 "type": "input",
                 "content": "checkbox"
             }
-        }, {
-            "label": "Update Occurrence",
-            "name": "update_type",
-            "value": null,
-            "meta": {
-                "hidden": true,
-                "custom": true,
-                "type": "select",
-                "options": "LaravelEnso\\Calendar\\app\\Enums\\UpdateType"
-            }
         }]
     }, {
     "tab": "Details",
@@ -124,11 +114,11 @@
             }
         }]
     }, {
-        "tab": "Frequence & Alerts",
+        "tab": "frequency & Alerts",
         "columns": 1,
         "fields": [{
-            "label": "Frequence",
-            "name": "frequence",
+            "label": "frequency",
+            "name": "frequency",
             "value": 1,
             "meta": {
                 "custom": true,

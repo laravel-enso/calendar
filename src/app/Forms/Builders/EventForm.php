@@ -32,14 +32,11 @@ class EventForm
     public function edit(Event $event)
     {
         return $this->form->value('attendees', $event->attendeeList())
-            ->meta('recurrence_ends_at', 'hidden', $event->frequence === Frequencies::Once)
-            ->meta('update_type', 'hidden', $event->frequence === Frequencies::Once)
+            ->meta('recurrence_ends_at', 'hidden', $event->frequency === Frequencies::Once)
             ->value('reminders', Reminder::collection($event->reminders))
             ->value('start_time', date('H:i', strtotime($event->start_time)))
             ->value('end_time', date('H:i', strtotime($event->end_time)))
-            ->value('update_type', UpdateType::ThisAndFutureEvents)
-            ->options('update_type', $this->updateTypeOptions($event))
-            ->actions(['update'])
+            ->actions([])
             ->edit($event);
     }
 
@@ -51,12 +48,5 @@ class EventForm
     private function dateTimeFormat(): string
     {
         return $this->dateFormat().' H:i';
-    }
-
-    protected function updateTypeOptions(Event $event)
-    {
-        return $event->parent_id
-            ? UpdateType::select()
-            : UpdateType::forParent();
     }
 }

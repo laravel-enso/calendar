@@ -30,7 +30,7 @@ abstract class BaseTest extends TestCase
         $this->event = factory(Event::class)->make();
 
         $this->date = now()->startOfDay();
-        $this->event->frequence = Frequencies::Daily;
+        $this->event->frequency = Frequencies::Daily;
         $this->count = 5;
 
         $this->parameters = [];
@@ -96,7 +96,7 @@ abstract class BaseTest extends TestCase
     protected function update($eventId, string $updateType)
     {
         $parameters = $this->parameters +
-            ['update_type' => $updateType] +
+            ['updateType' => $updateType] +
             Event::find($eventId)->toArray();
 
         $parameters = collect($parameters)->map(function($value) {
@@ -117,10 +117,8 @@ abstract class BaseTest extends TestCase
     protected function deleteEvent(int $eventId, string $updateType): void
     {
         $this->response = $this->json('DELETE',
-            route('core.calendar.events.destroy', [
-                'event' => $eventId,
-                'updateType' => $updateType
-            ])
+            route('core.calendar.events.destroy', ['event' => $eventId]),
+            ['updateType' => $updateType]
         );
     }
 }

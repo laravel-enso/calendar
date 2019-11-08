@@ -19,7 +19,7 @@ class CreateCalendarEventsTable extends Migration
 
             $table->string('title');
             $table->text('body')->nullable();
-            $table->tinyInteger('frequence');
+            $table->tinyInteger('frequency');
 
             $table->date('start_date')->index();
             $table->time('start_time');

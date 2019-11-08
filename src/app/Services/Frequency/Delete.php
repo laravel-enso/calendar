@@ -8,15 +8,42 @@ use LaravelEnso\Calendar\app\Services\Sequence;
 
 class Delete extends Frequency
 {
+    protected $rootEvent;
+    protected $updateType;
+
     public function handle($updateType)
     {
-        if ($updateType === UpdateType::OnlyThisEvent) {
-            return (new Sequence($this->event))->extract($this->event);
+        $this->updateType = $updateType;
+
+        $this->init()
+            ->break()
+            ->delete();
+    }
+
+    private function init()
+    {
+        $this->rootEvent = $this->updateType === UpdateType::All
+            ? $this->parent()
+            : $this->event;
+
+        return $this;
+    }
+
+    private function break()
+    {
+        switch ($this->updateType) {
+            case UpdateType::OnlyThisEvent:
+                (new Sequence($this->event))->break($this->event, 1);
+                break;
+            case UpdateType::ThisAndFutureEvents:
+                (new Sequence($this->event))->break($this->event);
         }
 
-        Event::sequence($this->parent()->id)
-            ->when($updateType === UpdateType::ThisAndFutureEvents, function ($query) {
-                $query->where('start_date', '>', $this->event->start_date);
-            })->delete();
+        return $this;
+    }
+
+    private function delete()
+    {
+        Event::sequence($this->rootEvent->id)->delete();
     }
 }

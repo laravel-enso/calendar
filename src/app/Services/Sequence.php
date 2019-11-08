@@ -17,47 +17,45 @@ class Sequence
             : $event;
     }
 
-    public function break(Event $event)
+    public function break(Event $event, $gap = 0)
     {
-        if ($this->isParent($event)) {
+        $nextParent = $this->nextParent($event->start_date, $gap) ?? $event;
+
+        if ($this->isParent($nextParent)) {
             return;
         }
 
-        Event::where('start_date', '>', $event->start_date)
+        Event::where('start_date', '>', $nextParent->start_date)
             ->whereParentId($this->root->id)->update([
-                'parent_id' => $event->id,
+                'parent_id' => $nextParent->id,
             ]);
 
-        $event->update([
+        $nextParent->update([
             'parent_id' => null,
         ]);
+
+        Event::between($event->start_date, $nextParent->start_date->clone()->subDay())
+            ->whereParentId($this->root->id)->update([
+                'parent_id' => null,
+                'frequency' => Frequencies::Once,
+                'recurrence_ends_at' => null,
+            ]);
 
         Event::sequence($this->root->id)->update([
             'recurrence_ends_at' => $event->start_date->clone()
-                ->subDay(),
+                ->subDay()->format('Y-m-d'),
         ]);
     }
 
-    public function extract(Event $event)
-    {
-        if ($nextEvent = $this->nextEvent($event->start_date)) {
-            $this->break($nextEvent);
-        }
-
-        $event->update([
-            'parent_id' => null,
-            'frequency' => Frequencies::Once,
-            'recurrence_ends_at' => null,
-        ]);
-    }
-
-    private function nextEvent(Carbon $date)
+    private function nextParent(Carbon $date, $next)
     {
         return $this->root->events
+            ->push($this->root)
             ->sortBy('start_date')
-            ->first(function ($event) use ($date) {
-                return $date->lt($event->start_date);
-            });
+            ->filter(function ($event) use ($date) {
+                return $date->lte($event->start_date);
+            })
+            ->values()->get($next);
     }
 
     private function isParent($event = null)

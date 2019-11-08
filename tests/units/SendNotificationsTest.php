@@ -2,6 +2,7 @@
 
 namespace LaravelEnso\Calendars\tests\units;
 
+use Notification;
 use Carbon\Carbon;
 use Tests\TestCase;
 use LaravelEnso\Core\app\Models\User;
@@ -29,7 +30,7 @@ class SendNotificationsTest extends TestCase
     /** @test */
     public function when_there_is_no_ready_reminders_then_should_not_notify_user()
     {
-        \Notification::fake();
+        Notification::fake();
 
         factory(Reminder::class)->create([
             'scheduled_at'=> Carbon::now()->addDay(),
@@ -38,13 +39,13 @@ class SendNotificationsTest extends TestCase
 
         $this->artisan('enso:calendar:send-reminders');
 
-        \Notification::assertNothingSent();
+        Notification::assertNothingSent();
     }
 
     /** @test */
     public function when_there_a_ready_reminders_then_should_notify_user()
     {
-        \Notification::fake();
+        Notification::fake();
 
         $reminder = factory(Reminder::class)->create([
             'scheduled_at' => Carbon::now()->subDay(),
@@ -54,7 +55,7 @@ class SendNotificationsTest extends TestCase
 
         $this->artisan('enso:calendar:send-reminders');
 
-        \Notification::assertSentTo(
+        Notification::assertSentTo(
             config('auth.providers.users.model')::find($this->user->id),
             ReminderNotification::class
         );

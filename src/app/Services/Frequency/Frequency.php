@@ -29,9 +29,9 @@ abstract class Frequency
         $this->event = $event;
     }
 
-    protected function dates($frequence, $start, $end)
+    protected function dates($frequency, $start, $end)
     {
-        $class = self::$options[$frequence];
+        $class = self::$options[$frequency];
 
         return (new $class($start, $end))->dates();
     }

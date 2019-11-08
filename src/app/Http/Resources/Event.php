@@ -12,13 +12,14 @@ class Event extends JsonResource
     {
         return [
             'id' => $this->getKey(),
-            'title' => $this->title(),
-            'parent_id' => $this->parentId(),
+            'title' => $this->title(). ' '. $this->parentId(),
+            'parentId' => $this->parentId(),
+            'isLast' => $this->isLast(),
             'body' => $this->body(),
             'start' => $this->start()->format('Y-m-d H:i'),
             'end' => $this->end()->format('Y-m-d H:i'),
             'location' => $this->location(),
-            'frequence' => $this->frequence(),
+            'frequency' => $this->frequency(),
             'recurrenceEnds' => optional($this->recurrenceEnds())
                 ->format(config('enso.config.dateFormat')),
             'allDay' => $this->allDay(),
@@ -42,5 +43,16 @@ class Event extends JsonResource
         return $this->resource instanceof EventModel
             ? $this->parent_id
             : null;
+    }
+
+    protected function isLast()
+    {
+        if ($this->parentId()) {
+            $recurrenceEndsAt = EventModel::cacheGet($this->parentId())->recurrence_ends_at;
+
+            return $recurrenceEndsAt->toDateString() === $this->start_date->toDateString();
+        }
+
+        return false;
     }
 }

@@ -21,7 +21,7 @@ class ValidateEventRequest extends FormRequest
             'title' => $this->requiredOrFilled(),
             'body' => 'nullable',
             'calendar_id' => $this->requiredOrFilled().'|in:'.Calendar::pluck('id')->implode(','),
-            'frequence' => $this->requiredOrFilled().'|in:'.Frequencies::keys()->implode(','),
+            'frequency' => $this->requiredOrFilled().'|in:'.Frequencies::keys()->implode(','),
             'location' => 'nullable',
             'lat' => 'nullable',
             'lng' => 'nullable',
@@ -47,16 +47,9 @@ class ValidateEventRequest extends FormRequest
             'recurrence_ends_at',
             'date|required|after_or_equal:start_date',
             function () {
-                return $this->has('frequence')
-                    && $this->get('frequence') !== Frequencies::Once;
+                return $this->has('frequency')
+                    && $this->get('frequency') !== Frequencies::Once;
             });
-
-        if ($this->get('updateType') === UpdateType::OnlyThisEvent
-            && $this->get('frequence') !== Frequencies::Once) {
-            $validator->after(function ($validator) {
-                $validator->errors()->add('frequence', __('Must be once'));
-            });
-        }
     }
 
     protected function requiredOrFilled()

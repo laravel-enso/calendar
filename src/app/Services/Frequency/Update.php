@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use LaravelEnso\Calendar\app\Models\Event;
 use LaravelEnso\Calendar\app\Enums\UpdateType;
 use LaravelEnso\Calendar\app\Services\Sequence;
+use LaravelEnso\Calendar\app\Enums\Frequencies;
 
 class Update extends Frequency
 {
@@ -32,7 +33,7 @@ class Update extends Frequency
     {
         switch ($this->updateType) {
             case UpdateType::OnlyThisEvent:
-                (new Sequence($this->event))->extract($this->event);
+                (new Sequence($this->event))->break($this->event, 1);
                 break;
             case UpdateType::ThisAndFutureEvents:
                 (new Sequence($this->event))->break($this->event);
@@ -111,7 +112,7 @@ class Update extends Frequency
     private function interval()
     {
         return $this->dates(
-            $this->changes['frequence'] ?? $this->event->frequence,
+            $this->changes['frequency'] ?? $this->event->frequency,
             $this->rootEvent->start_date,
             $this->rootEvent->recurrence_ends_at ?? $this->rootEvent->start_date
         );
@@ -137,6 +138,17 @@ class Update extends Frequency
                     : $value;
             })->toArray();
 
+        if ($this->isExtractFromSequence()) {
+            $this->changes['frequency'] = Frequencies::Once;
+            $this->changes['recurrence_ends_at'] = null;
+        }
+
         return $this;
+    }
+
+    private function isExtractFromSequence()
+    {
+        return $this->updateType === UpdateType::OnlyThisEvent
+            && (int) $this->event->frequency !== Frequencies::Once;
     }
 }

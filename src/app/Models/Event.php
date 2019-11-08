@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 use LaravelEnso\Helpers\app\Traits\DateAttributes;
 use LaravelEnso\Calendar\app\Contracts\ProvidesEvent;
+use LaravelEnso\Rememberable\app\Traits\Rememberable;
 use LaravelEnso\Calendar\app\Services\Frequency\Create;
 use LaravelEnso\Calendar\app\Services\Frequency\Delete;
 use LaravelEnso\Calendar\app\Services\Frequency\Update;
@@ -16,12 +17,12 @@ use LaravelEnso\Calendar\app\Contracts\Calendar as CalendarContract;
 
 class Event extends Model implements ProvidesEvent
 {
-    use CreatedBy, DateAttributes;
+    use CreatedBy, DateAttributes, Rememberable;
 
     protected $table = 'calendar_events';
 
     protected $fillable = [
-        'title', 'body', 'calendar', 'frequence', 'location', 'lat', 'lng',
+        'title', 'body', 'calendar', 'frequency', 'location', 'lat', 'lng',
         'start_date', 'end_date', 'start_time', 'end_time', 'is_all_day',
         'recurrence_ends_at', 'calendar_id', 'parent_id',
     ];
@@ -122,9 +123,9 @@ class Event extends Model implements ProvidesEvent
         return Calendar::cacheGet($this->calendar_id);
     }
 
-    public function frequence(): int
+    public function frequency(): int
     {
-        return $this->frequence;
+        return $this->frequency;
     }
 
     public function recurrenceEnds(): ?Carbon
@@ -160,8 +161,6 @@ class Event extends Model implements ProvidesEvent
 
     public function deleteEvent($updateType)
     {
-        $this->delete();
-
         (new Delete($this))->handle($updateType);
 
         return $this;
