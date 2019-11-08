@@ -17,9 +17,11 @@ class Update extends Controller
     {
         $this->authorize('handle', $event);
 
-        $event->updateEvent($request->validated(), $request->get('update_type', UpdateType::Single))
-            ->updateReminders($request->reminders())
-            ->syncAttendees($request->get('attendees'));
+        $event->updateEvent(
+            $request->validated(),
+            (int) $request->get('updateType', UpdateType::OnlyThisEvent)
+        )->updateReminders($request->reminders())
+        ->syncAttendees($request->get('attendees'));
 
         return [
             'message' => __('The event was updated!'),

@@ -19,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->booted(function () {
             $schedule = $this->app->make(Schedule::class);
-            $schedule->command('enso:calendar:notify')->everyMinute();
+            $schedule->command('enso:calendar:send-reminders')->everyMinute();
         });
 
         $this->loadDependencies()
@@ -45,7 +45,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/database/factories' => database_path('factories'),
-        ], 'calendar-factory');
+        ], 'calendar-factories');
 
         $this->publishes([
             __DIR__.'/database/factories' => database_path('factories'),

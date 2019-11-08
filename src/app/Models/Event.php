@@ -12,21 +12,22 @@ use LaravelEnso\Calendar\app\Services\Frequency\Delete;
 use LaravelEnso\Calendar\app\Services\Frequency\Update;
 use LaravelEnso\Core\app\Models\User;
 use LaravelEnso\Helpers\app\Traits\DateAttributes;
+use LaravelEnso\Rememberable\app\Traits\Rememberable;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 
 class Event extends Model implements ProvidesEvent
 {
-    use CreatedBy, DateAttributes;
+    use CreatedBy, DateAttributes, Rememberable;
 
     protected $table = 'calendar_events';
 
     protected $fillable = [
-        'title', 'body', 'calendar', 'frequence', 'location', 'lat', 'lng',
+        'title', 'body', 'calendar', 'frequency', 'location', 'lat', 'lng',
         'start_date', 'end_date', 'start_time', 'end_time', 'is_all_day',
-        'recurrence_ends_at', 'is_readonly', 'calendar_id', 'parent_id',
+        'recurrence_ends_at', 'calendar_id', 'parent_id',
     ];
 
-    protected $casts = ['is_all_day' => 'boolean', 'is_readonly' => 'boolean'];
+    protected $casts = ['is_all_day' => 'boolean'];
 
     protected $dates = ['start_date', 'end_date', 'recurrence_ends_at'];
 
@@ -122,9 +123,9 @@ class Event extends Model implements ProvidesEvent
         return Calendar::cacheGet($this->calendar_id);
     }
 
-    public function frequence(): int
+    public function frequency(): int
     {
-        return $this->frequence;
+        return $this->frequency;
     }
 
     public function recurrenceEnds(): ?Carbon
@@ -139,7 +140,7 @@ class Event extends Model implements ProvidesEvent
 
     public function readonly(): bool
     {
-        return $this->is_readonly;
+        return false;
     }
 
     public function createEvent($attributes)
@@ -153,17 +154,13 @@ class Event extends Model implements ProvidesEvent
 
     public function updateEvent($attributes, $updateType)
     {
-        $this->update($attributes);
-
-        (new Update($this))->handle($updateType);
+        (new Update($this))->handle($attributes, $updateType);
 
         return $this;
     }
 
     public function deleteEvent($updateType)
     {
-        $this->delete();
-
         (new Delete($this))->handle($updateType);
 
         return $this;

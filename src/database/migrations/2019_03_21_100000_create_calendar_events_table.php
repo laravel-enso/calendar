@@ -19,7 +19,7 @@ class CreateCalendarEventsTable extends Migration
 
             $table->string('title');
             $table->text('body')->nullable();
-            $table->tinyInteger('frequence');
+            $table->tinyInteger('frequency');
 
             $table->date('start_date')->index();
             $table->time('start_time');
@@ -29,7 +29,6 @@ class CreateCalendarEventsTable extends Migration
             $table->date('recurrence_ends_at')->nullable();
 
             $table->boolean('is_all_day');
-            $table->boolean('is_readonly');
 
             $table->string('location')->nullable();
             $table->decimal('lat', 10, 8)->nullable();

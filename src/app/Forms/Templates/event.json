@@ -29,7 +29,7 @@
             }
         }, {
             "column": 3,
-            "label": "time",
+            "label": "Time",
             "name": "start_time",
             "value": null,
             "meta": {
@@ -51,7 +51,7 @@
             }
         }, {
             "column": 3,
-            "label": "time",
+            "label": "Time",
             "name": "end_time",
             "value": null,
             "meta": {
@@ -81,25 +81,6 @@
             "meta": {
                 "type": "input",
                 "content": "checkbox"
-            }
-        }, {
-            "label": "Readonly",
-            "name": "is_readonly",
-            "value": false,
-            "meta": {
-                "hidden": true,
-                "type": "input",
-                "content": "checkbox"
-            }
-        }, {
-            "label": "Update Occurrence",
-            "name": "update_type",
-            "value": null,
-            "meta": {
-                "hidden": true,
-                "custom": true,
-                "type": "select",
-                "options": "LaravelEnso\\Calendar\\app\\Enums\\UpdateType"
             }
         }]
     }, {
@@ -133,14 +114,13 @@
             }
         }]
     }, {
-        "tab": "Frequence & Alerts",
+        "tab": "frequency & Alerts",
         "columns": 1,
         "fields": [{
-            "label": "Frequence",
-            "name": "frequence",
+            "label": "frequency",
+            "name": "frequency",
             "value": 1,
             "meta": {
-                "disabled": true,
                 "custom": true,
                 "type": "select",
                 "options": "LaravelEnso\\Calendar\\app\\Enums\\Frequencies"

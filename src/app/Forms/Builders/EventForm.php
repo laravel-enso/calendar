@@ -3,7 +3,6 @@
 namespace LaravelEnso\Calendar\app\Forms\Builders;
 
 use LaravelEnso\Calendar\app\Enums\Frequencies;
-use LaravelEnso\Calendar\app\Enums\UpdateType;
 use LaravelEnso\Calendar\app\Http\Resources\Reminder;
 use LaravelEnso\Calendar\app\Models\Event;
 use LaravelEnso\Forms\app\Services\Form;
@@ -32,13 +31,11 @@ class EventForm
     public function edit(Event $event)
     {
         return $this->form->value('attendees', $event->attendeeList())
-            ->meta('recurrence_ends_at', 'hidden', $event->frequence === Frequencies::Once)
-            ->meta('update_type', 'hidden', $event->frequence === Frequencies::Once)
+            ->meta('recurrence_ends_at', 'hidden', $event->frequency === Frequencies::Once)
             ->value('reminders', Reminder::collection($event->reminders))
             ->value('start_time', date('H:i', strtotime($event->start_time)))
             ->value('end_time', date('H:i', strtotime($event->end_time)))
-            ->value('update_type', UpdateType::Single)
-            ->actions(['update'])
+            ->actions([])
             ->edit($event);
     }
 

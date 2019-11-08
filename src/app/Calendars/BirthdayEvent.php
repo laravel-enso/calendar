@@ -54,7 +54,7 @@ class BirthdayEvent implements ProvidesEvent
         return new BirthdayCalendar();
     }
 
-    public function frequence(): int
+    public function frequency(): int
     {
         return Frequencies::Yearly;
     }

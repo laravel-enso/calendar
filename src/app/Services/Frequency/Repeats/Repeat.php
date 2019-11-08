@@ -2,25 +2,26 @@
 
 namespace LaravelEnso\Calendar\app\Services\Frequency\Repeats;
 
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
-use LaravelEnso\Calendar\app\Models\Event;
 
 abstract class Repeat
 {
-    protected $event;
+    protected $start;
+    protected $end;
 
-    public function __construct(Event $event)
+    public function __construct(Carbon $start, Carbon $end)
     {
-        $this->event = $event;
+        $this->start = $start;
+        $this->end = $end;
     }
 
     abstract public function dates(): Collection;
 
     protected function interval()
     {
-        $start = $this->event->start_date;
-        $end = $this->event->recurrenceEnds();
-
-        return collect($start->daysUntil($end)->toArray());
+        return collect(
+            $this->start->daysUntil($this->end->endOfDay())->toArray()
+        );
     }
 }

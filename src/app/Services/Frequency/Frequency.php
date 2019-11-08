@@ -13,7 +13,7 @@ use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Yearly;
 
 abstract class Frequency
 {
-    private static $frequencies = [
+    private static $options = [
         Frequencies::Once => Once::class,
         Frequencies::Daily => Daily::class,
         Frequencies::Weekly => Weekly::class,
@@ -29,11 +29,11 @@ abstract class Frequency
         $this->event = $event;
     }
 
-    protected function dates()
+    protected function dates($frequency, $start, $end)
     {
-        $class = self::$frequencies[$this->event->frequence()];
+        $class = self::$options[$frequency];
 
-        return (new $class($this->parent()))->dates();
+        return (new $class($start, $end))->dates();
     }
 
     protected function parent()
@@ -50,7 +50,7 @@ abstract class Frequency
 
     protected function replicate($date)
     {
-        return $this->event->replicate(['id'])->fill([
+        return $this->event->replicate()->fill([
             'parent_id' => $this->parent()->id,
             'start_date' => $date,
             'end_date' => $date,

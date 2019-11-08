@@ -2,37 +2,48 @@
 
 namespace LaravelEnso\Calendar\app\Services\Frequency;
 
-use Illuminate\Support\Facades\DB;
 use LaravelEnso\Calendar\app\Enums\UpdateType;
 use LaravelEnso\Calendar\app\Models\Event;
+use LaravelEnso\Calendar\app\Services\Sequence;
 
 class Delete extends Frequency
 {
+    protected $rootEvent;
+    protected $updateType;
+
     public function handle($updateType)
     {
-        if ($this->parent()->events->isEmpty()) {
-            return;
-        }
+        $this->updateType = $updateType;
 
-        if ($updateType === UpdateType::Single) {
-            return $this->isParent()
-                ? $this->changeParent()
-                : null;
-        }
-
-        Event::sequence($this->parent()->id)
-            ->when($updateType === UpdateType::Futures, function ($query) {
-                $query->where('start_date', '>', $this->event->start_date);
-            })->delete();
+        $this->init()
+            ->break()
+            ->delete();
     }
 
-    protected function changeParent()
+    private function init()
     {
-        $nextEventId = $this->parent()->events
-            ->sortBy('start_date')->first()->id;
+        $this->rootEvent = $this->updateType === UpdateType::All
+            ? $this->parent()
+            : $this->event;
 
-        Event::whereParentId($this->parent()->id)->update([
-            'parent_id' => DB::raw("IF(id = {$nextEventId},NULL,{$nextEventId})"),
-        ]);
+        return $this;
+    }
+
+    private function break()
+    {
+        switch ($this->updateType) {
+            case UpdateType::OnlyThisEvent:
+                (new Sequence($this->event))->break($this->event, 1);
+                break;
+            case UpdateType::ThisAndFutureEvents:
+                (new Sequence($this->event))->break($this->event);
+        }
+
+        return $this;
+    }
+
+    private function delete()
+    {
+        Event::sequence($this->rootEvent->id)->delete();
     }
 }

@@ -4,7 +4,6 @@ namespace LaravelEnso\Calendar\app\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\Calendar\app\Contracts\Calendar as Contract;
-use LaravelEnso\Calendar\app\Services\Request;
 use LaravelEnso\Rememberable\app\Traits\Rememberable;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 
@@ -15,13 +14,6 @@ class Calendar extends Model implements Contract
     protected $fillable = ['name', 'color', 'private'];
 
     protected $casts = ['private' => 'boolean'];
-
-    // public static function events(Request $request): Collection
-    // {
-    //     return (new Frequency($request))->events(
-    //         Event::calendars($request->calendars())
-    //     );
-    // }
 
     public function events()
     {

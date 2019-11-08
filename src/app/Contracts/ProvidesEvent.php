@@ -20,7 +20,7 @@ interface ProvidesEvent
 
     public function getCalendar(): Calendar;
 
-    public function frequence(): int;
+    public function frequency(): int;
 
     public function recurrenceEnds(): ?Carbon;
 

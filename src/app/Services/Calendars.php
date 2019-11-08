@@ -3,6 +3,7 @@
 namespace LaravelEnso\Calendar\app\Services;
 
 use Illuminate\Support\Facades\Auth;
+use LaravelEnso\Calendar\app\Calendars\BirthdayCalendar;
 use LaravelEnso\Calendar\app\Contracts\Calendar as Contract;
 use LaravelEnso\Calendar\app\Models\Calendar;
 
@@ -20,15 +21,14 @@ class Calendars
     {
         if (! $this->ready) {
             $this->register(Calendar::get());
+            $this->register(BirthdayCalendar::class);
             $this->ready = true;
         }
 
         return Auth::user()->isAdmin() || Auth::user()->isSupervisor()
             ? $this->calendars
             : $this->calendars->filter(function ($calendar) {
-                return ! $calendar->private()
-                    || $calendar instanceof Calendar
-                        && Auth::user()->id === $calendar->created_by;
+                return Auth::user()->can('access', $calendar);
             });
     }
 

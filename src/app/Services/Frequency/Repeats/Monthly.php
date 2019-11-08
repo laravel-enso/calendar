@@ -11,7 +11,7 @@ class Monthly extends Repeat
     {
         return $this->interval()
             ->filter(function (Carbon $date) {
-                return $date->day === $this->event->start_date->day;
+                return $date->day === $this->start->day;
             });
     }
 }

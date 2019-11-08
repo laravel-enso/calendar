@@ -21,7 +21,7 @@ class ValidateEventRequest extends FormRequest
             'title' => $this->requiredOrFilled(),
             'body' => 'nullable',
             'calendar_id' => $this->requiredOrFilled().'|in:'.Calendar::pluck('id')->implode(','),
-            'frequence' => $this->requiredOrFilled().'|in:'.Frequencies::keys()->implode(','),
+            'frequency' => $this->requiredOrFilled().'|in:'.Frequencies::keys()->implode(','),
             'location' => 'nullable',
             'lat' => 'nullable',
             'lng' => 'nullable',
@@ -32,8 +32,7 @@ class ValidateEventRequest extends FormRequest
             'attendees.*' => 'exists:users,id',
             'recurrence_ends_at' => 'nullable',
             'is_all_day' => $this->requiredOrFilled().'|boolean',
-            'is_readonly' => $this->requiredOrFilled().'|boolean',
-            'update_type' => 'nullable|in:'.UpdateType::keys()->implode(','),
+            'updateType' => 'nullable|in:'.UpdateType::keys()->implode(','),
         ];
     }
 
@@ -44,21 +43,18 @@ class ValidateEventRequest extends FormRequest
                 && $this->get('start_date') === $this->get('end_date');
         });
 
-        $validator->sometimes('recurrence_ends_at', 'date|required|after:start_date', function () {
-            return $this->has('frequence')
-                && $this->get('frequence') !== Frequencies::Once;
-        });
-
-        if ($this->filled('is_readonly') && $this->get('is_readonly') !== false) {
-            $validator->after(function ($validator) {
-                $validator->errors()->add('is_readonly', __('Must be false'));
+        $validator->sometimes(
+            'recurrence_ends_at',
+            'date|required|after_or_equal:start_date',
+            function () {
+                return $this->has('frequency')
+                    && $this->get('frequency') !== Frequencies::Once;
             });
-        }
     }
 
     protected function requiredOrFilled()
     {
-        return $this->getMethod() === 'POST'
+        return $this->method() === 'POST'
             ? 'required'
             : 'filled';
     }

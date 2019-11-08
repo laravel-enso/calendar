@@ -11,8 +11,7 @@ class Store extends Controller
 {
     public function __invoke(ValidateCalendarRequest $request, Calendar $calendar)
     {
-        $calendar->fill($request->validated())
-            ->save();
+        $calendar->fill($request->validated())->save();
 
         return [
             'message' => __('The calendar was created!'),
