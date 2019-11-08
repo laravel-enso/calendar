@@ -12,7 +12,7 @@ class Event extends JsonResource
     {
         return [
             'id' => $this->getKey(),
-            'title' => $this->title(). ' '. $this->parentId(),
+            'title' => $this->title().' '.$this->parentId(),
             'parentId' => $this->parentId(),
             'isLast' => $this->isLast(),
             'body' => $this->body(),

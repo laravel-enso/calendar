@@ -3,8 +3,8 @@
 namespace LaravelEnso\Calendar\app\Services;
 
 use Carbon\Carbon;
-use LaravelEnso\Calendar\app\Models\Event;
 use LaravelEnso\Calendar\app\Enums\Frequencies;
+use LaravelEnso\Calendar\app\Models\Event;
 
 class Sequence
 {

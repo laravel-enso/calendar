@@ -3,9 +3,9 @@
 namespace LaravelEnso\Calendar\app\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use LaravelEnso\TrackWho\app\Traits\CreatedBy;
-use LaravelEnso\Rememberable\app\Traits\Rememberable;
 use LaravelEnso\Calendar\app\Contracts\Calendar as Contract;
+use LaravelEnso\Rememberable\app\Traits\Rememberable;
+use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 
 class Calendar extends Model implements Contract
 {
