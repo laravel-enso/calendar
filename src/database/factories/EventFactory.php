@@ -1,11 +1,9 @@
 <?php
 
-use Carbon\Carbon;
 use Faker\Generator as Faker;
-use LaravelEnso\Calendar\app\Models\Event;
-use LaravelEnso\Calendar\app\Models\Calendar;
-use LaravelEnso\Calendar\app\Models\Reminder;
 use LaravelEnso\Calendar\app\Enums\Frequencies;
+use LaravelEnso\Calendar\app\Models\Calendar;
+use LaravelEnso\Calendar\app\Models\Event;
 
 $factory->define(Event::class, function (Faker $faker) {
     $date = $faker->date(config('enso.config.dateFormat'));
@@ -24,6 +22,6 @@ $factory->define(Event::class, function (Faker $faker) {
         'is_all_day' => false,
         'location' => $faker->city,
         'lat' => $faker->latitude,
-        'lng' => $faker->longitude
+        'lng' => $faker->longitude,
     ];
 });
