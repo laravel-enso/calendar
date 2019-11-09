@@ -2,8 +2,8 @@
 
 namespace LaravelEnso\Calendar\app\Services\Frequency;
 
-use LaravelEnso\Calendar\app\Enums\UpdateType;
 use LaravelEnso\Calendar\app\Models\Event;
+use LaravelEnso\Calendar\app\Enums\UpdateType;
 use LaravelEnso\Calendar\app\Services\Sequence;
 
 class Delete extends Frequency

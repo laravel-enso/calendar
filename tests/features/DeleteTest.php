@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelEnso\Calendars\tests\features;
+namespace LaravelEnso\Calendar\tests\features;
 
 use LaravelEnso\Calendar\app\Models\Event;
 use LaravelEnso\Calendar\app\Enums\UpdateType;

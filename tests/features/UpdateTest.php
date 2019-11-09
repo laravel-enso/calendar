@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelEnso\Calendars\tests\features;
+namespace LaravelEnso\Calendar\tests\features;
 
 use LaravelEnso\Calendar\app\Models\Event;
 use LaravelEnso\Calendar\app\Enums\UpdateType;
@@ -33,8 +33,8 @@ class UpdateTest extends BaseTest
     public function can_update_future_date_events()
     {
         $this->parameters = [
-            'start_date' => now()->addDay(),
-            'end_date' => now()->addDay(),
+            'start_date' => now()->addDay()->format('Y-m-d'),
+            'end_date' => now()->addDay()->format('Y-m-d'),
         ];
 
         $this->create()->update(3, UpdateType::ThisAndFutureEvents);
@@ -48,8 +48,8 @@ class UpdateTest extends BaseTest
     public function can_update_all_date_events()
     {
         $this->parameters = [
-            'start_date' => now()->addDay(),
-            'end_date' => now()->addDay(),
+            'start_date' => now()->addDay()->format('Y-m-d'),
+            'end_date' => now()->addDay()->format('Y-m-d'),
         ];
 
         $this->create()->update(3, UpdateType::All);
@@ -73,7 +73,7 @@ class UpdateTest extends BaseTest
     public function can_update_decrease_recurrence_ends_at_events()
     {
         $this->parameters = [
-            'recurrence_ends_at' => $this->date->clone()->addDays(2),
+            'recurrence_ends_at' => $this->date->clone()->addDays(2)->format('Y-m-d'),
         ];
 
         $this->create()->update(1, UpdateType::All);
@@ -98,7 +98,7 @@ class UpdateTest extends BaseTest
 
         $this->parameters = [
             'frequency' => Frequencies::Daily,
-            'recurrence_ends_at' => $this->date->clone()->addDays(4),
+            'recurrence_ends_at' => $this->date->clone()->addDays(4)->format('Y-m-d'),
         ];
 
         $this->create()->update(1, UpdateType::OnlyThisEvent);

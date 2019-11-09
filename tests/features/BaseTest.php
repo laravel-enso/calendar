@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelEnso\Calendars\tests\features;
+namespace LaravelEnso\Calendar\tests\features;
 
 use Carbon\Carbon;
 use Tests\TestCase;
@@ -74,47 +74,36 @@ abstract class BaseTest extends TestCase
         $this->assertEquals($expected->toDateString(), $actual->toDateString());
     }
 
-    protected function dateFormat($date)
-    {
-        return $date->format(config('enso.config.dateFormat'));
-    }
-
     protected function create()
     {
         $recurrenceEndsAt = $this->date->clone()->addDays($this->count - 1);
 
         $this->response = $this->json('POST', route('core.calendar.events.store'),
-            ['start_date' => $this->dateFormat($this->date)] +
-            ['end_date' => $this->dateFormat($this->date)] +
-            ['recurrence_ends_at' => $this->dateFormat($recurrenceEndsAt)] +
+            ['start_date' => $this->date->format('Y-m-d')] +
+            ['end_date' => $this->date->format('Y-m-d')] +
+            ['recurrence_ends_at' => $recurrenceEndsAt->format('Y-m-d')] +
             $this->event->toArray()
         );
 
         return $this;
     }
 
-    protected function update($eventId, string $updateType)
+    protected function update($eventId, int $updateType)
     {
         $parameters = $this->parameters +
             ['updateType' => $updateType] +
             Event::find($eventId)->toArray();
 
-        $parameters = collect($parameters)->map(function($value) {
-            return $value instanceof Carbon
-                ? $this->dateFormat($value)
-                : $value;
-        });
-
         $this->response = $this->json(
             'PATCH',
             route('core.calendar.events.update', ['event' => $eventId]),
-            $parameters->toArray()
+            $parameters
         );
 
         return Event::find($eventId);
     }
 
-    protected function deleteEvent(int $eventId, string $updateType): void
+    protected function deleteEvent(int $eventId, int $updateType): void
     {
         $this->response = $this->json('DELETE',
             route('core.calendar.events.destroy', ['event' => $eventId]),
