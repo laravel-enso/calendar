@@ -10,6 +10,7 @@ class Index extends Controller
 {
     public function __invoke()
     {
+        \Log::info('?????');
         return Calendar::collection(Calendars::all());
     }
 }

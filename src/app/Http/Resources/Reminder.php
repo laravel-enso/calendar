@@ -11,8 +11,7 @@ class Reminder extends JsonResource
         return [
             'id' => $this->id,
             'event_id' => $this->event_id,
-            'scheduled_at' => $this->scheduled_at
-                ->format(config('enso.config.dateFormat').' H:i'),
+            'scheduled_at' => $this->scheduled_at,
         ];
     }
 }

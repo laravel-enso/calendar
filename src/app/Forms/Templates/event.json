@@ -114,7 +114,7 @@
             }
         }]
     }, {
-        "tab": "frequency & Alerts",
+        "tab": "Frequency & Alerts",
         "columns": 1,
         "fields": [{
             "label": "frequency",
@@ -131,8 +131,6 @@
             "value": null,
             "meta": {
                 "disabled": false,
-                "min": null,
-                "max": null,
                 "hidden": true,
                 "type": "datepicker"
             }

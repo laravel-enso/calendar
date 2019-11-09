@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelEnso\Calendar\app\Http\Controllers\Event;
+namespace LaravelEnso\Calendar\app\Http\Controllers\Events;
 
 use Illuminate\Routing\Controller;
 use LaravelEnso\Calendar\app\Models\Event;
@@ -18,7 +18,7 @@ class Store extends Controller
         $this->authorize(
             'handle', Calendar::cacheGet($request->get('calendar_id'))
         );
-
+        \Log::info($request->validated());
         $event = $event->createEvent($request->validated())
             ->createReminders($request->reminders())
             ->syncAttendees($request->get('attendees'));

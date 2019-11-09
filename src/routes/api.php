@@ -16,7 +16,7 @@ Route::middleware(['web', 'auth', 'core'])
                 Route::get('options', 'Options')->name('options');
             });
 
-        Route::namespace('Event')
+        Route::namespace('Events')
             ->prefix('events')
             ->as('events.')
             ->group(function () {

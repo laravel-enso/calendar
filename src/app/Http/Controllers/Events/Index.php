@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelEnso\Calendar\app\Http\Controllers\Event;
+namespace LaravelEnso\Calendar\app\Http\Controllers\Events;
 
 use Illuminate\Routing\Controller;
 use LaravelEnso\Calendar\app\Http\Requests\ValidateEventIndexRequest;
