@@ -4,13 +4,12 @@ namespace LaravelEnso\Calendar\app\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use LaravelEnso\Calendar\app\Notifications\ReminderNotification;
-use LaravelEnso\Helpers\app\Traits\DateAttributes;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
+use LaravelEnso\Calendar\app\Notifications\ReminderNotification;
 
 class Reminder extends Model
 {
-    use CreatedBy, DateAttributes;
+    use CreatedBy;
 
     protected $table = 'calendar_reminders';
 
@@ -34,12 +33,5 @@ class Reminder extends Model
     {
         return $query->whereNull('sent_at')
             ->where('scheduled_at', '<=', Carbon::now());
-    }
-
-    public function setScheduledAtAttribute($value)
-    {
-        $this->fillDateAttribute(
-            'scheduled_at', $value, config('enso.config.dateFormat').' H:i'
-        );
     }
 }

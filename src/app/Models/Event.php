@@ -3,21 +3,20 @@
 namespace LaravelEnso\Calendar\app\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use LaravelEnso\Calendar\app\Contracts\Calendar as CalendarContract;
+use LaravelEnso\Core\app\Models\User;
+use Illuminate\Database\Eloquent\Model;
+use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 use LaravelEnso\Calendar\app\Contracts\ProvidesEvent;
+use LaravelEnso\Rememberable\app\Traits\Rememberable;
 use LaravelEnso\Calendar\app\Services\Frequency\Create;
 use LaravelEnso\Calendar\app\Services\Frequency\Delete;
 use LaravelEnso\Calendar\app\Services\Frequency\Update;
-use LaravelEnso\Core\app\Models\User;
-use LaravelEnso\Helpers\app\Traits\DateAttributes;
-use LaravelEnso\Rememberable\app\Traits\Rememberable;
-use LaravelEnso\TrackWho\app\Traits\CreatedBy;
+use LaravelEnso\Calendar\app\Contracts\Calendar as CalendarContract;
 
 class Event extends Model implements ProvidesEvent
 {
-    use CreatedBy, DateAttributes, Rememberable;
+    use CreatedBy, Rememberable;
 
     protected $table = 'calendar_events';
 
@@ -59,21 +58,6 @@ class Event extends Model implements ProvidesEvent
     public function reminders()
     {
         return $this->hasMany(Reminder::class);
-    }
-
-    public function setStartDateAttribute($value)
-    {
-        $this->fillDateAttribute('start_date', $value);
-    }
-
-    public function setEndDateAttribute($value)
-    {
-        $this->fillDateAttribute('end_date', $value);
-    }
-
-    public function setRecurrenceEndsAtAttribute($value)
-    {
-        $this->fillDateAttribute('recurrence_ends_at', $value);
     }
 
     public function updateReminders($reminders)
