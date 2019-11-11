@@ -11,7 +11,7 @@ class Reminder extends JsonResource
         return [
             'id' => $this->id,
             'event_id' => $this->event_id,
-            'scheduled_at' => $this->scheduled_at,
+            'scheduled_at' => $this->scheduled_at->format('Y-m-d H:i:s'),
         ];
     }
 }
