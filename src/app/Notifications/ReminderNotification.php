@@ -38,8 +38,10 @@ class ReminderNotification extends Notification implements ShouldQueue
     public function toMail()
     {
         return (new MailMessage())
-            ->subject(__(config('app.name')).': '.__('Notification, :title', ['title' => $this->reminder->event->title]))
-            ->markdown('laravel-enso/calendar::emails.reminder_notify', [
+            ->subject(__(
+                config('app.name')).': '.__('Notification, :title',
+                ['title' => $this->reminder->event->title]
+            ))->markdown('laravel-enso/calendar::emails.reminder_notify', [
                 'appellative' => $this->reminder->createdBy->person->appellative,
                 'url' => url('/calendar'),
                 'title' => $this->reminder->event->title,

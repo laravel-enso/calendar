@@ -40,7 +40,9 @@ class AppServiceProvider extends ServiceProvider
     private function publishDependencies()
     {
         $this->publishes([
-            __DIR__.'/../stubs/CalendarServiceProvider.stub' => app_path('Providers/CalendarServiceProvider.php'),
+            __DIR__.'/../stubs/CalendarServiceProvider.stub' => app_path(
+                'Providers/CalendarServiceProvider.php'
+            ),
         ], 'calendar-provider');
 
         $this->publishes([

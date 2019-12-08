@@ -6,13 +6,13 @@ use LaravelEnso\Enums\app\Services\Enum;
 
 class Colors extends Enum
 {
-    const Red = 'red';
-    const Blue = 'blue';
-    const Green = 'green';
-    const Yellow = 'yellow';
-    const Pink = 'pink';
-    const Purple = 'purple';
-    const Gray = 'gray';
-    const Orange = 'orange';
-    const Brown = 'brown';
+    public const Red = 'red';
+    public const Blue = 'blue';
+    public const Green = 'green';
+    public const Yellow = 'yellow';
+    public const Pink = 'pink';
+    public const Purple = 'purple';
+    public const Gray = 'gray';
+    public const Orange = 'orange';
+    public const Brown = 'brown';
 }

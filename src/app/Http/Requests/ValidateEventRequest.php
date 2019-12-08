@@ -52,18 +52,18 @@ class ValidateEventRequest extends FormRequest
             });
     }
 
-    protected function requiredOrFilled()
-    {
-        return $this->method() === 'POST'
-            ? 'required'
-            : 'filled';
-    }
-
     public function reminders()
     {
         return collect($this->get('reminders'))
             ->reject(function ($reminder) {
                 return empty($reminder['scheduled_at']);
             });
+    }
+
+    protected function requiredOrFilled()
+    {
+        return $this->method() === 'POST'
+            ? 'required'
+            : 'filled';
     }
 }

@@ -13,6 +13,8 @@ use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Yearly;
 
 abstract class Frequency
 {
+    protected $event;
+
     private static $options = [
         Frequencies::Once => Once::class,
         Frequencies::Daily => Daily::class,
@@ -21,8 +23,6 @@ abstract class Frequency
         Frequencies::Monthly => Monthly::class,
         Frequencies::Yearly => Yearly::class,
     ];
-
-    protected $event;
 
     public function __construct(Event $event)
     {

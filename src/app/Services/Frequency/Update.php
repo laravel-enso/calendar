@@ -94,8 +94,7 @@ class Update extends Frequency
             ->map(function ($date, $attribute) {
                 return $this->event->{$attribute}->startOfDay()
                     ->diffInDays($this->changes[$attribute], false);
-            })->filter()
-            ->map(function ($deltaDay, $attribute) {
+            })->filter()->map(function ($deltaDay, $attribute) {
                 return $this->addDays($attribute, $deltaDay);
             });
     }
@@ -121,8 +120,8 @@ class Update extends Frequency
     private function addDays($attribute, $deltaDay)
     {
         return DB::getDriverName() === 'sqlite'
-            ? DB::raw("DATE({$attribute}, '$deltaDay DAY')")
-            : DB::raw("DATE_ADD({$attribute}, INTERVAL $deltaDay DAY)");
+            ? DB::raw("DATE({$attribute}, '{$deltaDay} DAY')")
+            : DB::raw("DATE_ADD({$attribute}, INTERVAL {$deltaDay} DAY)");
     }
 
     private function init()

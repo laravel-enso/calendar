@@ -31,13 +31,6 @@ class Event extends JsonResource
         ];
     }
 
-    private function route()
-    {
-        return $this->resource instanceof Routable
-            ? $this->resource->route()->toArray()
-            : null;
-    }
-
     protected function parentId()
     {
         return $this->resource instanceof EventModel
@@ -54,5 +47,12 @@ class Event extends JsonResource
         }
 
         return false;
+    }
+
+    private function route()
+    {
+        return $this->resource instanceof Routable
+            ? $this->resource->route()->toArray()
+            : null;
     }
 }

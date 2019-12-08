@@ -6,10 +6,10 @@ use LaravelEnso\Enums\app\Services\Enum;
 
 class Frequencies extends Enum
 {
-    const Once = 1;
-    const Daily = 2;
-    const Weekdays = 3;
-    const Weekly = 4;
-    const Monthly = 5;
-    const Yearly = 6;
+    public const Once = 1;
+    public const Daily = 2;
+    public const Weekdays = 3;
+    public const Weekly = 4;
+    public const Monthly = 5;
+    public const Yearly = 6;
 }

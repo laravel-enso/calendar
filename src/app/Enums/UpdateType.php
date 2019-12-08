@@ -6,18 +6,15 @@ use LaravelEnso\Enums\app\Services\Enum;
 
 class UpdateType extends Enum
 {
-    const OnlyThisEvent = 1;
-    const ThisAndFutureEvents = 2;
-    const All = 3;
+    public const OnlyThisEvent = 1;
+    public const ThisAndFutureEvents = 2;
+    public const All = 3;
 
-    protected static function attributes()
-    {
-        return [
-            static::OnlyThisEvent => 'Only This Event',
-            static::ThisAndFutureEvents => 'This And Future Events',
-            static::All => 'All',
-        ];
-    }
+    protected static $data = [
+        self::OnlyThisEvent => 'Only This Event',
+        self::ThisAndFutureEvents => 'This And Future Events',
+        self::All => 'All',
+    ];
 
     public static function forParent()
     {
