@@ -10,8 +10,6 @@ class Weekly extends Repeat
     public function dates(): Collection
     {
         return $this->interval()
-            ->filter(function (Carbon $date) {
-                return $this->start->dayOfWeek === $date->dayOfWeek;
-            });
+            ->filter(fn(Carbon $date) => $this->start->dayOfWeek === $date->dayOfWeek);
     }
 }

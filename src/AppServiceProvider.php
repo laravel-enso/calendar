@@ -17,10 +17,10 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->commands(SendReminders::class);
 
-        $this->app->booted(function () {
-            $schedule = $this->app->make(Schedule::class);
-            $schedule->command('enso:calendar:send-reminders')->everyMinute();
-        });
+        $this->app->booted(fn() => (
+            $this->app->make(Schedule::class)
+                ->command('enso:calendar:send-reminders')->everyMinute()
+        ));
 
         $this->loadDependencies()
             ->publishDependencies();

@@ -39,11 +39,11 @@ abstract class BaseTest extends TestCase
 
     protected function assertStartDates($dates, $events = null)
     {
-        $dates = collect($dates)->map(function($day) {
-            return now()->addDays($day)->toDateString();
-        })->toArray();
+        $dates = collect($dates)
+            ->map(fn($day) => now()->addDays($day)->toDateString())
+            ->toArray();
 
-        $events = $events ?? Event::all();
+        $events ??= Event::all();
 
         $this->assertEquals(
             $dates,
@@ -53,7 +53,7 @@ abstract class BaseTest extends TestCase
 
     protected function assertParents($parents, $events = null)
     {
-        $events = $events ?? Event::all();
+        $events ??= Event::all();
 
         $this->assertEquals(
             $parents,

@@ -27,35 +27,28 @@ class Calendars
 
         return Auth::user()->isAdmin() || Auth::user()->isSupervisor()
             ? $this->calendars
-            : $this->calendars->filter(function ($calendar) {
-                return Auth::user()->can('access', $calendar);
-            });
+            : $this->calendars->filter(fn($calendar) => (
+                Auth::user()->can('access', $calendar)
+            ));
     }
 
     public function only(array $calendars)
     {
-        return $this->all()->filter(function ($calendar) use ($calendars) {
-            return in_array($calendar->getKey(), $calendars);
-        });
+        return $this->all()
+            ->filter(fn($calendar) => in_array($calendar->getKey(), $calendars));
     }
 
     public function keys()
     {
-        return $this->all()->map(function ($calendar) {
-            return $calendar->getKey();
-        });
+        return $this->all()->map(fn($calendar) => $calendar->getKey());
     }
 
     public function register($calendars)
     {
         collect($calendars)
-            ->map(function ($calendar) {
-                return is_string($calendar) ? new $calendar() : $calendar;
-            })->reject(function ($calendar) {
-                return $this->registered($calendar);
-            })->each(function (Contract $calendar) {
-                $this->calendars->push($calendar);
-            });
+            ->map(fn($calendar) => is_string($calendar) ? new $calendar() : $calendar)
+            ->reject(fn($calendar) => $this->registered($calendar))
+            ->each(fn (Contract $calendar) => $this->calendars->push($calendar));
     }
 
     public function remove($aliases)
@@ -65,8 +58,7 @@ class Calendars
 
     private function registered($calendar)
     {
-        return $this->calendars->contains(function ($existing) use ($calendar) {
-            return $existing->getKey() === $calendar->getKey();
-        });
+        return $this->calendars
+            ->contains(fn($existing) => ($existing->getKey() === $calendar->getKey()));
     }
 }

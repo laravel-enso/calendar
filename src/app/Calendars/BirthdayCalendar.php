@@ -51,9 +51,8 @@ class BirthdayCalendar implements CustomCalendar
             )->when(
                 $this->withinSameYear() && ! $this->withinSameMonth(),
                 $this->differentMonthQuery()
-            )->get()->map(function ($person) {
-                return new BirthdayEvent($person, $this->year($person));
-            });
+            )->get()
+            ->map(fn($person) => new BirthdayEvent($person, $this->year($person)));
     }
 
     private function sameMonthQuery()
