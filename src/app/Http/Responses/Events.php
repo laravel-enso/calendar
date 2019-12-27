@@ -48,7 +48,7 @@ class Events implements Responsable
                     $this->request->get('startDate'),
                     $this->request->get('endDate')
                 )
-            ), collect());
+            ), new Collection());
     }
 
     private function isNative($calendar)

@@ -53,7 +53,7 @@ class Calendars
 
     public function remove($aliases)
     {
-        $this->calendars->forget(collect($aliases));
+        $this->calendars->forget($aliases);
     }
 
     private function registered($calendar)

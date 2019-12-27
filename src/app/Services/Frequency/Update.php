@@ -85,7 +85,8 @@ class Update extends Frequency
 
     private function changeDates()
     {
-        return collect($this->changes)->only(['start_date', 'end_date'])
+        return (new Collection($this->changes))
+            ->only(['start_date', 'end_date'])
             ->map(fn ($date, $attribute) => $this->event
                 ->{$attribute}->startOfDay()
                 ->diffInDays($this->changes[$attribute], false)
@@ -95,7 +96,7 @@ class Update extends Frequency
 
     private function eventDates()
     {
-        return collect([$this->rootEvent])
+        return (new Collection([$this->rootEvent]))
             ->concat($this->rootEvent->events)
             ->map(fn (Event $event) => $event->start_date->toDateString());
     }

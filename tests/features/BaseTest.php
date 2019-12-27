@@ -5,6 +5,7 @@ namespace LaravelEnso\Calendar\tests\features;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestResponse;
+use Illuminate\Support\Collection;
 use LaravelEnso\Calendar\app\Enums\Frequencies;
 use LaravelEnso\Calendar\app\Models\Event;
 use LaravelEnso\Core\app\Models\User;
@@ -39,7 +40,7 @@ abstract class BaseTest extends TestCase
 
     protected function assertStartDates($dates, $events = null)
     {
-        $dates = collect($dates)
+        $dates = (new Collection($dates))
             ->map(fn ($day) => now()->addDays($day)->toDateString())
             ->toArray();
 

@@ -8,6 +8,6 @@ class Once extends Repeat
 {
     public function dates(): Collection
     {
-        return collect();
+        return new Collection();
     }
 }
