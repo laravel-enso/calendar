@@ -11,12 +11,12 @@ class UserServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        User::addDynamicMethod('calendarEvents', function () {
-            return $this->belongsToMany(Event::class, 'calendar_event_user');
-        });
+        User::addDynamicMethod('calendarEvents', fn() => (
+            $this->belongsToMany(Event::class, 'calendar_event_user')
+        ));
 
-        User::addDynamicMethod('calendars', function () {
-            return $this->hasMany(Calendar::class, 'created_by');
-        });
+        User::addDynamicMethod('calendars', fn() => (
+            $this->hasMany(Calendar::class, 'created_by')
+        ));
     }
 }

@@ -28,9 +28,8 @@ class Events implements Responsable
 
     private function native()
     {
-        $nativeCalendars = $this->calendars->filter(function ($calendar) {
-            return $this->isNative($calendar);
-        });
+        $nativeCalendars = $this->calendars
+            ->filter(fn($calendar) => $this->isNative($calendar));
 
         return Event::for($nativeCalendars)->between(
             $this->request->get('startDate'),
@@ -40,16 +39,13 @@ class Events implements Responsable
 
     private function custom()
     {
-        return $this->calendars->reject(function ($calendar) {
-            return $this->isNative($calendar);
-        })->reduce(function ($events, CustomCalendar $calendar) {
-            return $events->concat(
-                $calendar->events(
+        return $this->calendars->reject(fn($calendar) => $this->isNative($calendar))
+            ->reduce(fn($events, CustomCalendar $calendar) => (
+                $events->concat($calendar->events(
                     $this->request->get('startDate'),
                     $this->request->get('endDate')
-                )
-            );
-        }, collect());
+                ))
+            ), collect());
     }
 
     private function isNative($calendar)
