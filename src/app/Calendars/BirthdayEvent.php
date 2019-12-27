@@ -10,7 +10,7 @@ use LaravelEnso\People\app\Models\Person;
 
 class BirthdayEvent implements ProvidesEvent
 {
-    private $person;
+    private Person $person;
     private $year;
 
     public function __construct(Person $person, $year)

@@ -2,20 +2,19 @@
 
 namespace LaravelEnso\Calendars\tests\units;
 
-use Notification;
 use Carbon\Carbon;
-use Tests\TestCase;
-use LaravelEnso\Core\app\Models\User;
-use LaravelEnso\Calendar\app\Models\Reminder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
+use LaravelEnso\Calendar\app\Models\Reminder;
 use LaravelEnso\Calendar\app\Notifications\ReminderNotification;
+use LaravelEnso\Core\app\Models\User;
+use Tests\TestCase;
 
 class SendNotificationsTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $user;
-    private $faker;
+    private User $user;
 
     public function setUp(): void
     {
@@ -33,8 +32,8 @@ class SendNotificationsTest extends TestCase
         Notification::fake();
 
         factory(Reminder::class)->create([
-            'scheduled_at'=> Carbon::now()->addDay(),
-            'created_by'=>$this->user->id
+            'scheduled_at' => Carbon::now()->addDay(),
+            'created_by' => $this->user->id
         ]);
 
         $this->artisan('enso:calendar:send-reminders');
@@ -49,7 +48,7 @@ class SendNotificationsTest extends TestCase
 
         $reminder = factory(Reminder::class)->create([
             'scheduled_at' => Carbon::now()->subDay(),
-            'sent_at'=>null,
+            'sent_at' => null,
             'created_by' => $this->user->id
         ]);
 

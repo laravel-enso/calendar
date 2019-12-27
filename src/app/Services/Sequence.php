@@ -8,7 +8,7 @@ use LaravelEnso\Calendar\app\Models\Event;
 
 class Sequence
 {
-    private $root;
+    private Event $root;
 
     public function __construct(Event $event)
     {
@@ -33,7 +33,9 @@ class Sequence
         return $this->root->events
             ->push($this->root)
             ->sortBy('start_date')
-            ->filter(fn($event) => $date->lte($event->start_date))->values()->get($next);
+            ->filter(fn ($event) => $date->lte($event->start_date))
+            ->values()
+            ->get($next);
     }
 
     private function isNotParent($event)
@@ -55,7 +57,8 @@ class Sequence
     {
         Event::between(
             $event->start_date, $nextParent->start_date->clone()->subDay()
-        )->whereParentId($this->root->id)->update([
+        )->whereParentId($this->root->id)
+        ->update([
             'parent_id' => null,
             'frequency' => Frequencies::Once,
             'recurrence_ends_at' => null,

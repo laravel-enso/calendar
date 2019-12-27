@@ -7,8 +7,8 @@ use Illuminate\Support\Collection;
 
 abstract class Repeat
 {
-    protected $start;
-    protected $end;
+    protected Carbon $start;
+    protected Carbon $end;
 
     public function __construct(Carbon $start, Carbon $end)
     {
@@ -20,7 +20,7 @@ abstract class Repeat
 
     protected function interval()
     {
-        return collect(
+        return new Collection(
             $this->start->daysUntil($this->end->endOfDay())->toArray()
         );
     }

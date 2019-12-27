@@ -3,6 +3,7 @@
 namespace LaravelEnso\Calendar\app\Services\Frequency;
 
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use LaravelEnso\Calendar\app\Enums\Frequencies;
 use LaravelEnso\Calendar\app\Enums\UpdateType;
@@ -11,13 +12,13 @@ use LaravelEnso\Calendar\app\Services\Sequence;
 
 class Update extends Frequency
 {
-    private static $attributes = ['start_time', 'end_time', 'recurrence_ends_at'];
+    private const Attributes = ['start_time', 'end_time', 'recurrence_ends_at'];
 
-    private $rootEvent;
-    private $changes;
-    private $updateType;
+    private Event $rootEvent;
+    private array $changes;
+    private int $updateType;
 
-    public function handle($changes, $updateType)
+    public function handle(array $changes, int $updateType)
     {
         $this->changes = $changes;
         $this->updateType = $updateType;
@@ -37,6 +38,7 @@ class Update extends Frequency
                 break;
             case UpdateType::ThisAndFutureEvents:
                 (new Sequence($this->event))->break($this->event);
+                break;
         }
 
         return $this;
@@ -44,11 +46,11 @@ class Update extends Frequency
 
     private function update()
     {
-        collect($this->changes)->only(static::$attributes)
-            ->reject(fn($value, $attribute) => $value === $this->event->{$attribute})
+        (new Collection($this->changes))->only(static::Attributes)
+            ->reject(fn ($value, $attribute) => $value === $this->event->{$attribute})
             ->merge($this->changeDates())
-            ->whenNotEmpty(fn ($attributes) => (
-                Event::sequence($this->rootEvent->id)->update($attributes->toArray())
+            ->whenNotEmpty(fn ($attributes) => Event::sequence(
+                $this->rootEvent->id)->update($attributes->toArray()
             ));
 
         $this->event->update($this->changes);
@@ -62,8 +64,8 @@ class Update extends Frequency
         $eventDates = $this->eventDates();
 
         $this->interval()
-            ->reject(fn($date) => $eventDates->contains($date->toDateString()))
-            ->map(fn($date) => $this->replicate($date)->attributesToArray())
+            ->reject(fn ($date) => $eventDates->contains($date->toDateString()))
+            ->map(fn ($date) => $this->replicate($date)->attributesToArray())
             ->whenNotEmpty(fn ($events) => Event::insert($events->toArray()));
 
         return $this;
@@ -74,29 +76,28 @@ class Update extends Frequency
         $interval = $this->interval()->map->toDateString();
 
         $this->rootEvent->events
-            ->reject(fn(Event $event) => (
-                $interval->contains($event->start_date->toDateString())
-            ))
-            ->whenNotEmpty(fn ($events) => (
-                Event::whereIn('id', $events->pluck('id'))->delete()
-            ));
+            ->reject(fn (Event $event) => $interval
+                ->contains($event->start_date->toDateString())
+            )->whenNotEmpty(fn ($events) => Event::whereIn(
+                'id', $events->pluck('id')
+            )->delete());
     }
 
     private function changeDates()
     {
         return collect($this->changes)->only(['start_date', 'end_date'])
-            ->map(fn($date, $attribute) => (
-                $this->event->{$attribute}->startOfDay()
-                    ->diffInDays($this->changes[$attribute], false)
-            ))->filter()
-            ->map(fn($deltaDay, $attribute) => $this->addDays($attribute, $deltaDay));
+            ->map(fn ($date, $attribute) => $this->event
+                ->{$attribute}->startOfDay()
+                ->diffInDays($this->changes[$attribute], false)
+            )->filter()
+            ->map(fn ($deltaDay, $attribute) => $this->addDays($attribute, $deltaDay));
     }
 
     private function eventDates()
     {
         return collect([$this->rootEvent])
             ->concat($this->rootEvent->events)
-            ->map(fn(Event $event) => $event->start_date->toDateString());
+            ->map(fn (Event $event) => $event->start_date->toDateString());
     }
 
     private function interval()
@@ -121,14 +122,13 @@ class Update extends Frequency
             ? $this->parent()
             : $this->event;
 
-        $this->changes = collect($this->changes)
-            ->map(fn($value, $attribute) => (
-                in_array($attribute, $this->event->getDates())
-                    ? Carbon::parse($value)
-                    : $value
-            ))->toArray();
+        $this->changes = (new Collection($this->changes))
+            ->map(fn ($value, $attribute) => in_array($attribute, $this->event->getDates())
+                ? Carbon::parse($value)
+                : $value
+            )->toArray();
 
-        if ($this->isExtractFromSequence()) {
+        if ($this->shouldExtractFromSequence()) {
             $this->changes['frequency'] = Frequencies::Once;
             $this->changes['recurrence_ends_at'] = null;
         }
@@ -136,9 +136,9 @@ class Update extends Frequency
         return $this;
     }
 
-    private function isExtractFromSequence()
+    private function shouldExtractFromSequence()
     {
         return $this->updateType === UpdateType::OnlyThisEvent
-            && (int) $this->event->frequency !== Frequencies::Once;
+            && $this->event->frequency !== Frequencies::Once;
     }
 }

@@ -13,7 +13,7 @@ class ReminderNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    private $reminder;
+    private Reminder $reminder;
 
     public function __construct(Reminder $reminder)
     {

@@ -40,13 +40,10 @@ class Event extends JsonResource
 
     protected function isLast()
     {
-        if ($this->parentId()) {
-            $recurrenceEndsAt = EventModel::cacheGet($this->parentId())->recurrence_ends_at;
-
-            return $recurrenceEndsAt->toDateString() === $this->start_date->toDateString();
-        }
-
-        return false;
+        return $this->parentId()
+            ? EventModel::cacheGet($this->parentId())
+                ->recurrence_ends_at->eq($this->start_date)
+            : false;
     }
 
     private function route()

@@ -10,6 +10,6 @@ class Monthly extends Repeat
     public function dates(): Collection
     {
         return $this->interval()
-            ->filter(fn(Carbon $date) => $date->day === $this->start->day);
+            ->filter(fn (Carbon $date) => $date->day === $this->start->day);
     }
 }

@@ -10,8 +10,8 @@ use LaravelEnso\People\app\Models\Person;
 
 class BirthdayCalendar implements CustomCalendar
 {
-    private $startDate;
-    private $endDate;
+    private Carbon $startDate;
+    private Carbon $endDate;
 
     public function getKey()
     {
@@ -52,7 +52,7 @@ class BirthdayCalendar implements CustomCalendar
                 $this->withinSameYear() && ! $this->withinSameMonth(),
                 $this->differentMonthQuery()
             )->get()
-            ->map(fn($person) => new BirthdayEvent($person, $this->year($person)));
+            ->map(fn ($person) => new BirthdayEvent($person, $this->year($person)));
     }
 
     private function sameMonthQuery()

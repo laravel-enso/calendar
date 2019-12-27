@@ -26,7 +26,9 @@ class Event extends Model implements ProvidesEvent
         'recurrence_ends_at', 'calendar_id', 'parent_id',
     ];
 
-    protected $casts = ['is_all_day' => 'boolean'];
+    protected $casts = [
+        'is_all_day' => 'boolean', 'frequency' => 'integer', 'created_by' => 'integer',
+    ];
 
     protected $dates = ['start_date', 'end_date', 'recurrence_ends_at'];
 
@@ -66,11 +68,9 @@ class Event extends Model implements ProvidesEvent
             ->whereNotIn('id', $reminders->pluck('id'))
             ->delete();
 
-        $reminders->each(function ($reminder) {
-            Reminder::updateOrCreate(
-                ['id' => $reminder['id']], $reminder
-            );
-        });
+        $reminders->each(fn ($reminder) => Reminder::updateOrCreate(
+            ['id' => $reminder['id']], $reminder
+        ));
 
         return $this;
     }
@@ -87,14 +87,12 @@ class Event extends Model implements ProvidesEvent
 
     public function start(): Carbon
     {
-        return $this->start_date
-            ->setTimeFromTimeString($this->start_time);
+        return $this->start_date->setTimeFromTimeString($this->start_time);
     }
 
     public function end(): Carbon
     {
-        return $this->end_date
-            ->setTimeFromTimeString($this->end_time);
+        return $this->end_date->setTimeFromTimeString($this->end_time);
     }
 
     public function location(): ?string
@@ -168,13 +166,11 @@ class Event extends Model implements ProvidesEvent
     {
         $query->when(
             ! Auth::user()->isAdmin() && ! Auth::user()->isSupervisor(),
-            function ($query) {
-                $query->whereHas('createdBy.person.companies', function ($companies) {
-                    $companies->whereIn(
-                        'id', Auth::user()->person->companies()->pluck('id')
-                    );
-                });
-            });
+            fn ($query) => $query->whereHas(
+                'createdBy.person.companies', fn ($companies) => $companies->whereIn(
+                    'id', Auth::user()->person->companies()->pluck('id')
+                )
+            ));
     }
 
     public function scopeFor($query, $calendars)
@@ -184,15 +180,15 @@ class Event extends Model implements ProvidesEvent
 
     public function scopeSequence($query, $parentId)
     {
-        $query->where(function ($query) use ($parentId) {
-            $query->whereParentId($parentId)
-                ->orWhere('id', $parentId);
-        });
+        $query->where(fn ($query) => $query
+            ->whereParentId($parentId)
+            ->orWhere('id', $parentId)
+        );
     }
 
     public function scopeBetween($query, Carbon $start, Carbon $end)
     {
-        $query->where('end_date', '<=', $end)
-            ->where('start_date', '>=', $start);
+        $query->whereDate('end_date', '<=', $end)
+            ->whereDate('start_date', '>=', $start);
     }
 }

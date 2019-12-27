@@ -3,21 +3,22 @@
 namespace LaravelEnso\Calendar\tests\features;
 
 use Carbon\Carbon;
-use Tests\TestCase;
-use LaravelEnso\Core\app\Models\User;
-use LaravelEnso\Calendar\app\Models\Event;
-use LaravelEnso\Calendar\app\Enums\Frequencies;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\TestResponse;
+use LaravelEnso\Calendar\app\Enums\Frequencies;
+use LaravelEnso\Calendar\app\Models\Event;
+use LaravelEnso\Core\app\Models\User;
+use Tests\TestCase;
 
 abstract class BaseTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected $event;
-    protected $response;
-    protected $date;
-    protected $count;
-    protected $parameters;
+    protected Event $event;
+    protected TestResponse $response;
+    protected Carbon $date;
+    protected int $count;
+    protected array $parameters;
 
     protected function setUp() :void
     {
@@ -29,18 +30,17 @@ abstract class BaseTest extends TestCase
 
         $this->event = factory(Event::class)->make();
 
-        $this->date = now()->startOfDay();
+        $this->date = Carbon::now()->startOfDay();
         $this->event->frequency = Frequencies::Daily;
         $this->count = 5;
 
         $this->parameters = [];
     }
 
-
     protected function assertStartDates($dates, $events = null)
     {
         $dates = collect($dates)
-            ->map(fn($day) => now()->addDays($day)->toDateString())
+            ->map(fn ($day) => now()->addDays($day)->toDateString())
             ->toArray();
 
         $events ??= Event::all();
@@ -78,12 +78,13 @@ abstract class BaseTest extends TestCase
     {
         $recurrenceEndsAt = $this->date->clone()->addDays($this->count - 1);
 
-        $this->response = $this->json('POST', route('core.calendar.events.store'),
-            ['start_date' => $this->date->format('Y-m-d')] +
-            ['end_date' => $this->date->format('Y-m-d')] +
-            ['recurrence_ends_at' => $recurrenceEndsAt->format('Y-m-d')] +
-            $this->event->toArray()
-        );
+        $this->response = $this->json('POST', route('core.calendar.events.store'), [
+            'start_date' => $this->date->format('Y-m-d'),
+        ] + [
+            'end_date' => $this->date->format('Y-m-d'),
+        ] + [
+            'recurrence_ends_at' => $recurrenceEndsAt->format('Y-m-d'),
+        ] + $this->event->toArray());
 
         return $this;
     }
@@ -105,7 +106,8 @@ abstract class BaseTest extends TestCase
 
     protected function deleteEvent(int $eventId, int $updateType): void
     {
-        $this->response = $this->json('DELETE',
+        $this->response = $this->json(
+            'DELETE',
             route('core.calendar.events.destroy', ['event' => $eventId]),
             ['updateType' => $updateType]
         );

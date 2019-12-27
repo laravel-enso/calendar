@@ -4,6 +4,8 @@ namespace LaravelEnso\Calendar\app\Http\Responses;
 
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\Responsable;
+use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use LaravelEnso\Calendar\app\Contracts\CustomCalendar;
 use LaravelEnso\Calendar\app\Facades\Calendars;
 use LaravelEnso\Calendar\app\Http\Resources\Event as Resource;
@@ -12,8 +14,8 @@ use LaravelEnso\Calendar\app\Models\Event;
 
 class Events implements Responsable
 {
-    private $request;
-    private $calendars;
+    private Request $request;
+    private Collection $calendars;
 
     public function toResponse($request)
     {
@@ -29,7 +31,7 @@ class Events implements Responsable
     private function native()
     {
         $nativeCalendars = $this->calendars
-            ->filter(fn($calendar) => $this->isNative($calendar));
+            ->filter(fn ($calendar) => $this->isNative($calendar));
 
         return Event::for($nativeCalendars)->between(
             $this->request->get('startDate'),
@@ -39,12 +41,13 @@ class Events implements Responsable
 
     private function custom()
     {
-        return $this->calendars->reject(fn($calendar) => $this->isNative($calendar))
-            ->reduce(fn($events, CustomCalendar $calendar) => (
-                $events->concat($calendar->events(
+        return $this->calendars
+            ->reject(fn ($calendar) => $this->isNative($calendar))
+            ->reduce(fn ($events, CustomCalendar $calendar) => $events->concat(
+                $calendar->events(
                     $this->request->get('startDate'),
                     $this->request->get('endDate')
-                ))
+                )
             ), collect());
     }
 

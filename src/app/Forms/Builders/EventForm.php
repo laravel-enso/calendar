@@ -11,7 +11,7 @@ class EventForm
 {
     protected const FormPath = __DIR__.'/../Templates/event.json';
 
-    protected $form;
+    protected Form $form;
 
     public function __construct()
     {
@@ -20,8 +20,7 @@ class EventForm
 
     public function create()
     {
-        return $this->form->actions('store')
-            ->create();
+        return $this->form->actions('store')->create();
     }
 
     public function edit(Event $event)

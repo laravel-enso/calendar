@@ -8,8 +8,8 @@ use LaravelEnso\Calendar\app\Services\Sequence;
 
 class Delete extends Frequency
 {
-    protected $rootEvent;
-    protected $updateType;
+    protected Event $rootEvent;
+    protected int $updateType;
 
     public function handle($updateType)
     {
@@ -37,6 +37,7 @@ class Delete extends Frequency
                 break;
             case UpdateType::ThisAndFutureEvents:
                 (new Sequence($this->event))->break($this->event);
+                break;
         }
 
         return $this;

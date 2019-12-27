@@ -13,7 +13,7 @@ use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Yearly;
 
 abstract class Frequency
 {
-    protected $event;
+    protected Event $event;
 
     private static $options = [
         Frequencies::Once => Once::class,

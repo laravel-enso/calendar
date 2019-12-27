@@ -15,18 +15,18 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $this->commands(SendReminders::class);
+        $this->load()
+            ->publishProvider()
+            ->publishFactories()
+            ->publishMail()
+            ->commands(SendReminders::class);
 
-        $this->app->booted(fn() => (
-            $this->app->make(Schedule::class)
-                ->command('enso:calendar:send-reminders')->everyMinute()
-        ));
-
-        $this->loadDependencies()
-            ->publishDependencies();
+        $this->app->booted(fn () => $this->app->make(Schedule::class)
+            ->command('enso:calendar:send-reminders')->everyMinute()
+        ); // TODO remove this and add it to apps handler where needed
     }
 
-    private function loadDependencies()
+    private function load()
     {
         $this->loadRoutesFrom(__DIR__.'/routes/api.php');
 
@@ -37,7 +37,7 @@ class AppServiceProvider extends ServiceProvider
         return $this;
     }
 
-    private function publishDependencies()
+    private function publishProvider()
     {
         $this->publishes([
             __DIR__.'/../stubs/CalendarServiceProvider.stub' => app_path(
@@ -45,6 +45,11 @@ class AppServiceProvider extends ServiceProvider
             ),
         ], 'calendar-provider');
 
+        return $this;
+    }
+
+    private function publishFactories()
+    {
         $this->publishes([
             __DIR__.'/database/factories' => database_path('factories'),
         ], 'calendar-factories');
@@ -53,12 +58,19 @@ class AppServiceProvider extends ServiceProvider
             __DIR__.'/database/factories' => database_path('factories'),
         ], 'enso-factories');
 
+        return $this;
+    }
+
+    private function publishMail()
+    {
         $this->publishes([
             __DIR__.'/resources/views' => resource_path('views/vendor/laravel-enso/calendar'),
-        ], 'calendar-email-template');
+        ], 'calendar-mail');
 
         $this->publishes([
             __DIR__.'/resources/views' => resource_path('views/vendor/laravel-enso/calendar'),
         ], 'enso-mail');
+
+        return $this;
     }
 }

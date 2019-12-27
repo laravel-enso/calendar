@@ -26,6 +26,7 @@ class UpdateTest extends BaseTest
         $this->create()->update(3, UpdateType::ThisAndFutureEvents);
 
         $this->assertParents([null, 1, null, 3, 3]);
+
         $this->assertCount($this->count - 2, Event::where($this->parameters)->get());
     }
 

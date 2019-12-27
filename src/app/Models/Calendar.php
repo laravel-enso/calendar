@@ -13,7 +13,7 @@ class Calendar extends Model implements Contract
 
     protected $fillable = ['name', 'color', 'private'];
 
-    protected $casts = ['private' => 'boolean'];
+    protected $casts = ['private' => 'boolean', 'created_by' => 'integer'];
 
     public function events()
     {

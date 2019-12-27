@@ -2,9 +2,9 @@
 
 namespace LaravelEnso\Calendar\tests\features;
 
-use LaravelEnso\Calendar\app\Models\Event;
-use LaravelEnso\Calendar\app\Enums\UpdateType;
 use LaravelEnso\Calendar\app\Enums\Frequencies;
+use LaravelEnso\Calendar\app\Enums\UpdateType;
+use LaravelEnso\Calendar\app\Models\Event;
 
 class DeleteTest extends BaseTest
 {
@@ -24,7 +24,6 @@ class DeleteTest extends BaseTest
         $this->assertParents([null, 1, null, 4]);
         $this->assertDate(now()->addDay(), Event::first()->recurrence_ends_at);
     }
-
 
     /** @test */
     public function can_delete_non_frequent_event()
@@ -54,5 +53,4 @@ class DeleteTest extends BaseTest
         $this->assertParents([null, 1]);
         $this->assertDate(now()->addDay(), Event::first()->recurrence_ends_at);
     }
-
 }
