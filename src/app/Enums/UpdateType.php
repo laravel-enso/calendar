@@ -19,6 +19,6 @@ class UpdateType extends Enum
     public static function forParent()
     {
         return static::select()
-            ->reject(fn($updateType) => $updateType->id === static::All);
+            ->reject(fn ($updateType) => $updateType->id === static::All);
     }
 }

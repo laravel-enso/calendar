@@ -27,7 +27,7 @@ class Calendars
 
         return Auth::user()->isAdmin() || Auth::user()->isSupervisor()
             ? $this->calendars
-            : $this->calendars->filter(fn($calendar) => (
+            : $this->calendars->filter(fn ($calendar) => (
                 Auth::user()->can('access', $calendar)
             ));
     }
@@ -35,19 +35,19 @@ class Calendars
     public function only(array $calendars)
     {
         return $this->all()
-            ->filter(fn($calendar) => in_array($calendar->getKey(), $calendars));
+            ->filter(fn ($calendar) => in_array($calendar->getKey(), $calendars));
     }
 
     public function keys()
     {
-        return $this->all()->map(fn($calendar) => $calendar->getKey());
+        return $this->all()->map(fn ($calendar) => $calendar->getKey());
     }
 
     public function register($calendars)
     {
         collect($calendars)
-            ->map(fn($calendar) => is_string($calendar) ? new $calendar() : $calendar)
-            ->reject(fn($calendar) => $this->registered($calendar))
+            ->map(fn ($calendar) => is_string($calendar) ? new $calendar() : $calendar)
+            ->reject(fn ($calendar) => $this->registered($calendar))
             ->each(fn (Contract $calendar) => $this->calendars->push($calendar));
     }
 
@@ -59,6 +59,6 @@ class Calendars
     private function registered($calendar)
     {
         return $this->calendars
-            ->contains(fn($existing) => ($existing->getKey() === $calendar->getKey()));
+            ->contains(fn ($existing) => ($existing->getKey() === $calendar->getKey()));
     }
 }

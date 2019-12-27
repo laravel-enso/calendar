@@ -10,7 +10,7 @@ class Yearly extends Repeat
     public function dates(): Collection
     {
         return $this->interval()
-            ->filter(fn(Carbon $date) => (
+            ->filter(fn (Carbon $date) => (
                 $date->month === $this->start->month
                 && $date->day === $this->start->day
             ));

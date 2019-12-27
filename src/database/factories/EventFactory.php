@@ -5,7 +5,7 @@ use LaravelEnso\Calendar\app\Enums\Frequencies;
 use LaravelEnso\Calendar\app\Models\Calendar;
 use LaravelEnso\Calendar\app\Models\Event;
 
-$factory->define(Event::class, fn(Faker $faker) => [
+$factory->define(Event::class, fn (Faker $faker) => [
     'parent_id' => null,
     'body' => $faker->text,
     'title' => $faker->title,

@@ -39,20 +39,20 @@ class ValidateEventRequest extends FormRequest
     public function withValidator(Validator $validator)
     {
         $validator->sometimes('end_time', 'after:start_time',
-            fn() => $this->has(['start_date', 'end_date'])
+            fn () => $this->has(['start_date', 'end_date'])
                 && $this->get('start_date') === $this->get('end_date'));
 
         $validator->sometimes(
             'recurrence_ends_at',
             'date|required|after_or_equal:start_date',
-            fn() => $this->has('frequency')
+            fn () => $this->has('frequency')
                 && $this->get('frequency') !== Frequencies::Once);
     }
 
     public function reminders()
     {
         return collect($this->get('reminders'))
-            ->reject(fn($reminder) => empty($reminder['scheduled_at']));
+            ->reject(fn ($reminder) => empty($reminder['scheduled_at']));
     }
 
     protected function requiredOrFilled()

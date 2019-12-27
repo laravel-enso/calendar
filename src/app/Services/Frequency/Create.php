@@ -10,7 +10,7 @@ class Create extends Frequency
     {
         $this->interval()
             ->reject->equalTo($this->event->start_date)
-            ->map(fn($date) => $this->replicate($date)->attributesToArray())
+            ->map(fn ($date) => $this->replicate($date)->attributesToArray())
             ->whenNotEmpty(fn ($events) => Event::insert($events->toArray()));
 
         return $this;

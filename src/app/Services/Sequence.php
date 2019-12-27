@@ -33,7 +33,7 @@ class Sequence
         return $this->root->events
             ->push($this->root)
             ->sortBy('start_date')
-            ->filter(fn($event) => $date->lte($event->start_date))->values()->get($next);
+            ->filter(fn ($event) => $date->lte($event->start_date))->values()->get($next);
     }
 
     private function isNotParent($event)
