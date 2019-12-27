@@ -15,6 +15,7 @@ class Calendars
 
     public function __construct()
     {
+        $this->ready = false;
         $this->calendars = new Collection();
     }
 
