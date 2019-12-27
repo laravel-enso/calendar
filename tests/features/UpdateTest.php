@@ -61,7 +61,7 @@ class UpdateTest extends BaseTest
     /** @test */
     public function can_update_increase_recurrence_ends_at_events()
     {
-        $this->parameters = ['recurrence_ends_at' => now()->addDays(7)];
+        $this->parameters = ['recurrence_ends_at' => now()->addDays(7)->format('Y-m-d')];
 
         $this->create()->update(1, UpdateType::All);
 
