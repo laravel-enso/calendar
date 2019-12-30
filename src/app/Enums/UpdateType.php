@@ -10,7 +10,7 @@ class UpdateType extends Enum
     public const ThisAndFutureEvents = 2;
     public const All = 3;
 
-    protected static $data = [
+    protected static array $data = [
         self::OnlyThisEvent => 'Only This Event',
         self::ThisAndFutureEvents => 'This And Future Events',
         self::All => 'All',

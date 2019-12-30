@@ -20,10 +20,6 @@ class AppServiceProvider extends ServiceProvider
             ->publishFactories()
             ->publishMail()
             ->commands(SendReminders::class);
-
-        $this->app->booted(fn () => $this->app->make(Schedule::class)
-            ->command('enso:calendar:send-reminders')->everyMinute()
-        ); // TODO remove this and add it to apps handler where needed
     }
 
     private function load()
