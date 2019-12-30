@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelEnso\Calendar\app\Contracts;
+namespace LaravelEnso\Calendar\App\Contracts;
 
 use Carbon\Carbon;
 

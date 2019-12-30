@@ -1,9 +1,9 @@
 <?php
 
-namespace LaravelEnso\Calendar\app\Commands;
+namespace LaravelEnso\Calendar\App\Commands;
 
 use Illuminate\Console\Command;
-use LaravelEnso\Calendar\app\Models\Reminder;
+use LaravelEnso\Calendar\App\Models\Reminder;
 
 class SendReminders extends Command
 {

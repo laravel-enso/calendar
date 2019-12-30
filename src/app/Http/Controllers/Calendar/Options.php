@@ -1,10 +1,10 @@
 <?php
 
-namespace LaravelEnso\Calendar\app\Http\Controllers\Calendar;
+namespace LaravelEnso\Calendar\App\Http\Controllers\Calendar;
 
 use Illuminate\Routing\Controller;
-use LaravelEnso\Calendar\app\Models\Calendar;
-use LaravelEnso\Select\app\Traits\OptionsBuilder;
+use LaravelEnso\Calendar\App\Models\Calendar;
+use LaravelEnso\Select\App\Traits\OptionsBuilder;
 
 class Options extends Controller
 {

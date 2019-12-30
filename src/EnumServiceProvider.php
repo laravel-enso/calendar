@@ -2,8 +2,8 @@
 
 namespace LaravelEnso\Calendar;
 
-use LaravelEnso\Calendar\app\Enums\Frequencies;
-use LaravelEnso\Calendar\app\Enums\UpdateType;
+use LaravelEnso\Calendar\App\Enums\Frequencies;
+use LaravelEnso\Calendar\App\Enums\UpdateType;
 use LaravelEnso\Enums\EnumServiceProvider as ServiceProvider;
 
 class EnumServiceProvider extends ServiceProvider

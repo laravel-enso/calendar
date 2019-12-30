@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelEnso\Calendar\app\DTOs;
+namespace LaravelEnso\Calendar\App\DTOs;
 
 class Route
 {

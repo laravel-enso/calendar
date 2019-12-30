@@ -1,15 +1,15 @@
 <?php
 
-namespace LaravelEnso\Calendar\app\Services\Frequency;
+namespace LaravelEnso\Calendar\App\Services\Frequency;
 
-use LaravelEnso\Calendar\app\Enums\Frequencies;
-use LaravelEnso\Calendar\app\Models\Event;
-use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Daily;
-use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Monthly;
-use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Once;
-use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Weekday;
-use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Weekly;
-use LaravelEnso\Calendar\app\Services\Frequency\Repeats\Yearly;
+use LaravelEnso\Calendar\App\Enums\Frequencies;
+use LaravelEnso\Calendar\App\Models\Event;
+use LaravelEnso\Calendar\App\Services\Frequency\Repeats\Daily;
+use LaravelEnso\Calendar\App\Services\Frequency\Repeats\Monthly;
+use LaravelEnso\Calendar\App\Services\Frequency\Repeats\Once;
+use LaravelEnso\Calendar\App\Services\Frequency\Repeats\Weekday;
+use LaravelEnso\Calendar\App\Services\Frequency\Repeats\Weekly;
+use LaravelEnso\Calendar\App\Services\Frequency\Repeats\Yearly;
 
 abstract class Frequency
 {

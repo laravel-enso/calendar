@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelEnso\Calendar\app\Http\Resources;
+namespace LaravelEnso\Calendar\App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace LaravelEnso\Calendar\app\Http\Controllers\Events;
+namespace LaravelEnso\Calendar\App\Http\Controllers\Events;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use LaravelEnso\Calendar\app\Models\Event;
+use LaravelEnso\Calendar\App\Models\Event;
 
 class Destroy extends Controller
 {

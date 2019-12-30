@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelEnso\Calendar\app\Http\Requests;
+namespace LaravelEnso\Calendar\App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 

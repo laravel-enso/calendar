@@ -1,11 +1,11 @@
 <?php
 
-namespace LaravelEnso\Calendar\app\Http\Controllers\Calendar;
+namespace LaravelEnso\Calendar\App\Http\Controllers\Calendar;
 
 use Illuminate\Routing\Controller;
-use LaravelEnso\Calendar\app\Http\Requests\ValidateCalendarRequest;
-use LaravelEnso\Calendar\app\Http\Resources\Calendar as Resource;
-use LaravelEnso\Calendar\app\Models\Calendar;
+use LaravelEnso\Calendar\App\Http\Requests\ValidateCalendarRequest;
+use LaravelEnso\Calendar\App\Http\Resources\Calendar as Resource;
+use LaravelEnso\Calendar\App\Models\Calendar;
 
 class Store extends Controller
 {

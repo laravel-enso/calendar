@@ -1,11 +1,11 @@
 <?php
 
-namespace LaravelEnso\Calendar\app\Models;
+namespace LaravelEnso\Calendar\App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use LaravelEnso\Calendar\app\Notifications\ReminderNotification;
-use LaravelEnso\TrackWho\app\Traits\CreatedBy;
+use LaravelEnso\Calendar\App\Notifications\ReminderNotification;
+use LaravelEnso\TrackWho\App\Traits\CreatedBy;
 
 class Reminder extends Model
 {

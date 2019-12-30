@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelEnso\Calendar\app\Facades;
+namespace LaravelEnso\Calendar\App\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

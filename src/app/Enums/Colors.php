@@ -1,8 +1,8 @@
 <?php
 
-namespace LaravelEnso\Calendar\app\Enums;
+namespace LaravelEnso\Calendar\App\Enums;
 
-use LaravelEnso\Enums\app\Services\Enum;
+use LaravelEnso\Enums\App\Services\Enum;
 
 class Colors extends Enum
 {

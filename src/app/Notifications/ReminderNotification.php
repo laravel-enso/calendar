@@ -1,13 +1,13 @@
 <?php
 
-namespace LaravelEnso\Calendar\app\Notifications;
+namespace LaravelEnso\Calendar\App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use LaravelEnso\Calendar\app\Models\Reminder;
+use LaravelEnso\Calendar\App\Models\Reminder;
 
 class ReminderNotification extends Notification implements ShouldQueue
 {

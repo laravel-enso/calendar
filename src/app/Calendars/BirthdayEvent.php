@@ -1,12 +1,12 @@
 <?php
 
-namespace LaravelEnso\Calendar\app\Calendars;
+namespace LaravelEnso\Calendar\App\Calendars;
 
 use Carbon\Carbon;
-use LaravelEnso\Calendar\app\Contracts\Calendar;
-use LaravelEnso\Calendar\app\Contracts\ProvidesEvent;
-use LaravelEnso\Calendar\app\Enums\Frequencies;
-use LaravelEnso\People\app\Models\Person;
+use LaravelEnso\Calendar\App\Contracts\Calendar;
+use LaravelEnso\Calendar\App\Contracts\ProvidesEvent;
+use LaravelEnso\Calendar\App\Enums\Frequencies;
+use LaravelEnso\People\App\Models\Person;
 
 class BirthdayEvent implements ProvidesEvent
 {

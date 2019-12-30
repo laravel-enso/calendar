@@ -6,9 +6,9 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestResponse;
 use Illuminate\Support\Collection;
-use LaravelEnso\Calendar\app\Enums\Frequencies;
-use LaravelEnso\Calendar\app\Models\Event;
-use LaravelEnso\Core\app\Models\User;
+use LaravelEnso\Calendar\App\Enums\Frequencies;
+use LaravelEnso\Calendar\App\Models\Event;
+use LaravelEnso\Core\App\Models\User;
 use Tests\TestCase;
 
 abstract class BaseTest extends TestCase

@@ -1,10 +1,10 @@
 <?php
 
-namespace LaravelEnso\Calendar\app\Services;
+namespace LaravelEnso\Calendar\App\Services;
 
 use Carbon\Carbon;
-use LaravelEnso\Calendar\app\Enums\Frequencies;
-use LaravelEnso\Calendar\app\Models\Event;
+use LaravelEnso\Calendar\App\Enums\Frequencies;
+use LaravelEnso\Calendar\App\Models\Event;
 
 class Sequence
 {

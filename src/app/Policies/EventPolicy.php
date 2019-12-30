@@ -1,9 +1,9 @@
 <?php
 
-namespace LaravelEnso\Calendar\app\Policies;
+namespace LaravelEnso\Calendar\App\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
-use LaravelEnso\Calendar\app\Models\Event;
+use LaravelEnso\Calendar\App\Models\Event;
 
 class EventPolicy
 {

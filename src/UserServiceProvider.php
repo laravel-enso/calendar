@@ -3,9 +3,9 @@
 namespace LaravelEnso\Calendar;
 
 use Illuminate\Support\ServiceProvider;
-use LaravelEnso\Calendar\app\Models\Calendar;
-use LaravelEnso\Calendar\app\Models\Event;
-use LaravelEnso\Core\app\Models\User;
+use LaravelEnso\Calendar\App\Models\Calendar;
+use LaravelEnso\Calendar\App\Models\Event;
+use LaravelEnso\Core\App\Models\User;
 
 class UserServiceProvider extends ServiceProvider
 {

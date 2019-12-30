@@ -1,12 +1,12 @@
 <?php
 
-namespace LaravelEnso\Calendar\app\Calendars;
+namespace LaravelEnso\Calendar\App\Calendars;
 
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
-use LaravelEnso\Calendar\app\Contracts\CustomCalendar;
-use LaravelEnso\Calendar\app\Enums\Colors;
-use LaravelEnso\People\app\Models\Person;
+use LaravelEnso\Calendar\App\Contracts\CustomCalendar;
+use LaravelEnso\Calendar\App\Enums\Colors;
+use LaravelEnso\People\App\Models\Person;
 
 class BirthdayCalendar implements CustomCalendar
 {

@@ -2,9 +2,9 @@
 
 namespace LaravelEnso\Calendar\tests\features;
 
-use LaravelEnso\Calendar\app\Models\Event;
-use LaravelEnso\Calendar\app\Enums\UpdateType;
-use LaravelEnso\Calendar\app\Enums\Frequencies;
+use LaravelEnso\Calendar\App\Models\Event;
+use LaravelEnso\Calendar\App\Enums\UpdateType;
+use LaravelEnso\Calendar\App\Enums\Frequencies;
 
 class UpdateTest extends BaseTest
 {

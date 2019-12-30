@@ -4,8 +4,8 @@ namespace LaravelEnso\Calendar;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\ServiceProvider;
-use LaravelEnso\Calendar\app\Commands\SendReminders;
-use LaravelEnso\Calendar\app\Services\Calendars;
+use LaravelEnso\Calendar\App\Commands\SendReminders;
+use LaravelEnso\Calendar\App\Services\Calendars;
 
 class AppServiceProvider extends ServiceProvider
 {

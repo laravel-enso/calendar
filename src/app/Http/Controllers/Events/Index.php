@@ -1,10 +1,10 @@
 <?php
 
-namespace LaravelEnso\Calendar\app\Http\Controllers\Events;
+namespace LaravelEnso\Calendar\App\Http\Controllers\Events;
 
 use Illuminate\Routing\Controller;
-use LaravelEnso\Calendar\app\Http\Requests\ValidateEventIndexRequest;
-use LaravelEnso\Calendar\app\Http\Responses\Events;
+use LaravelEnso\Calendar\App\Http\Requests\ValidateEventIndexRequest;
+use LaravelEnso\Calendar\App\Http\Responses\Events;
 
 class Index extends Controller
 {

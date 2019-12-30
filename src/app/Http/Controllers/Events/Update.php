@@ -1,13 +1,13 @@
 <?php
 
-namespace LaravelEnso\Calendar\app\Http\Controllers\Events;
+namespace LaravelEnso\Calendar\App\Http\Controllers\Events;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Routing\Controller;
-use LaravelEnso\Calendar\app\Enums\UpdateType;
-use LaravelEnso\Calendar\app\Http\Requests\ValidateEventRequest;
-use LaravelEnso\Calendar\app\Http\Resources\Event as Resource;
-use LaravelEnso\Calendar\app\Models\Event;
+use LaravelEnso\Calendar\App\Enums\UpdateType;
+use LaravelEnso\Calendar\App\Http\Requests\ValidateEventRequest;
+use LaravelEnso\Calendar\App\Http\Resources\Event as Resource;
+use LaravelEnso\Calendar\App\Models\Event;
 
 class Update extends Controller
 {

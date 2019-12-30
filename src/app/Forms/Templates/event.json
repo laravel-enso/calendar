@@ -123,7 +123,7 @@
             "meta": {
                 "custom": true,
                 "type": "select",
-                "options": "LaravelEnso\\Calendar\\app\\Enums\\Frequencies"
+                "options": "LaravelEnso\\Calendar\\App\\Enums\\Frequencies"
             }
         }, {
             "label": "Recurrence Ends",

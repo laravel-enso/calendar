@@ -1,9 +1,9 @@
 <?php
 
-namespace LaravelEnso\Calendar\app\Http\Controllers\Calendar;
+namespace LaravelEnso\Calendar\App\Http\Controllers\Calendar;
 
 use Illuminate\Routing\Controller;
-use LaravelEnso\Calendar\app\Forms\Builders\CalendarForm;
+use LaravelEnso\Calendar\App\Forms\Builders\CalendarForm;
 
 class Create extends Controller
 {

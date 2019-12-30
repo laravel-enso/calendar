@@ -1,9 +1,9 @@
 <?php
 
-namespace LaravelEnso\Calendar\app\Forms\Builders;
+namespace LaravelEnso\Calendar\App\Forms\Builders;
 
-use LaravelEnso\Calendar\app\Models\Calendar;
-use LaravelEnso\Forms\app\Services\Form;
+use LaravelEnso\Calendar\App\Models\Calendar;
+use LaravelEnso\Forms\App\Services\Form;
 
 class CalendarForm
 {

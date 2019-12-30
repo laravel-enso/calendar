@@ -3,7 +3,7 @@
 namespace LaravelEnso\Calendar;
 
 use Illuminate\Support\ServiceProvider;
-use LaravelEnso\Calendar\app\Facades\Calendars;
+use LaravelEnso\Calendar\App\Facades\Calendars;
 
 class CalendarServiceProvider extends ServiceProvider
 {

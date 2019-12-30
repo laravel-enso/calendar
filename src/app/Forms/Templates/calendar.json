@@ -19,7 +19,7 @@
             "meta": {
                 "custom": true,
                 "type": "select",
-                "options": "LaravelEnso\\Calendar\\app\\Enums\\Colors"
+                "options": "LaravelEnso\\Calendar\\App\\Enums\\Colors"
             }
         }, {
             "column": 6,

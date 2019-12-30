@@ -1,8 +1,8 @@
 <?php
 
-namespace LaravelEnso\Calendar\app\Services\Frequency;
+namespace LaravelEnso\Calendar\App\Services\Frequency;
 
-use LaravelEnso\Calendar\app\Models\Event;
+use LaravelEnso\Calendar\App\Models\Event;
 
 class Create extends Frequency
 {

@@ -1,14 +1,14 @@
 <?php
 
-namespace LaravelEnso\Calendar\app\Services\Frequency;
+namespace LaravelEnso\Calendar\App\Services\Frequency;
 
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use LaravelEnso\Calendar\app\Enums\Frequencies;
-use LaravelEnso\Calendar\app\Enums\UpdateType;
-use LaravelEnso\Calendar\app\Models\Event;
-use LaravelEnso\Calendar\app\Services\Sequence;
+use LaravelEnso\Calendar\App\Enums\Frequencies;
+use LaravelEnso\Calendar\App\Enums\UpdateType;
+use LaravelEnso\Calendar\App\Models\Event;
+use LaravelEnso\Calendar\App\Services\Sequence;
 
 class Update extends Frequency
 {

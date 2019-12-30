@@ -1,12 +1,12 @@
 <?php
 
-namespace LaravelEnso\Calendar\app\Services;
+namespace LaravelEnso\Calendar\App\Services;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
-use LaravelEnso\Calendar\app\Calendars\BirthdayCalendar;
-use LaravelEnso\Calendar\app\Contracts\Calendar as Contract;
-use LaravelEnso\Calendar\app\Models\Calendar;
+use LaravelEnso\Calendar\App\Calendars\BirthdayCalendar;
+use LaravelEnso\Calendar\App\Contracts\Calendar as Contract;
+use LaravelEnso\Calendar\App\Models\Calendar;
 
 class Calendars
 {
