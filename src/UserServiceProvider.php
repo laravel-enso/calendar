@@ -3,20 +3,20 @@
 namespace LaravelEnso\Calendar;
 
 use Illuminate\Support\ServiceProvider;
-use LaravelEnso\Calendar\App\Models\Calendar;
-use LaravelEnso\Calendar\App\Models\Event;
+use LaravelEnso\Calendar\App\Dynamics\Methods\CalendarEvents;
+use LaravelEnso\Calendar\App\Dynamics\Methods\Calendars;
 use LaravelEnso\Core\App\Models\User;
+use LaravelEnso\DynamicMethods\App\Services\Methods;
 
 class UserServiceProvider extends ServiceProvider
 {
+    private array $methods = [
+        CalendarEvents::class,
+        Calendars::class,
+    ];
+
     public function boot()
     {
-        User::addDynamicMethod('calendarEvents', fn () => $this
-            ->belongsToMany(Event::class, 'calendar_event_user')
-        );
-
-        User::addDynamicMethod('calendars', fn () => $this
-            ->hasMany(Calendar::class, 'created_by')
-        );
+        Methods::bind(User::class, $this->methods);
     }
 }
