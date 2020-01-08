@@ -4,7 +4,6 @@ namespace LaravelEnso\Calendar\App\Dynamics\Methods;
 
 use Closure;
 use LaravelEnso\Calendar\App\Models\Calendar;
-use LaravelEnso\Calendar\App\Models\Event;
 use LaravelEnso\DynamicMethods\App\Contracts\Method;
 
 class Calendars implements Method
