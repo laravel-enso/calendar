@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelEnso\Calendar\App\Dynamics\Methods;
+namespace LaravelEnso\Calendar\App\Dynamics\Relations;
 
 use Closure;
 use LaravelEnso\Calendar\App\Models\Event;
