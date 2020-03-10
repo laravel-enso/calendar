@@ -31,7 +31,7 @@
     ],
     "homepage": "https://https://github.com/laravel-enso/calendar",
     "require": {
-        "laravel-enso/core": "4.7.*",
+        "laravel-enso/core": "4.8.*",
         "laravel-enso/enums": "1.2.*",
         "laravel-enso/forms": "3.4.*",
         "laravel-enso/people": "2.5.*",
