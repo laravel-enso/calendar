@@ -66,7 +66,9 @@ class Update
 
     private function currentAndFuture(array $dirty)
     {
-        (new Sequence($this->event))->break();
+        if($this->event->parent_id) {
+            (new Sequence($this->event))->break();
+        }
 
         $this->event->events()->update($dirty);
     }
