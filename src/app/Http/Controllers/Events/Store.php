@@ -15,13 +15,11 @@ class Store extends Controller
 
     public function __invoke(ValidateEventRequest $request, Event $event)
     {
-        $this->authorize(
-            'handle', Calendar::cacheGet($request->get('calendar_id'))
-        );
+        $this->authorize('handle', Calendar::cacheGet($request->get('calendar_id')));
 
-        $event = $event->createEvent($request->validated())
-            ->createReminders($request->reminders())
-            ->syncAttendees($request->get('attendees'));
+        $event->fill($request->validated())->store();
+        $event->reminders()->createMany($request->reminders());
+        $event->attendees()->sync($request->get('attendees'));
 
         return [
             'message' => __('The event was created!'),

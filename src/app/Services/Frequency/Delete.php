@@ -6,45 +6,48 @@ use LaravelEnso\Calendar\App\Enums\UpdateType;
 use LaravelEnso\Calendar\App\Models\Event;
 use LaravelEnso\Calendar\App\Services\Sequence;
 
-class Delete extends Frequency
+class Delete
 {
-    protected Event $rootEvent;
-    protected int $updateType;
+    protected Event $event;
+    protected $updateType;
 
-    public function handle($updateType)
+    public function __construct(Event $event, int $updateType)
     {
+        $this->event = $event;
         $this->updateType = $updateType;
+    }
 
-        $this->init()
-            ->break()
+    public function handle()
+    {
+        switch ($this->updateType) {
+            case UpdateType::All:
+                $this->all();
+                break;
+            case UpdateType::ThisAndFuture:
+                $this->currentAndFuture();
+                break;
+            case UpdateType::OnlyThis:
+                $this->current();
+                break;
+        }
+    }
+
+    private function all()
+    {
+        Event::sequence($this->event->parent_id ?? $this->event->id)->delete();
+    }
+
+    private function currentAndFuture()
+    {
+        Event::sequence($this->event->parent_id ?? $this->event->id)
+            ->where('start_date', '>=', $this->event->start_date->format('Y-m-d'))
             ->delete();
     }
 
-    private function init()
+    private function current()
     {
-        $this->rootEvent = $this->updateType === UpdateType::All
-            ? $this->parent()
-            : $this->event;
+        (new Sequence($this->event))->extract();
 
-        return $this;
-    }
-
-    private function break()
-    {
-        switch ($this->updateType) {
-            case UpdateType::OnlyThisEvent:
-                (new Sequence($this->event))->break($this->event, 1);
-                break;
-            case UpdateType::ThisAndFutureEvents:
-                (new Sequence($this->event))->break($this->event);
-                break;
-        }
-
-        return $this;
-    }
-
-    private function delete()
-    {
-        Event::sequence($this->rootEvent->id)->delete();
+        $this->event->delete();
     }
 }

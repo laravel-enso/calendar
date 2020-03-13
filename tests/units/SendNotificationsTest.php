@@ -20,8 +20,6 @@ class SendNotificationsTest extends TestCase
     {
         parent::setUp();
 
-        // $this->withoutExceptionHandling();
-
         $this->seed()
             ->actingAs($this->user = User::first());
     }
@@ -33,7 +31,7 @@ class SendNotificationsTest extends TestCase
 
         factory(Reminder::class)->create([
             'scheduled_at' => Carbon::now()->addDay(),
-            'created_by' => $this->user->id
+            'created_by' => $this->user->id,
         ]);
 
         $this->artisan('enso:calendar:send-reminders');
@@ -49,7 +47,7 @@ class SendNotificationsTest extends TestCase
         $reminder = factory(Reminder::class)->create([
             'scheduled_at' => Carbon::now()->subDay(),
             'sent_at' => null,
-            'created_by' => $this->user->id
+            'created_by' => $this->user->id,
         ]);
 
         $this->artisan('enso:calendar:send-reminders');

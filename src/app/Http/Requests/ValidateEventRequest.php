@@ -2,6 +2,7 @@
 
 namespace LaravelEnso\Calendar\App\Http\Requests;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\Validator;
@@ -39,15 +40,35 @@ class ValidateEventRequest extends FormRequest
 
     public function withValidator(Validator $validator)
     {
-        $validator->sometimes('end_time', 'after:start_time',
+        $validator->sometimes(
+            'frequency',
+            'not_in:'.Frequencies::Once,
+            fn () => $this->filled('updateType')
+                && $this->get('updateType') !== UpdateType::OnlyThis
+        );
+
+        $validator->sometimes(
+            'end_time',
+            'after:start_time',
             fn () => $this->has(['start_date', 'end_date'])
-                && $this->get('start_date') === $this->get('end_date'));
+                && $this->get('start_date') === $this->get('end_date')
+        );
 
         $validator->sometimes(
             'recurrence_ends_at',
             'date|required|after_or_equal:start_date',
             fn () => $this->has('frequency')
-                && $this->get('frequency') !== Frequencies::Once);
+                && $this->get('frequency') !== Frequencies::Once
+        );
+
+        $validator->sometimes(
+            'recurrence_ends_at',
+            'date|required|after_or_equal:start_date',
+            fn () => $this->has('frequency')
+                && $this->get('frequency') !== Frequencies::Once
+        );
+
+        $validator->after(fn ($validator) => $this->customValidations($validator));
     }
 
     public function reminders()
@@ -56,10 +77,36 @@ class ValidateEventRequest extends FormRequest
             ->reject(fn ($reminder) => ! $reminder['scheduled_at']);
     }
 
-    protected function requiredOrFilled()
+    private function customValidations($validator)
+    {
+        if ($this->has('start_date') && $this->predatesSubsequence()) {
+            $validator->errors()
+                ->add('start_date', "You can't predate a subsequence of events");
+        }
+
+        if ($this->oneWithRecurrence()) {
+            $validator->errors()
+                ->add('recurrence_ends_at', "You can't have recurrence on singular events");
+        }
+    }
+
+    private function predatesSubsequence(): bool
+    {
+        return $this->filled('updateType') && $this->get('updateType') !== UpdateType::OnlyThis
+            && optional($this->route('event'))->parent_id !== null
+            && Carbon::parse($this->get('start_date'))->lt($this->route('event')->start_date);
+    }
+
+    private function requiredOrFilled(): string
     {
         return $this->method() === 'POST'
             ? 'required'
             : 'filled';
+    }
+
+    private function oneWithRecurrence()
+    {
+        return $this->get('frequency') === Frequencies::Once
+            && $this->filled('recurrence_ends_at');
     }
 }

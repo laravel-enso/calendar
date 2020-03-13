@@ -6,13 +6,13 @@ use LaravelEnso\Enums\App\Services\Enum;
 
 class UpdateType extends Enum
 {
-    public const OnlyThisEvent = 1;
-    public const ThisAndFutureEvents = 2;
+    public const OnlyThis = 1;
+    public const ThisAndFuture = 2;
     public const All = 3;
 
     protected static array $data = [
-        self::OnlyThisEvent => 'Only This Event',
-        self::ThisAndFutureEvents => 'This And Future Events',
+        self::OnlyThis => 'Only This Event',
+        self::ThisAndFuture => 'This And Future Events',
         self::All => 'All',
     ];
 

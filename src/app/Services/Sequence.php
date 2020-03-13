@@ -2,73 +2,93 @@
 
 namespace LaravelEnso\Calendar\App\Services;
 
-use Carbon\Carbon;
 use LaravelEnso\Calendar\App\Enums\Frequencies;
 use LaravelEnso\Calendar\App\Models\Event;
 
 class Sequence
 {
-    private Event $root;
+    private Event $event;
+    private Event $currentParent;
+    private bool $singular;
 
     public function __construct(Event $event)
     {
-        $this->root = $event->parent_id
-            ? $event->parent
-            : $event;
+        $this->event = $event;
     }
 
-    public function break(Event $event, $gap = 0)
+    public function extract()
     {
-        $nextParent = $this->nextParent($event->start_date, $gap) ?? $event;
+        $this->singular = true;
+        $this->handle();
+    }
 
-        if ($this->isNotParent($nextParent)) {
-            $this->makeParent($nextParent);
-            $this->removeRecurrenceBetween($event, $nextParent);
-            $this->updateRecurrenceEndBefore($event);
+    public function break()
+    {
+        $this->singular = false;
+        $this->handle();
+    }
+
+    private function handle()
+    {
+        $this->currentParent = $this->currentParent();
+
+        $this->updateParent()
+            ->updateRecurrenceEnding()
+            ->updateFrequency();
+    }
+
+    private function currentParent(): Event
+    {
+        return $this->event->parent_id ? $this->event->parent : $this->event;
+    }
+
+    private function updateParent()
+    {
+        $newParent = $this->newParent();
+
+        if ($newParent) {
+            $this->currentParent->events()
+                ->where('start_date', '>', $newParent->start_date)
+                ->update(['parent_id' => $newParent->id]);
+
+            $newParent->update(['parent_id' => null]);
         }
+
+        return $this;
     }
 
-    private function nextParent(Carbon $date, $next)
+    private function newParent(): ?Event
     {
-        return $this->root->events
-            ->push($this->root)
-            ->sortBy('start_date')
-            ->filter(fn ($event) => $date->lte($event->start_date))
-            ->values()
-            ->get($next);
+        return $this->singular
+            ? $this->currentParent->events()
+            ->where('start_date', '>', $this->event->start_date)
+            ->orderBy('start_date')
+            ->first()
+            : $this->event;
     }
 
-    private function isNotParent($event)
+    private function updateRecurrenceEnding()
     {
-        return $event->parent_id !== null;
-    }
+        $lastEvent = Event::sequence($this->currentParent->id)
+            ->where('id', '<>', $this->event->id)
+            ->orderByDesc('start_date')
+            ->first();
 
-    private function makeParent($nextParent)
-    {
-        Event::where('start_date', '>', $nextParent->start_date)
-            ->whereParentId($this->root->id)->update([
-                'parent_id' => $nextParent->id,
+        if ($lastEvent) {
+            Event::sequence($this->currentParent->id)->update([
+                'recurrence_ends_at' => $lastEvent->start_date,
             ]);
+        }
 
-        $nextParent->update(['parent_id' => null]);
+        return $this;
     }
 
-    private function removeRecurrenceBetween($event, $nextParent)
+    private function updateFrequency()
     {
-        Event::between(
-            $event->start_date, $nextParent->start_date->clone()->subDay()
-        )->whereParentId($this->root->id)
-        ->update([
+        $this->event->update([
             'parent_id' => null,
             'frequency' => Frequencies::Once,
             'recurrence_ends_at' => null,
-        ]);
-    }
-
-    private function updateRecurrenceEndBefore($event)
-    {
-        Event::sequence($this->root->id)->update([
-            'recurrence_ends_at' => $event->start_date->clone()->subDay(),
         ]);
     }
 }
