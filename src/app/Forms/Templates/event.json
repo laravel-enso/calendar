@@ -1,148 +1,172 @@
 {
     "routePrefix": "core.calendar.events",
     "tabs": true,
-    "sections": [{
-        "tab": "Event",
-        "columns": 1,
-        "fields": [{
-            "label": "Title",
-            "name": "title",
-            "value": "",
-            "meta": {
-                "type": "input",
-                "content": "text"
-            }
-        }]
-    }, {
-        "tab": "Event",
-        "columns": "custom",
-        "fields": [{
-            "column": 3,
-            "label": "Starts At",
-            "name": "start_date",
-            "value": null,
-            "meta": {
-                "custom": true,
-                "type": "datepicker",
-                "time": false,
-                "max": null
-            }
-        }, {
-            "column": 3,
-            "label": "Time",
-            "name": "start_time",
-            "value": null,
-            "meta": {
-                "type": "timepicker",
-                "format": "H:i",
-                "time": true,
-                "max": null
-            }
-        }, {
-            "column": 3,
-            "label": "Ends At",
-            "name": "end_date",
-            "value": null,
-            "meta": {
-                "custom": true,
-                "type": "datepicker",
-                "time": true,
-                "min": null
-            }
-        }, {
-            "column": 3,
-            "label": "Time",
-            "name": "end_time",
-            "value": null,
-            "meta": {
-                "type": "timepicker",
-                "format": "H:i",
-                "time": true,
-                "max": null
-            }
-        }]
-    }, {
-        "tab": "Event",
-        "columns" : 2,
-        "fields": [{
-            "label": "Calendar",
-            "name": "calendar_id",
-            "value": null,
-            "meta": {
-                "custom": true,
-                "type": "select",
-                "source": "core.calendar.options",
-                "label": "name"
-            }
-        }, {
-            "label": "All Day",
-            "name": "is_all_day",
-            "value": false,
-            "meta": {
-                "type": "input",
-                "content": "checkbox"
-            }
-        }]
-    }, {
-    "tab": "Details",
-        "columns": 1,
-        "fields": [{
-            "label": "Location",
-            "name": "location",
-            "value": "",
-            "meta": {
-                "type": "input",
-                "content": "text"
-            }
-        }, {
-            "label": "Body",
-            "name": "body",
-            "value": null,
-            "meta": {
-                "type": "textarea",
-                "rows": 2
-            }
-        }, {
-            "label": "Attendees",
-            "name": "attendees",
-            "value": [],
-            "meta": {
-                "type": "select",
-                "multiple": true,
-                "source": "administration.users.options",
-                "label": "person.name"
-            }
-        }]
-    }, {
-        "tab": "Frequency & Alerts",
-        "columns": 1,
-        "fields": [{
-            "label": "frequency",
-            "name": "frequency",
-            "value": 1,
-            "meta": {
-                "custom": true,
-                "type": "select",
-                "options": "LaravelEnso\\Calendar\\App\\Enums\\Frequencies"
-            }
-        }, {
-            "label": "Recurrence Ends",
-            "name": "recurrence_ends_at",
-            "value": null,
-            "meta": {
-                "disabled": false,
-                "hidden": true,
-                "type": "datepicker"
-            }
-        }, {
-            "label": "Reminders",
-            "name": "reminders",
-            "value": [],
-            "meta": {
-                "custom": true,
-                "time": true,
-                "max": null
-            }
-        }]
-    }]
+    "sections": [
+        {
+            "tab": "Event",
+            "columns": 1,
+            "fields": [
+                {
+                    "label": "Title",
+                    "name": "title",
+                    "value": "",
+                    "meta": {
+                        "type": "input",
+                        "content": "text"
+                    }
+                }
+            ]
+        },
+        {
+            "tab": "Event",
+            "columns": "custom",
+            "fields": [
+                {
+                    "column": 3,
+                    "label": "Starts At",
+                    "name": "start_date",
+                    "value": null,
+                    "meta": {
+                        "custom": true,
+                        "type": "datepicker",
+                        "time": false,
+                        "max": null
+                    }
+                },
+                {
+                    "column": 3,
+                    "label": "Time",
+                    "name": "start_time",
+                    "value": null,
+                    "meta": {
+                        "type": "timepicker",
+                        "format": "H:i",
+                        "time": true,
+                        "max": null
+                    }
+                },
+                {
+                    "column": 3,
+                    "label": "Ends At",
+                    "name": "end_date",
+                    "value": null,
+                    "meta": {
+                        "custom": true,
+                        "type": "datepicker",
+                        "time": true,
+                        "min": null
+                    }
+                },
+                {
+                    "column": 3,
+                    "label": "Time",
+                    "name": "end_time",
+                    "value": null,
+                    "meta": {
+                        "type": "timepicker",
+                        "format": "H:i",
+                        "time": true,
+                        "max": null
+                    }
+                }
+            ]
+        },
+        {
+            "tab": "Event",
+            "columns": 2,
+            "fields": [
+                {
+                    "label": "Calendar",
+                    "name": "calendar_id",
+                    "value": null,
+                    "meta": {
+                        "custom": true,
+                        "type": "select",
+                        "source": "core.calendar.options",
+                        "label": "name"
+                    }
+                },
+                {
+                    "label": "All Day",
+                    "name": "is_all_day",
+                    "value": false,
+                    "meta": {
+                        "type": "input",
+                        "content": "checkbox"
+                    }
+                }
+            ]
+        },
+        {
+            "tab": "Details",
+            "columns": 1,
+            "fields": [
+                {
+                    "label": "Location",
+                    "name": "location",
+                    "value": "",
+                    "meta": {
+                        "type": "input",
+                        "content": "text"
+                    }
+                },
+                {
+                    "label": "Body",
+                    "name": "body",
+                    "value": null,
+                    "meta": {
+                        "type": "textarea",
+                        "rows": 2
+                    }
+                },
+                {
+                    "label": "Attendees",
+                    "name": "attendees",
+                    "value": [],
+                    "meta": {
+                        "type": "select",
+                        "multiple": true,
+                        "source": "administration.users.options",
+                        "label": "person.name"
+                    }
+                }
+            ]
+        },
+        {
+            "tab": "Frequency & Alerts",
+            "columns": 1,
+            "fields": [
+                {
+                    "label": "Frequency",
+                    "name": "frequency",
+                    "value": 1,
+                    "meta": {
+                        "custom": true,
+                        "type": "select",
+                        "options": "LaravelEnso\\Calendar\\App\\Enums\\Frequencies"
+                    }
+                },
+                {
+                    "label": "Recurrence Ends",
+                    "name": "recurrence_ends_at",
+                    "value": null,
+                    "meta": {
+                        "disabled": false,
+                        "hidden": true,
+                        "type": "datepicker"
+                    }
+                },
+                {
+                    "label": "Reminders",
+                    "name": "reminders",
+                    "value": [],
+                    "meta": {
+                        "custom": true,
+                        "time": true,
+                        "max": null
+                    }
+                }
+            ]
+        }
+    ]
 }

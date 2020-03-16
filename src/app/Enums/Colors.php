@@ -12,7 +12,6 @@ class Colors extends Enum
     public const Yellow = 'yellow';
     public const Pink = 'pink';
     public const Purple = 'purple';
-    public const Gray = 'gray';
     public const Orange = 'orange';
     public const Brown = 'brown';
 }

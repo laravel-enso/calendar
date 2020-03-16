@@ -11,8 +11,8 @@ class UpdateType extends Enum
     public const All = 3;
 
     protected static array $data = [
-        self::OnlyThis => 'Only This Event',
-        self::ThisAndFuture => 'This And Future Events',
+        self::OnlyThis => 'Only This',
+        self::ThisAndFuture => 'This And Future',
         self::All => 'All',
     ];
 

@@ -75,7 +75,7 @@ class Update
 
     private function all(array $dirty)
     {
-        Event::sequence($this->event->parent_id)
+        Event::sequence($this->event->parent_id ?? $this->event->id)
             ->update($dirty);
     }
 
