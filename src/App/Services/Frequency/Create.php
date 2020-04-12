@@ -57,7 +57,9 @@ class Create
     protected function map($date)
     {
         $this->stub['start_date'] = $this->stub['end_date'] = $date->format('Y-m-d');
-        $this->stub['recurrence_ends_at'] = optional($this->event->recurrence_ends_at)->format('Y-m-d');
+
+        $this->stub['recurrence_ends_at'] = optional($this->event->recurrence_ends_at)
+            ->format('Y-m-d');
 
         return $this->stub;
     }
