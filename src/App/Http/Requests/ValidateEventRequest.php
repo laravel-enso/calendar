@@ -40,35 +40,12 @@ class ValidateEventRequest extends FormRequest
 
     public function withValidator(Validator $validator)
     {
-        $validator->sometimes(
-            'frequency',
-            'not_in:'.Frequencies::Once,
-            fn () => $this->filled('updateType')
-                && $this->get('updateType') !== UpdateType::OnlyThis
-        );
+        $this->validateFrequency($validator);
+        $this->validateEndTime($validator);
+        $this->validateEndsAt($validator);
+        $this->validateRecurrenceEndsAt($validator);
 
-        $validator->sometimes(
-            'end_time',
-            'after:start_time',
-            fn () => $this->has(['start_date', 'end_date'])
-                && $this->get('start_date') === $this->get('end_date')
-        );
-
-        $validator->sometimes(
-            'recurrence_ends_at',
-            'date|required|after_or_equal:start_date',
-            fn () => $this->has('frequency')
-                && $this->get('frequency') !== Frequencies::Once
-        );
-
-        $validator->sometimes(
-            'recurrence_ends_at',
-            'date|required|after_or_equal:start_date',
-            fn () => $this->has('frequency')
-                && $this->get('frequency') !== Frequencies::Once
-        );
-
-        $validator->after(fn ($validator) => $this->customValidations($validator));
+        $validator->after(fn ($validator) => $this->after($validator));
     }
 
     public function reminders()
@@ -77,7 +54,47 @@ class ValidateEventRequest extends FormRequest
             ->reject(fn ($reminder) => ! $reminder['scheduled_at']);
     }
 
-    private function customValidations($validator)
+    private function validateFrequency($validator)
+    {
+        $validator->sometimes(
+            'frequency',
+            'not_in:'.Frequencies::Once,
+            fn () => $this->filled('updateType')
+                && $this->get('updateType') !== UpdateType::OnlyThis
+        );
+    }
+
+    private function validateEndTime($validator)
+    {
+        $validator->sometimes(
+            'end_time',
+            'after:start_time',
+            fn () => $this->has(['start_date', 'end_date'])
+                && $this->get('start_date') === $this->get('end_date')
+        );
+    }
+
+    private function validateEndsAt($validator)
+    {
+        $validator->sometimes(
+            'recurrence_ends_at',
+            'date|required|after_or_equal:start_date',
+            fn () => $this->has('frequency')
+                && $this->get('frequency') !== Frequencies::Once
+        );
+    }
+
+    private function validateRecurrenceEndsAt($validator)
+    {
+        $validator->sometimes(
+            'recurrence_ends_at',
+            'date|required|after_or_equal:start_date',
+            fn () => $this->has('frequency')
+                && $this->get('frequency') !== Frequencies::Once
+        );
+    }
+
+    private function after($validator)
     {
         if ($this->has('start_date') && $this->predatesSubsequence()) {
             $validator->errors()

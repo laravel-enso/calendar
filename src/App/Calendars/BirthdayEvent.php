@@ -26,12 +26,12 @@ class BirthdayEvent implements ProvidesEvent
 
     public function title(): string
     {
-        return __(':name `s birthday', ['name' => $this->person->name]);
+        return __(':name`s birthday', ['name' => $this->person->name]);
     }
 
     public function body(): ?string
     {
-        return __('Happy Birthday, :name', ['name' => $this->person->appellative]);
+        return null;
     }
 
     public function start(): Carbon
