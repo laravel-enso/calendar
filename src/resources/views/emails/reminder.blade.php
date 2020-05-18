@@ -7,7 +7,7 @@
 
 {{ __('To view the calendar click the button below.') }}
 
-@component('mail::button', ['url' => $url, 'color' => 'green'])
+@component('mail::button', ['url' => $url, 'color' => 'blue'])
 {{ __('View Calendar') }}
 @endcomponent
 
