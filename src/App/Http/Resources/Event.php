@@ -41,7 +41,7 @@ class Event extends JsonResource
     protected function isLast()
     {
         return $this->parentId()
-            ? EventModel::cacheGet($this->parentId())
+            ? EventModel::find($this->parentId())
             ->recurrence_ends_at->eq($this->start_date)
             : false;
     }

@@ -71,6 +71,8 @@ class SequenceTest extends TestCase
 
         $events->filter(fn ($event) => $event->id >= $startingId)
             ->each(fn ($event) => $this->assertEquals($endTime, $event->end_time));
+
+        $this->assertRecurrenceEndsAt($startingId);
     }
 
     /** @test */
@@ -178,10 +180,21 @@ class SequenceTest extends TestCase
         $this->delete($this->route('destroy', $id), ['updateType' => UpdateType::ThisAndFuture]);
 
         $this->assertTrue(Event::orderBy('id')->where('id', '>=', $id)->doesntExist());
+
+        $this->assertRecurrenceEndsAt($id);
     }
 
     private function route(string $action, int $eventId)
     {
         return route("core.calendar.events.{$action}", ['event' => $eventId]);
+    }
+
+    private function assertRecurrenceEndsAt(int $breakPoint): void
+    {
+        Event::orderBy('id')->get()->filter(fn($event) => $event->id < $breakPoint)
+            ->each(fn($event) => $this->assertEquals(
+                $this->date->clone()->addDays($breakPoint - 2)->startOfDay(),
+                $event->recurrence_ends_at->startOfDay()
+            ));
     }
 }
