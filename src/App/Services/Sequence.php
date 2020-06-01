@@ -85,10 +85,12 @@ class Sequence
 
     private function updateFrequency()
     {
-        $this->event->update([
-            'parent_id' => null,
-            'frequency' => Frequencies::Once,
-            'recurrence_ends_at' => null,
-        ]);
+        if ($this->singular) {
+            $this->event->update([
+                'parent_id' => null,
+                'frequency' => Frequencies::Once,
+                'recurrence_ends_at' => null,
+            ]);
+        }
     }
 }
