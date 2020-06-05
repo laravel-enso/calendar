@@ -76,6 +76,23 @@ class SequenceTest extends TestCase
     }
 
     /** @test */
+    public function can_update_date_of_event_in_middle_of_sequence()
+    {
+        $startingId = 3;
+        $date = $this->date->clone()->addDays(1);
+
+        $this->patch($this->route('update', $startingId), [
+            'start_date' => $date->format('Y-m-d'),
+            'end_date' => $date->format('Y-m-d'),
+            'updateType' => UpdateType::OnlyThis,
+        ]);
+
+        $events = Event::orderBy('id')->get();
+
+        $this->assertEquals($events->pluck('parent_id')->toArray(), [null, 1, null, null, 4]);
+    }
+
+    /** @test */
     public function can_regenerate_future_events()
     {
         $startingId = 3;
