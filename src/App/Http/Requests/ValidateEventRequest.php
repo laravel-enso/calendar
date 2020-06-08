@@ -109,7 +109,7 @@ class ValidateEventRequest extends FormRequest
 
     private function predatesSubsequence(): bool
     {
-        return $this->filled('updateType') && $this->get('updateType') !== UpdateType::OnlyThis
+        return $this->filled('updateType') && (int) $this->get('updateType') !== UpdateType::OnlyThis
             && optional($this->route('event'))->parent_id !== null
             && Carbon::parse($this->get('start_date'))->lt($this->route('event')->start_date);
     }
