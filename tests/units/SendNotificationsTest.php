@@ -5,9 +5,9 @@ namespace LaravelEnso\Calendars\tests\units;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
-use LaravelEnso\Calendar\App\Models\Reminder;
-use LaravelEnso\Calendar\App\Notifications\ReminderNotification;
-use LaravelEnso\Core\App\Models\User;
+use LaravelEnso\Calendar\Models\Reminder;
+use LaravelEnso\Calendar\Notifications\ReminderNotification;
+use LaravelEnso\Core\Models\User;
 use Tests\TestCase;
 
 class SendNotificationsTest extends TestCase

@@ -4,9 +4,9 @@ namespace LaravelEnso\Calendar\tests\features;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
-use LaravelEnso\Calendar\App\Enums\Frequencies;
-use LaravelEnso\Calendar\App\Models\Event;
-use LaravelEnso\Core\App\Models\User;
+use LaravelEnso\Calendar\Enums\Frequencies;
+use LaravelEnso\Calendar\Models\Event;
+use LaravelEnso\Core\Models\User;
 use Tests\TestCase;
 
 class EventTest extends TestCase
