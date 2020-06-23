@@ -39,6 +39,8 @@ class Delete
 
     private function currentAndFuture()
     {
+        (new Sequence($this->event))->break();
+
         Event::sequence($this->event->parent_id ?? $this->event->id)
             ->where('start_date', '>=', $this->event->start_date->format('Y-m-d'))
             ->delete();

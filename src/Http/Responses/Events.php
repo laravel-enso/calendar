@@ -33,7 +33,7 @@ class Events implements Responsable
         $nativeCalendars = $this->calendars
             ->filter(fn ($calendar) => $this->isNative($calendar));
 
-        return Event::for($nativeCalendars)->between(
+        return Event::with('parent')->for($nativeCalendars)->between(
             $this->request->get('startDate'),
             $this->request->get('endDate')
         )->get();

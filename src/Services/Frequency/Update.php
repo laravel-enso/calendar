@@ -81,7 +81,7 @@ class Update
 
     private function shouldRegenerate(): bool
     {
-        return $this->event->isDirty(['frequence', ...$this->event->getDates()]);
+        return $this->event->isDirty(['frequency', ...$this->event->getDates()]);
     }
 
     private function isSingular(): bool

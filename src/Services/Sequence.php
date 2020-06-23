@@ -61,7 +61,7 @@ class Sequence
     {
         return $this->singular
             ? $this->currentParent->events()
-            ->where('start_date', '>', $this->event->start_date)
+            ->where('start_date', '>', $this->event->getOriginal('start_date'))
             ->orderBy('start_date')
             ->first()
             : $this->event;
@@ -85,10 +85,12 @@ class Sequence
 
     private function updateFrequency()
     {
-        $this->event->update([
-            'parent_id' => null,
-            'frequency' => Frequencies::Once,
-            'recurrence_ends_at' => null,
-        ]);
+        if ($this->singular) {
+            $this->event->update([
+                'parent_id' => null,
+                'frequency' => Frequencies::Once,
+                'recurrence_ends_at' => null,
+            ]);
+        }
     }
 }
