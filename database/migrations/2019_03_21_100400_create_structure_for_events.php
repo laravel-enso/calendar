@@ -13,5 +13,5 @@ class CreateStructureForEvents extends Migration
         ['name' => 'core.calendar.events.destroy', 'description' => 'Delete event', 'is_default' => true],
     ];
 
-    protected string $parentMenu = '';
+    protected ?string $parentMenu = '';
 }
