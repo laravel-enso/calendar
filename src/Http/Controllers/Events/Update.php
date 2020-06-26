@@ -16,7 +16,7 @@ class Update extends Controller
     {
         $this->authorize('handle', $event);
 
-        $event->fill($request->validated());
+        $event->fill($request->validatedExcept('updateType'));
 
         if ($event->isDirty()) {
             $event->store($request->get('updateType'));

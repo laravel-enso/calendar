@@ -9,9 +9,12 @@ use Illuminate\Validation\Validator;
 use LaravelEnso\Calendar\Enums\Frequencies;
 use LaravelEnso\Calendar\Enums\UpdateType;
 use LaravelEnso\Calendar\Models\Calendar;
+use LaravelEnso\Helpers\Traits\FiltersRequest;
 
 class ValidateEventRequest extends FormRequest
 {
+    use FiltersRequest;
+
     public function authorize()
     {
         return true;
