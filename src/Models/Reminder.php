@@ -13,7 +13,7 @@ class Reminder extends Model
 
     protected $table = 'calendar_reminders';
 
-    protected $fillable = ['event_id', 'scheduled_at', 'sent_at'];
+    protected $guarded = ['id'];
 
     protected $dates = ['scheduled_at'];
 

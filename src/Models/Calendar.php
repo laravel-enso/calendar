@@ -11,7 +11,7 @@ class Calendar extends Model implements Contract
 {
     use CreatedBy, Rememberable;
 
-    protected $fillable = ['name', 'color', 'private'];
+    protected $guarded = ['id'];
 
     protected $casts = ['private' => 'boolean', 'created_by' => 'integer'];
 
