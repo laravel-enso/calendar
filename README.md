@@ -1,6 +1,6 @@
 # Calendar
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/7c8421322ab94fc2a612bcf56bc0f294)](https://www.codacy.com/app/laravel-enso/calendar?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=laravel-enso/calendar&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/cfeecfbd1e324746b6e5865a24240865)](https://www.codacy.com/gh/laravel-enso/calendar?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=laravel-enso/calendar&amp;utm_campaign=Badge_Grade) 
 [![StyleCI](https://github.styleci.io/repos/194647672/shield?branch=master)](https://github.styleci.io/repos/194647672)
 [![License](https://poser.pugx.org/laravel-enso/calendar/license)](https://packagist.org/packages/laravel-enso/calendar)
 [![Total Downloads](https://poser.pugx.org/laravel-enso/calendar/downloads)](https://packagist.org/packages/laravel-enso/calendar)
