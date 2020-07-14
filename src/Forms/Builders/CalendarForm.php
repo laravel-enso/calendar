@@ -23,7 +23,7 @@ class CalendarForm
 
     public function edit(Calendar $calendar)
     {
-        return $this->form->actions(['destroy', 'create', 'update'])
+        return $this->form->actions(['destroy', 'update'])
             ->edit($calendar);
     }
 }
