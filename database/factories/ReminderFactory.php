@@ -1,10 +1,20 @@
 <?php
 
-use Faker\Generator as Faker;
+namespace LaravelEnso\Calendar\Database\Factories;
+
+use Illuminate\Database\Eloquent\Factories\Factory;
 use LaravelEnso\Calendar\Models\Event;
 use LaravelEnso\Calendar\Models\Reminder;
 
-$factory->define(Reminder::class, fn (Faker $faker) => [
-    'event_id' => fn () => factory(Event::class)->create()->id,
-    'scheduled_at' => $faker->dateTime,
-]);
+class ReminderFactory extends Factory
+{
+    protected $model = Reminder::class;
+
+    public function definition()
+    {
+        return [
+            'event_id' => fn () => Event::factory()->create()->id,
+            'scheduled_at' => $this->faker->dateTime,
+        ];
+    }
+}

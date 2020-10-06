@@ -29,7 +29,7 @@ class SequenceTest extends TestCase
         $this->date = Carbon::today();
         $this->count = 5;
 
-        $this->event = factory(Event::class)->make([
+        $this->event = Event::factory()->make([
             'start_date' => $this->date->format('Y-m-d'),
             'end_date' => $this->date->format('Y-m-d'),
             'recurrence_ends_at' => $this->date->clone()->addDays($this->count - 1),

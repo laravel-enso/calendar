@@ -1,11 +1,21 @@
 <?php
 
-use Faker\Generator as Faker;
+namespace LaravelEnso\Calendar\Database\Factories;
+
+use Illuminate\Database\Eloquent\Factories\Factory;
 use LaravelEnso\Calendar\Enums\Colors;
 use LaravelEnso\Calendar\Models\Calendar;
 
-$factory->define(Calendar::class, fn (Faker $faker) => [
-    'name' => $faker->text,
-    'color' => Colors::values()->random(),
-    'private' => false,
-]);
+class CalendarFactory extends Factory
+{
+    protected $model = Calendar::class;
+
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->text,
+            'color' => Colors::values()->random(),
+            'private' => false,
+        ];
+    }
+}

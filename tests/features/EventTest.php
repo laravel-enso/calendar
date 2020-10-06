@@ -23,7 +23,7 @@ class EventTest extends TestCase
 
         $this->actingAs(User::first());
 
-        $this->event = factory(Event::class)->make([
+        $this->event = Event::factory()->make([
             'frequency' => Frequencies::Once,
         ]);
 
