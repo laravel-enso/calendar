@@ -17,7 +17,7 @@ class EventFactory extends Factory
             'parent_id' => null,
             'body' => $this->faker->text,
             'title' => $this->faker->title,
-            'calendar_id' => fn () => factory(Calendar::class)->create()->id,
+            'calendar_id' => Calendar::factory(),
             'frequency' => Frequencies::Once,
             'start_date' => $this->faker->date('Y-m-d'),
             'end_date' => $this->faker->date('Y-m-d'),
