@@ -4,6 +4,7 @@ namespace LaravelEnso\Calendar\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +15,6 @@ use LaravelEnso\Calendar\Services\Frequency\Create;
 use LaravelEnso\Calendar\Services\Frequency\Delete;
 use LaravelEnso\Calendar\Services\Frequency\Update;
 use LaravelEnso\Core\Models\User;
-use LaravelEnso\Helpers\Traits\HasFactory;
 use LaravelEnso\Rememberable\Traits\Rememberable;
 use LaravelEnso\TrackWho\Traits\CreatedBy;
 
