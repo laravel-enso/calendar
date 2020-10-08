@@ -2,9 +2,9 @@
 
 namespace LaravelEnso\Calendar\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\Calendar\Contracts\Calendar as Contract;
-use LaravelEnso\Helpers\Traits\HasFactory;
 use LaravelEnso\Rememberable\Traits\Rememberable;
 use LaravelEnso\TrackWho\Traits\CreatedBy;
 
