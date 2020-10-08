@@ -5,11 +5,12 @@ namespace LaravelEnso\Calendar\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\Calendar\Notifications\ReminderNotification;
+use LaravelEnso\Helpers\Traits\HasFactory;
 use LaravelEnso\TrackWho\Traits\CreatedBy;
 
 class Reminder extends Model
 {
-    use CreatedBy;
+    use CreatedBy, HasFactory;
 
     protected $table = 'calendar_reminders';
 

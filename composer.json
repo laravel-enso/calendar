@@ -31,7 +31,7 @@
     ],
     "homepage": "https://https://github.com/laravel-enso/calendar",
     "require": {
-        "laravel-enso/core": "^5.0",
+        "laravel-enso/core": "^6.0",
         "laravel-enso/enums": "^2.0",
         "laravel-enso/forms": "^4.0",
         "laravel-enso/people": "^3.0",
@@ -44,7 +44,8 @@
     },
     "autoload": {
         "psr-4": {
-            "LaravelEnso\\Calendar\\": "src/"
+            "LaravelEnso\\Calendar\\": "src/",
+            "LaravelEnso\\Calendar\\Database\\Factories\\": "database/factories/"
         }
     },
     "extra": {

@@ -26,7 +26,7 @@ class CreateTest extends TestCase
 
         $this->date = Carbon::today();
 
-        $this->event = factory(Event::class)->make();
+        $this->event = Event::factory()->make();
     }
 
     /** @test */

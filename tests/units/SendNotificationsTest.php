@@ -29,7 +29,7 @@ class SendNotificationsTest extends TestCase
     {
         Notification::fake();
 
-        factory(Reminder::class)->create([
+        Reminder::factory()->create([
             'scheduled_at' => Carbon::now()->addDay(),
             'created_by' => $this->user->id,
         ]);
@@ -44,7 +44,7 @@ class SendNotificationsTest extends TestCase
     {
         Notification::fake();
 
-        $reminder = factory(Reminder::class)->create([
+        $reminder = Reminder::factory()->create([
             'scheduled_at' => Carbon::now()->subDay(),
             'sent_at' => null,
             'created_by' => $this->user->id,

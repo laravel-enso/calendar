@@ -14,12 +14,13 @@ use LaravelEnso\Calendar\Services\Frequency\Create;
 use LaravelEnso\Calendar\Services\Frequency\Delete;
 use LaravelEnso\Calendar\Services\Frequency\Update;
 use LaravelEnso\Core\Models\User;
+use LaravelEnso\Helpers\Traits\HasFactory;
 use LaravelEnso\Rememberable\Traits\Rememberable;
 use LaravelEnso\TrackWho\Traits\CreatedBy;
 
 class Event extends Model implements ProvidesEvent
 {
-    use CreatedBy, Rememberable;
+    use CreatedBy, HasFactory, Rememberable;
 
     protected $table = 'calendar_events';
 
