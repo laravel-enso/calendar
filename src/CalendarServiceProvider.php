@@ -4,13 +4,19 @@ namespace LaravelEnso\Calendar;
 
 use Illuminate\Support\ServiceProvider;
 use LaravelEnso\Calendar\Facades\Calendars;
+use LaravelEnso\Mediator\Contracts\ClientServiceProvider;
+use LaravelEnso\Mediator\Contracts\MediatorServiceProvider as Contract;
+use LaravelEnso\Mediator\MediatorServiceProvider;
 
-class CalendarServiceProvider extends ServiceProvider
+class CalendarServiceProvider extends ServiceProvider implements Contract
 {
-    protected $register = [];
-
-    public function boot()
+    public function register()
     {
-        Calendars::register($this->register);
+        MediatorServiceProvider::add($this);
+    }
+
+    public function handle(ClientServiceProvider $provider)
+    {
+        Calendars::register($provider->data());
     }
 }
