@@ -25,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
 
+        $this->mergeConfigFrom(__DIR__.'/../config/calendar.php', 'enso.calendar');
+
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-enso/calendar');
