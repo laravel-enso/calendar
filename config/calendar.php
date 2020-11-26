@@ -4,6 +4,6 @@ return [
     'options' => [
         'birthday' => [
             'roles' => ['*'],
-        ]
-    ]
+        ],
+    ],
 ];

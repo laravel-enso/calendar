@@ -46,8 +46,8 @@ class BirthdayCalendar implements CustomCalendar
         $roles = Config::get('enso.calendar.options.birthday.roles') ?? ['*'];
 
         return Person::query()
-            ->unless($roles === ['*'], fn($query) => $query
-                ->whereHas('user', fn($query) => $query->whereIn('role_id', $roles)))
+            ->unless($roles === ['*'], fn ($query) => $query
+                ->whereHas('user', fn ($query) => $query->whereIn('role_id', $roles)))
             ->when(! $this->withinSameYear(), $this->differentYearQuery())
             ->when(
                 $this->withinSameYear() && $this->withinSameMonth(),
