@@ -43,7 +43,7 @@ class BirthdayCalendar implements CustomCalendar
     {
         $this->startDate = $startDate;
         $this->endDate = $endDate;
-        $roles = Config::get('enso.calendar.options.birthday.roles') ?? ['*'];
+        $roles = Config::get('enso.calendar.birthdays.roles');
 
         return Person::query()
             ->unless($roles === ['*'], fn ($query) => $query
