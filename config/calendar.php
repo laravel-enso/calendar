@@ -5,6 +5,6 @@ use LaravelEnso\Roles\Enums\Roles;
 
 return [
     'roles' => [
-        BirthdayCalendar::class => Roles::keys()
-    ]
+        BirthdayCalendar::class => Roles::keys(),
+    ],
 ];
