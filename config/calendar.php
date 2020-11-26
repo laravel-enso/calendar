@@ -1,9 +1,7 @@
 <?php
 
 return [
-    'options' => [
-        'birthday' => [
-            'roles' => ['*'],
-        ],
+    'birthdays' => [
+        'roles' => ['*'],
     ],
 ];
