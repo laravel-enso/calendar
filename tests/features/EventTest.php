@@ -1,7 +1,5 @@
 <?php
 
-namespace LaravelEnso\Calendar\tests\features;
-
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
 use LaravelEnso\Calendar\Enums\Frequencies;

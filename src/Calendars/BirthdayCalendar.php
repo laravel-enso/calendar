@@ -4,6 +4,7 @@ namespace LaravelEnso\Calendar\Calendars;
 
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 use LaravelEnso\Calendar\Contracts\CustomCalendar;
 use LaravelEnso\Calendar\Enums\Colors;
 use LaravelEnso\People\Models\Person;
@@ -42,8 +43,11 @@ class BirthdayCalendar implements CustomCalendar
     {
         $this->startDate = $startDate;
         $this->endDate = $endDate;
+        $roles = Config::get('enso.calendar.birthdays.roles');
 
         return Person::query()
+            ->unless($roles === ['*'], fn ($query) => $query
+                ->whereHas('user', fn ($query) => $query->whereIn('role_id', $roles)))
             ->when(! $this->withinSameYear(), $this->differentYearQuery())
             ->when(
                 $this->withinSameYear() && $this->withinSameMonth(),

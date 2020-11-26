@@ -18,12 +18,15 @@ class AppServiceProvider extends ServiceProvider
             ->publishProvider()
             ->publishFactories()
             ->publishMail()
+            ->publishConfig()
             ->commands(SendReminders::class);
     }
 
     private function load()
     {
         $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
+
+        $this->mergeConfigFrom(__DIR__.'/../config/calendar.php', 'enso.calendar');
 
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
@@ -65,6 +68,15 @@ class AppServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../resources/views' => resource_path('views/vendor/laravel-enso/calendar'),
         ], 'enso-mail');
+
+        return $this;
+    }
+
+    private function publishConfig()
+    {
+        $this->publishes([
+            __DIR__.'/../config' => config_path('enso'),
+        ], ['enso-config', 'calendar-config']);
 
         return $this;
     }
