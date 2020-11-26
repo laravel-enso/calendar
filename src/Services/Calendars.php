@@ -4,7 +4,6 @@ namespace LaravelEnso\Calendar\Services;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
 use LaravelEnso\Calendar\Calendars\BirthdayCalendar;
 use LaravelEnso\Calendar\Contracts\Calendar as Contract;
 use LaravelEnso\Calendar\Models\Calendar;
@@ -50,7 +49,6 @@ class Calendars
         (new Collection($calendars))
             ->map(fn ($calendar) => is_string($calendar) ? new $calendar() : $calendar)
             ->reject(fn ($calendar) => $this->registered($calendar))
-            ->filter(fn ($calendar) => $this->canAccess($calendar))
             ->each(fn (Contract $calendar) => $this->calendars->push($calendar));
     }
 
@@ -63,12 +61,5 @@ class Calendars
     {
         return $this->calendars
             ->contains(fn ($existing) => ($existing->getKey() === $calendar->getKey()));
-    }
-
-    private function canAccess($calendar)
-    {
-        $roles = Config::get('enso.calendar.roles')[get_class($calendar)] ?? null;
-
-        return $roles === null || Collection::wrap($roles)->contains(Auth::user()->role_id);
     }
 }

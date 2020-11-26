@@ -1,7 +1,5 @@
 <?php
 
-namespace LaravelEnso\Calendar\tests\features;
-
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
@@ -9,8 +7,8 @@ use LaravelEnso\Calendar\Calendars\BirthdayCalendar;
 use LaravelEnso\Calendar\Enums\Colors;
 use LaravelEnso\Calendar\Models\Calendar;
 use LaravelEnso\Core\Models\User;
+use LaravelEnso\People\Models\Person;
 use Tests\TestCase;
-use LaravelEnso\Calendar\Facades\Calendars;
 
 class CalendarTest extends TestCase
 {
@@ -43,15 +41,11 @@ class CalendarTest extends TestCase
     }
 
     /** @test */
-    public function cannot_get_calendar_without_role_access()
+    public function can_limit_birthday_calendar_roles()
     {
-        Config::set('enso.calendar.roles.'.BirthdayCalendar::class, []);
+        Config::set('enso.calendar.options.birthday.roles', []);
 
-        Calendars::register(BirthdayCalendar::class);
-
-        $result = $this->get(route('core.calendar.index'));
-
-        $this->assertEmpty(Calendars::all()
-            ->filter(fn ($calendar) => BirthdayCalendar::class === get_class($calendar)));
+        $this->assertEmpty((new BirthdayCalendar())
+            ->events(Person::first()->birthday, Person::first()->birthday->addDay()));
     }
 }
