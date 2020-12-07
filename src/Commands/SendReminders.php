@@ -13,7 +13,7 @@ class SendReminders extends Command
 
     public function handle()
     {
-        Reminder::with('createdBy')->readyToNotify()
+        Reminder::with('createdBy')->shouldSend()
             ->get()->each->send();
     }
 }

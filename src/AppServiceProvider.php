@@ -19,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
             ->publishFactories()
             ->publishMail()
             ->publishConfig()
-            ->commands(SendReminders::class);
+            ->command();
     }
 
     private function load()
@@ -79,5 +79,13 @@ class AppServiceProvider extends ServiceProvider
         ], ['enso-config', 'calendar-config']);
 
         return $this;
+    }
+
+    public function command(): void
+    {
+        $this->commands(SendReminders::class);
+
+        $this->app->booted(fn () => $this->app->make(Schedule::class)
+            ->command('enso:calendar:send-reminders')->everyMinute());
     }
 }

@@ -30,9 +30,18 @@ class Reminder extends Model
         $this->update(['sent_at' => Carbon::now()]);
     }
 
-    public function scopeReadyToNotify($query)
+    public function scopeNotSent($query)
     {
-        return $query->whereNull('sent_at')
-            ->where('scheduled_at', '<=', Carbon::now());
+        return $query->whereNull('sent_at');
+    }
+
+    public function scopeOverdue($query)
+    {
+        return $query->where('scheduled_at', '<=', Carbon::now());
+    }
+
+    public function scopeShouldSend($query)
+    {
+        return $query->notSent()->overdue();
     }
 }
