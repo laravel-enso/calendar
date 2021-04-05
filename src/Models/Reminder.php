@@ -25,7 +25,8 @@ class Reminder extends Model
 
     public function send()
     {
-        $this->createdBy->notify(new ReminderNotification($this));
+        $this->createdBy->notify((new ReminderNotification($this))
+            ->onQueue('notifications'));
 
         $this->update(['sent_at' => Carbon::now()]);
     }
