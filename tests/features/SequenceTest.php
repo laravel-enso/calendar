@@ -206,8 +206,8 @@ class SequenceTest extends TestCase
 
     private function assertRecurrenceEndsAt(int $breakPoint): void
     {
-        Event::orderBy('id')->get()->filter(fn($event) => $event->id < $breakPoint)
-            ->each(fn($event) => $this->assertEquals(
+        Event::orderBy('id')->get()->filter(fn ($event) => $event->id < $breakPoint)
+            ->each(fn ($event) => $this->assertEquals(
                 $this->date->clone()->addDays($breakPoint - 2)->startOfDay(),
                 $event->recurrence_ends_at->startOfDay()
             ));
