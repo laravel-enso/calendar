@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\Config;
 use LaravelEnso\Calendar\Calendars\BirthdayCalendar;
 use LaravelEnso\Calendar\Enums\Colors;
 use LaravelEnso\Calendar\Models\Calendar;
-use LaravelEnso\Core\Models\User;
 use LaravelEnso\People\Models\Person;
+use LaravelEnso\Users\Models\User;
 use Tests\TestCase;
 
 class CalendarTest extends TestCase
@@ -21,9 +21,8 @@ class CalendarTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed();
-
-        $this->actingAs(User::first());
+        $this->seed()
+            ->actingAs(User::first());
 
         $this->calendar = Calendar::factory()->create();
     }

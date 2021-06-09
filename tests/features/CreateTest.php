@@ -4,7 +4,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use LaravelEnso\Calendar\Enums\Frequencies;
 use LaravelEnso\Calendar\Models\Event;
-use LaravelEnso\Core\Models\User;
+use LaravelEnso\Users\Models\User;
 use Tests\TestCase;
 
 class CreateTest extends TestCase
@@ -18,9 +18,8 @@ class CreateTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed();
-
-        $this->actingAs(User::first());
+        $this->seed()
+            ->actingAs(User::first());
 
         $this->date = Carbon::today();
 

@@ -53,7 +53,7 @@ class ValidateEventRequest extends FormRequest
 
     public function reminders()
     {
-        return (new Collection($this->get('reminders')))
+        return Collection::wrap($this->get('reminders'))
             ->reject(fn ($reminder) => ! $reminder['scheduled_at']);
     }
 
@@ -113,7 +113,7 @@ class ValidateEventRequest extends FormRequest
     private function predatesSubsequence(): bool
     {
         return $this->filled('updateType') && (int) $this->get('updateType') !== UpdateType::OnlyThis
-            && optional($this->route('event'))->parent_id !== null
+            && $this->route('event')?->parent_id !== null
             && Carbon::parse($this->get('start_date'))->lt($this->route('event')->start_date);
     }
 

@@ -5,7 +5,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use LaravelEnso\Calendar\Enums\Frequencies;
 use LaravelEnso\Calendar\Enums\UpdateType;
 use LaravelEnso\Calendar\Models\Event;
-use LaravelEnso\Core\Models\User;
+use LaravelEnso\Users\Models\User;
 use Tests\TestCase;
 
 class SequenceTest extends TestCase
@@ -20,9 +20,8 @@ class SequenceTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed();
-
-        $this->actingAs(User::first());
+        $this->seed()
+            ->actingAs(User::first());
 
         $this->date = Carbon::today();
         $this->count = 5;

@@ -4,7 +4,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
 use LaravelEnso\Calendar\Enums\Frequencies;
 use LaravelEnso\Calendar\Models\Event;
-use LaravelEnso\Core\Models\User;
+use LaravelEnso\Users\Models\User;
 use Tests\TestCase;
 
 class EventTest extends TestCase
@@ -17,9 +17,8 @@ class EventTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed();
-
-        $this->actingAs(User::first());
+        $this->seed()
+            ->actingAs(User::first());
 
         $this->event = Event::factory()->make([
             'frequency' => Frequencies::Once,
@@ -46,7 +45,7 @@ class EventTest extends TestCase
             'recurrence_ends_at' => $this->event->start_date->clone()->addDays(4)->format('Y-m-d'),
         ]);
 
-        $assertion = (new Collection([null]))->pad(5, 1)->toArray();
+        $assertion = Collection::wrap([null])->pad(5, 1)->toArray();
         $events = Event::orderBy('id');
 
         $this->assertEquals($assertion, $events->pluck('parent_id')->toArray());

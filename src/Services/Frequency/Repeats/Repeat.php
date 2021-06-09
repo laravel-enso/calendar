@@ -7,13 +7,10 @@ use Illuminate\Support\Collection;
 
 abstract class Repeat
 {
-    protected Carbon $start;
-    protected Carbon $end;
-
-    public function __construct(Carbon $start, Carbon $end)
-    {
-        $this->start = $start;
-        $this->end = $end;
+    public function __construct(
+        protected Carbon $start,
+        protected Carbon $end
+    ) {
     }
 
     abstract public function dates(): Collection;

@@ -8,13 +8,10 @@ use LaravelEnso\Calendar\Services\Sequence;
 
 class Update
 {
-    protected Event $event;
-    protected $updateType;
-
-    public function __construct(Event $event, int $updateType)
-    {
-        $this->event = $event;
-        $this->updateType = $updateType;
+    public function __construct(
+        protected Event $event,
+        protected int $updateType
+    ) {
     }
 
     public function handle()

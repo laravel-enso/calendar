@@ -7,13 +7,11 @@ use LaravelEnso\Calendar\Models\Event;
 
 class Sequence
 {
-    private Event $event;
     private Event $currentParent;
     private bool $singular;
 
-    public function __construct(Event $event)
+    public function __construct(private Event $event)
     {
-        $this->event = $event;
     }
 
     public function extract()

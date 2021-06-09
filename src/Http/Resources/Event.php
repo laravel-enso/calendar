@@ -20,8 +20,8 @@ class Event extends JsonResource
             'end' => $this->end()->format('Y-m-d H:i'),
             'location' => $this->location(),
             'frequency' => $this->frequency(),
-            'recurrenceEnds' => optional($this->recurrenceEnds())
-                ->format(config('enso.config.dateFormat')),
+            'recurrenceEnds' => $this->recurrenceEnds()
+                ?->format(config('enso.config.dateFormat')),
             'allDay' => $this->allDay(),
             'readonly' => $this->readonly(),
             'class' => $this->getCalendar()->color(),

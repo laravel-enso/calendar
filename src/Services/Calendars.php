@@ -30,7 +30,7 @@ class Calendars
         return Auth::user()->isAdmin() || Auth::user()->isSupervisor()
             ? $this->calendars
             : $this->calendars
-                ->filter(fn ($calendar) => Auth::user()->can('access', $calendar));
+            ->filter(fn ($calendar) => Auth::user()->can('access', $calendar));
     }
 
     public function only(array $calendars)
@@ -46,7 +46,7 @@ class Calendars
 
     public function register($calendars)
     {
-        (new Collection($calendars))
+        Collection::wrap($calendars)
             ->map(fn ($calendar) => is_string($calendar) ? new $calendar() : $calendar)
             ->reject(fn ($calendar) => $this->registered($calendar))
             ->each(fn (Contract $calendar) => $this->calendars->push($calendar));

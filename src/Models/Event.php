@@ -14,9 +14,9 @@ use LaravelEnso\Calendar\Enums\Frequencies;
 use LaravelEnso\Calendar\Services\Frequency\Create;
 use LaravelEnso\Calendar\Services\Frequency\Delete;
 use LaravelEnso\Calendar\Services\Frequency\Update;
-use LaravelEnso\Core\Models\User;
 use LaravelEnso\Rememberable\Traits\Rememberable;
 use LaravelEnso\TrackWho\Traits\CreatedBy;
+use LaravelEnso\Users\Models\User;
 
 class Event extends Model implements ProvidesEvent
 {
@@ -147,16 +147,11 @@ class Event extends Model implements ProvidesEvent
 
     public function scopeAllowed($query)
     {
-        $query->when(
-            ! Auth::user()->isAdmin() && ! Auth::user()->isSupervisor(),
-            fn ($query) => $query->whereHas(
-                'createdBy.person.companies',
-                fn ($companies) => $companies->whereIn(
-                    'id',
-                    Auth::user()->person->companies()->pluck('id')
-                )
-            )
-        );
+        $inferiorRoles = ! Auth::user()->isAdmin() && ! Auth::user()->isSupervisor();
+
+        $query->when($inferiorRoles, fn ($query) => $query
+            ->whereHas('createdBy.person.companies', fn ($companies) => $companies
+                ->whereIn('id', Auth::user()->person->companies()->pluck('id'))));
     }
 
     public function scopeFor($query, $calendars)

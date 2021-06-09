@@ -8,28 +8,19 @@ use LaravelEnso\Calendar\Services\Sequence;
 
 class Delete
 {
-    protected Event $event;
-    protected $updateType;
-
-    public function __construct(Event $event, int $updateType)
-    {
-        $this->event = $event;
-        $this->updateType = $updateType;
+    public function __construct(
+        protected Event $event,
+        protected int $updateType
+    ) {
     }
 
     public function handle()
     {
-        switch ($this->updateType) {
-            case UpdateType::All:
-                $this->all();
-                break;
-            case UpdateType::ThisAndFuture:
-                $this->currentAndFuture();
-                break;
-            case UpdateType::OnlyThis:
-                $this->current();
-                break;
-        }
+        match ($this->updateType) {
+            UpdateType::All => $this->all(),
+            UpdateType::ThisAndFuture => $this->currentAndFuture(),
+            UpdateType::OnlyThis => $this->current(),
+        };
     }
 
     private function all()

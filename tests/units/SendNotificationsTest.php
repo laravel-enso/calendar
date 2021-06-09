@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use LaravelEnso\Calendar\Models\Reminder;
 use LaravelEnso\Calendar\Notifications\ReminderNotification;
-use LaravelEnso\Core\Models\User;
+use LaravelEnso\Users\Models\User;
 use Tests\TestCase;
 
 class SendNotificationsTest extends TestCase

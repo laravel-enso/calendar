@@ -13,7 +13,6 @@ use LaravelEnso\Calendar\Services\Frequency\Repeats\Yearly;
 
 class Create
 {
-    protected Event $event;
     protected array $stub;
 
     private static $options = [
@@ -25,9 +24,8 @@ class Create
         Frequencies::Yearly => Yearly::class,
     ];
 
-    public function __construct(Event $event)
+    public function __construct(protected Event $event)
     {
-        $this->event = $event;
     }
 
     public function handle()
@@ -58,8 +56,8 @@ class Create
     {
         $this->stub['start_date'] = $this->stub['end_date'] = $date->format('Y-m-d');
 
-        $this->stub['recurrence_ends_at'] = optional($this->event->recurrence_ends_at)
-            ->format('Y-m-d');
+        $this->stub['recurrence_ends_at'] = $this->event
+            ->recurrence_ends_at?->format('Y-m-d');
 
         return $this->stub;
     }
