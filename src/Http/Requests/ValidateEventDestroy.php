@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use LaravelEnso\Calendar\Enums\Frequencies;
 use LaravelEnso\Calendar\Enums\UpdateType;
 
-class ValidateEventDestroyRequest extends FormRequest
+class ValidateEventDestroy extends FormRequest
 {
     public function authorize()
     {

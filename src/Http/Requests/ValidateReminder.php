@@ -4,7 +4,7 @@ namespace LaravelEnso\Calendar\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ValidateReminderRequest extends FormRequest
+class ValidateReminder extends FormRequest
 {
     public function authorize()
     {
