@@ -2,7 +2,7 @@
 
 use LaravelEnso\Migrator\Database\Migration;
 
-class CreateStructureForCalendar extends Migration
+return new class extends Migration
 {
     protected array $permissions = [
         ['name' => 'core.calendar.create', 'description' => 'Create a new calendar', 'is_default' => true],
@@ -17,4 +17,4 @@ class CreateStructureForCalendar extends Migration
     protected array $menu = [
         'name' => 'Calendar', 'icon' => 'calendar-alt', 'route' => 'core.calendar.index', 'order_index' => 200, 'has_children' => false,
     ];
-}
+};

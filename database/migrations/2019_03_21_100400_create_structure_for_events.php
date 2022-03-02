@@ -2,7 +2,7 @@
 
 use LaravelEnso\Migrator\Database\Migration;
 
-class CreateStructureForEvents extends Migration
+return new class extends Migration
 {
     protected array $permissions = [
         ['name' => 'core.calendar.events.index', 'description' => 'Get events', 'is_default' => true],
@@ -12,4 +12,4 @@ class CreateStructureForEvents extends Migration
         ['name' => 'core.calendar.events.update', 'description' => 'Update event', 'is_default' => true],
         ['name' => 'core.calendar.events.destroy', 'description' => 'Delete event', 'is_default' => true],
     ];
-}
+};
