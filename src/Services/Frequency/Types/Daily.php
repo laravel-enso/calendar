@@ -1,10 +1,10 @@
 <?php
 
-namespace LaravelEnso\Calendar\Services\Frequency\Repeats;
+namespace LaravelEnso\Calendar\Services\Frequency\Types;
 
 use Illuminate\Support\Collection;
 
-class Daily extends Repeat
+class Daily extends Type
 {
     public function dates(): Collection
     {

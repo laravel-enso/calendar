@@ -10,7 +10,7 @@ class Delete
 {
     public function __construct(
         protected Event $event,
-        protected int $updateType
+        protected UpdateType $updateType
     ) {
     }
 
@@ -25,7 +25,8 @@ class Delete
 
     private function all()
     {
-        Event::sequence($this->event->parent_id ?? $this->event->id)->delete();
+        Event::sequence($this->event->parent_id
+            ?? $this->event->id)->delete();
     }
 
     private function currentAndFuture()

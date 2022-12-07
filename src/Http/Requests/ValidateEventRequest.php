@@ -5,16 +5,14 @@ namespace LaravelEnso\Calendar\Http\Requests;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Collection;
+use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\Validator;
-use LaravelEnso\Calendar\Enums\Frequencies;
+use LaravelEnso\Calendar\Enums\Frequency;
 use LaravelEnso\Calendar\Enums\UpdateType;
 use LaravelEnso\Calendar\Models\Calendar;
-use LaravelEnso\Helpers\Traits\FiltersRequest;
 
 class ValidateEventRequest extends FormRequest
 {
-    use FiltersRequest;
-
     public function authorize()
     {
         return true;
@@ -26,7 +24,7 @@ class ValidateEventRequest extends FormRequest
             'title' => $this->requiredOrFilled(),
             'body' => 'nullable',
             'calendar_id' => $this->requiredOrFilled().'|in:'.Calendar::pluck('id')->implode(','),
-            'frequency' => $this->requiredOrFilled().'|in:'.Frequencies::keys()->implode(','),
+            'frequency' => [$this->requiredOrFilled(), new Enum(Frequency::class)],
             'location' => 'nullable',
             'lat' => 'nullable',
             'lng' => 'nullable',
@@ -37,7 +35,7 @@ class ValidateEventRequest extends FormRequest
             'attendees.*' => 'exists:users,id',
             'recurrence_ends_at' => 'nullable',
             'is_all_day' => $this->requiredOrFilled().'|boolean',
-            'updateType' => 'nullable|in:'.UpdateType::keys()->implode(','),
+            'updateType' => ['nullable', new Enum(UpdateType::class)],
         ];
     }
 
@@ -45,7 +43,6 @@ class ValidateEventRequest extends FormRequest
     {
         $this->validateFrequency($validator);
         $this->validateEndTime($validator);
-        $this->validateEndsAt($validator);
         $this->validateRecurrenceEndsAt($validator);
 
         $validator->after(fn ($validator) => $this->after($validator));
@@ -61,9 +58,9 @@ class ValidateEventRequest extends FormRequest
     {
         $validator->sometimes(
             'frequency',
-            'not_in:'.Frequencies::Once,
+            'not_in:'.Frequency::Once->value,
             fn () => $this->filled('updateType')
-                && $this->get('updateType') !== UpdateType::OnlyThis
+                && (int) $this->get('updateType') !== UpdateType::OnlyThis->value
         );
     }
 
@@ -77,23 +74,13 @@ class ValidateEventRequest extends FormRequest
         );
     }
 
-    private function validateEndsAt($validator)
-    {
-        $validator->sometimes(
-            'recurrence_ends_at',
-            'date|required|after_or_equal:start_date',
-            fn () => $this->has('frequency')
-                && $this->get('frequency') !== Frequencies::Once
-        );
-    }
-
     private function validateRecurrenceEndsAt($validator)
     {
         $validator->sometimes(
             'recurrence_ends_at',
             'date|required|after_or_equal:start_date',
             fn () => $this->has('frequency')
-                && $this->get('frequency') !== Frequencies::Once
+                && $this->get('frequency') !== Frequency::Once->value
         );
     }
 
@@ -104,7 +91,7 @@ class ValidateEventRequest extends FormRequest
                 ->add('start_date', "You can't predate a subsequence of events");
         }
 
-        if ($this->oneWithRecurrence()) {
+        if ($this->onceWithRecurrence()) {
             $validator->errors()
                 ->add('recurrence_ends_at', "You can't have recurrence on singular events");
         }
@@ -112,21 +99,25 @@ class ValidateEventRequest extends FormRequest
 
     private function predatesSubsequence(): bool
     {
-        return $this->filled('updateType') && (int) $this->get('updateType') !== UpdateType::OnlyThis
+        return $this->filled('updateType')
+            && (int) $this->get('updateType') !== UpdateType::OnlyThis->value
             && $this->route('event')?->parent_id !== null
-            && Carbon::parse($this->get('start_date'))->lt($this->route('event')->start_date);
+            && Carbon::parse($this->get('start_date'))
+            ->isBefore($this->route('event')->start_date);
     }
 
     private function requiredOrFilled(): string
     {
-        return $this->method() === 'POST'
-            ? 'required'
-            : 'filled';
+        return $this->method() === 'POST' ? 'required' : 'filled';
     }
 
-    private function oneWithRecurrence()
+    private function isRecurrent()
     {
-        return $this->get('frequency') === Frequencies::Once
+    }
+
+    private function onceWithRecurrence()
+    {
+        return $this->get('frequency') === Frequency::Once->value
             && $this->filled('recurrence_ends_at');
     }
 }

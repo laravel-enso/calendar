@@ -10,7 +10,7 @@ class Update
 {
     public function __construct(
         protected Event $event,
-        protected int $updateType
+        protected UpdateType $updateType
     ) {
     }
 

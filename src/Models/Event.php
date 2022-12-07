@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use LaravelEnso\Calendar\Contracts\Calendar as CalendarContract;
 use LaravelEnso\Calendar\Contracts\ProvidesEvent;
-use LaravelEnso\Calendar\Enums\Frequencies;
+use LaravelEnso\Calendar\Enums\Frequency;
+use LaravelEnso\Calendar\Enums\UpdateType;
 use LaravelEnso\Calendar\Services\Frequency\Create;
 use LaravelEnso\Calendar\Services\Frequency\Delete;
 use LaravelEnso\Calendar\Services\Frequency\Update;
@@ -27,8 +28,11 @@ class Event extends Model implements ProvidesEvent
     protected $guarded = ['id'];
 
     protected $casts = [
-        'is_all_day' => 'boolean', 'parent_id' => 'integer', 'calendar_id' => 'integer',
-        'frequency' => 'integer', 'created_by' => 'integer',
+        'is_all_day' => 'boolean',
+        'parent_id' => 'integer',
+        'calendar_id' => 'integer',
+        'frequency' => Frequency::class,
+        'created_by' => 'integer',
     ];
 
     protected $dates = ['start_date', 'end_date', 'recurrence_ends_at'];
@@ -63,20 +67,6 @@ class Event extends Model implements ProvidesEvent
         return $this->hasMany(Reminder::class);
     }
 
-    public function updateReminders($reminders)
-    {
-        $this->reminders()
-            ->whereNotIn('id', $reminders->pluck('id'))
-            ->delete();
-
-        $reminders->each(fn ($reminder) => Reminder::updateOrCreate(
-            ['id' => $reminder['id']],
-            $reminder
-        ));
-
-        return $this;
-    }
-
     public function title(): string
     {
         return $this->title;
@@ -107,7 +97,7 @@ class Event extends Model implements ProvidesEvent
         return Calendar::cacheGet($this->calendar_id);
     }
 
-    public function frequency(): int
+    public function frequency(): Frequency
     {
         return $this->frequency;
     }
@@ -127,29 +117,20 @@ class Event extends Model implements ProvidesEvent
         return false;
     }
 
-    public function store(?int $updateType = null)
+    public function isOnce(): bool
     {
-        if ($this->exists && $updateType !== null) {
-            $this->createOrUpdateSequence($updateType);
-        } else {
-            $this->saveOneOrCreateSequence();
-        }
+        return $this->frequency === Frequency::Once;
     }
 
-    public function remove(?int $updateType)
+    public function scopeBetween($query, Carbon $start, Carbon $end)
     {
-        if ($this->frequency === Frequencies::Once) {
-            $this->delete();
-        } else {
-            (new Delete($this, $updateType))->handle();
-        }
+        $query->whereDate('end_date', '<=', $end)
+            ->whereDate('start_date', '>=', $start);
     }
 
     public function scopeAllowed($query)
     {
-        $inferiorRoles = ! Auth::user()->isAdmin() && ! Auth::user()->isSupervisor();
-
-        $query->when($inferiorRoles, fn ($query) => $query
+        $query->when(! Auth::user()->isSuperior(), fn ($query) => $query
             ->whereHas('createdBy.person.companies', fn ($companies) => $companies
                 ->whereIn('id', Auth::user()->person->companies()->pluck('id'))));
     }
@@ -166,24 +147,50 @@ class Event extends Model implements ProvidesEvent
             ->orWhere('id', $parentId));
     }
 
-    public function scopeBetween($query, Carbon $start, Carbon $end)
+    public function updateReminders($reminders)
     {
-        $query->whereDate('end_date', '<=', $end)
-            ->whereDate('start_date', '>=', $start);
+        $this->reminders()
+            ->whereNotIn('id', $reminders->pluck('id'))
+            ->delete();
+
+        $reminders->each(fn ($reminder) => Reminder::updateOrCreate(
+            ['id' => $reminder['id']],
+            $reminder
+        ));
+
+        return $this;
+    }
+
+    public function store(?UpdateType $updateType = null)
+    {
+        if ($this->exists && $updateType !== null) {
+            $this->createOrUpdateSequence($updateType);
+        } else {
+            $this->saveOneOrCreateSequence();
+        }
+    }
+
+    public function remove(?UpdateType $updateType)
+    {
+        if ($this->isOnce()) {
+            $this->delete();
+        } else {
+            (new Delete($this, $updateType))->handle();
+        }
     }
 
     private function saveOneOrCreateSequence()
     {
-        if ($this->frequency === Frequencies::Once) {
+        if ($this->isOnce()) {
             $this->save();
         } else {
             $this->createSequence();
         }
     }
 
-    private function createOrUpdateSequence(int $updateType)
+    private function createOrUpdateSequence(UpdateType $updateType)
     {
-        if ($this->getOriginal('frequency') === Frequencies::Once) {
+        if ($this->getOriginal('frequency') === Frequency::Once) {
             $this->createSequence();
         } else {
             $this->updateSequence($updateType);
@@ -198,7 +205,7 @@ class Event extends Model implements ProvidesEvent
         });
     }
 
-    private function updateSequence(int $updateType)
+    private function updateSequence(UpdateType $updateType)
     {
         DB::transaction(function () use ($updateType) {
             (new Update($this, $updateType))->handle();

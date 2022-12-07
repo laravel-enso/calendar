@@ -1,10 +1,10 @@
 <?php
 
-namespace LaravelEnso\Calendar\Services\Frequency\Repeats;
+namespace LaravelEnso\Calendar\Services\Frequency\Types;
 
 use Illuminate\Support\Collection;
 
-class Weekday extends Repeat
+class Weekday extends Type
 {
     public function dates(): Collection
     {

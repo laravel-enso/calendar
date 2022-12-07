@@ -1,11 +1,11 @@
 <?php
 
-namespace LaravelEnso\Calendar\Services\Frequency\Repeats;
+namespace LaravelEnso\Calendar\Services\Frequency\Types;
 
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
-abstract class Repeat
+abstract class Type
 {
     public function __construct(
         protected Carbon $start,

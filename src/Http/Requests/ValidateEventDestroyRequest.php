@@ -3,7 +3,8 @@
 namespace LaravelEnso\Calendar\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use LaravelEnso\Calendar\Enums\Frequencies;
+use Illuminate\Validation\Rules\Enum;
+use LaravelEnso\Calendar\Enums\Frequency;
 use LaravelEnso\Calendar\Enums\UpdateType;
 
 class ValidateEventDestroyRequest extends FormRequest
@@ -22,8 +23,8 @@ class ValidateEventDestroyRequest extends FormRequest
     {
         $validator->sometimes(
             'updateType',
-            'required|in:'.UpdateType::keys()->implode(','),
-            fn () => $this->route('event')->frequency !== Frequencies::Once
+            ['required', new Enum(UpdateType::class)],
+            fn () => $this->route('event')->frequency !== Frequency::Once
         );
     }
 }

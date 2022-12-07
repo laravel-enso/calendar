@@ -3,6 +3,7 @@
 namespace LaravelEnso\Calendar\Contracts;
 
 use Carbon\Carbon;
+use LaravelEnso\Calendar\Enums\Frequency;
 
 interface ProvidesEvent
 {
@@ -20,7 +21,7 @@ interface ProvidesEvent
 
     public function getCalendar(): Calendar;
 
-    public function frequency(): int;
+    public function frequency(): Frequency;
 
     public function recurrenceEnds(): ?Carbon;
 

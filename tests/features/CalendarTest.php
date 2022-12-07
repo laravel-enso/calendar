@@ -4,7 +4,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
 use LaravelEnso\Calendar\Calendars\BirthdayCalendar;
-use LaravelEnso\Calendar\Enums\Colors;
+use LaravelEnso\Calendar\Enums\Color;
 use LaravelEnso\Calendar\Models\Calendar;
 use LaravelEnso\People\Models\Person;
 use LaravelEnso\Users\Models\User;
@@ -32,7 +32,7 @@ class CalendarTest extends TestCase
     {
         $result = $this->post(route('core.calendar.store'), [
             'name' => 'test',
-            'color' => Colors::Red,
+            'color' => Color::random()->value,
             'private' => false,
         ]);
 

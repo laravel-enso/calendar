@@ -3,7 +3,8 @@
 namespace LaravelEnso\Calendar\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use LaravelEnso\Calendar\Enums\Colors;
+use Illuminate\Validation\Rules\Enum;
+use LaravelEnso\Calendar\Enums\Color;
 
 class ValidateCalendarRequest extends FormRequest
 {
@@ -16,7 +17,7 @@ class ValidateCalendarRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'color' => 'required|in:'.Colors::keys()->implode(','),
+            'color' => ['required', new Enum(Color::class)],
             'private' => 'required|boolean',
         ];
     }

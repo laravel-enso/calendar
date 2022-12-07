@@ -1,11 +1,11 @@
 <?php
 
-namespace LaravelEnso\Calendar\Services\Frequency\Repeats;
+namespace LaravelEnso\Calendar\Services\Frequency\Types;
 
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
-class Monthly extends Repeat
+class Monthly extends Type
 {
     public function dates(): Collection
     {

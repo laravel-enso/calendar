@@ -3,7 +3,7 @@
 namespace LaravelEnso\Calendar\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use LaravelEnso\Calendar\Enums\Colors;
+use LaravelEnso\Calendar\Enums\Color;
 use LaravelEnso\Calendar\Models\Calendar;
 
 class CalendarFactory extends Factory
@@ -14,7 +14,7 @@ class CalendarFactory extends Factory
     {
         return [
             'name' => $this->faker->text,
-            'color' => Colors::values()->random(),
+            'color' => Color::random(),
             'private' => false,
         ];
     }

@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use LaravelEnso\Calendar\Contracts\CustomCalendar;
-use LaravelEnso\Calendar\Enums\Colors;
+use LaravelEnso\Calendar\Enums\Color;
 use LaravelEnso\People\Models\Person;
 
 class BirthdayCalendar implements CustomCalendar
@@ -24,9 +24,9 @@ class BirthdayCalendar implements CustomCalendar
         return 'Birthdays';
     }
 
-    public function color(): string
+    public function color(): Color
     {
-        return Colors::Purple;
+        return Color::Purple;
     }
 
     public function private(): bool

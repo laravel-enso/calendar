@@ -2,7 +2,7 @@
 
 namespace LaravelEnso\Calendar\Services;
 
-use LaravelEnso\Calendar\Enums\Frequencies;
+use LaravelEnso\Calendar\Enums\Frequency;
 use LaravelEnso\Calendar\Models\Event;
 
 class Sequence
@@ -86,7 +86,7 @@ class Sequence
         if ($this->singular) {
             $this->event->update([
                 'parent_id' => null,
-                'frequency' => Frequencies::Once,
+                'frequency' => Frequency::Once,
                 'recurrence_ends_at' => null,
             ]);
         }

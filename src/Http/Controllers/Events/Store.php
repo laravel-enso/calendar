@@ -17,7 +17,7 @@ class Store extends Controller
     {
         $this->authorize('handle', Calendar::cacheGet($request->get('calendar_id')));
 
-        $event->fill($request->validatedExcept('attendees', 'reminders'))->store();
+        $event->fill($request->safe()->except('attendees', 'reminders'))->store();
         $event->reminders()->createMany($request->reminders());
         $event->attendees()->sync($request->get('attendees'));
 

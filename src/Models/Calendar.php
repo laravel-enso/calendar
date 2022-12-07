@@ -5,6 +5,7 @@ namespace LaravelEnso\Calendar\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\Calendar\Contracts\Calendar as Contract;
+use LaravelEnso\Calendar\Enums\Color;
 use LaravelEnso\Rememberable\Traits\Rememberable;
 use LaravelEnso\TrackWho\Traits\CreatedBy;
 
@@ -14,7 +15,11 @@ class Calendar extends Model implements Contract
 
     protected $guarded = ['id'];
 
-    protected $casts = ['private' => 'boolean', 'created_by' => 'integer'];
+    protected $casts = [
+        'private' => 'boolean',
+        'created_by' => 'integer',
+        'color' => Color::class,
+    ];
 
     public function events()
     {
@@ -26,7 +31,7 @@ class Calendar extends Model implements Contract
         return $this->name;
     }
 
-    public function color(): string
+    public function color(): Color
     {
         return $this->color;
     }
