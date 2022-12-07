@@ -13,7 +13,7 @@ class ReminderFactory extends Factory
     public function definition()
     {
         return [
-            'event_id' => fn () => Event::factory()->create()->id,
+            'event_id'     => fn () => Event::factory()->create()->id,
             'scheduled_at' => $this->faker->dateTime,
         ];
     }

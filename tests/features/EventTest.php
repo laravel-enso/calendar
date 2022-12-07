@@ -41,7 +41,7 @@ class EventTest extends TestCase
     public function can_update_to_sequence()
     {
         $this->patch($this->route('update'), [
-            'frequency' => Frequency::Daily->value,
+            'frequency'          => Frequency::Daily->value,
             'recurrence_ends_at' => $this->event->start_date->clone()->addDays(4)->format('Y-m-d'),
         ]);
 

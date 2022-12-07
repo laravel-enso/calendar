@@ -31,8 +31,8 @@ class CalendarTest extends TestCase
     public function create_calendar()
     {
         $result = $this->post(route('core.calendar.store'), [
-            'name' => 'test',
-            'color' => Color::random()->value,
+            'name'    => 'test',
+            'color'   => Color::random()->value,
             'private' => false,
         ]);
 

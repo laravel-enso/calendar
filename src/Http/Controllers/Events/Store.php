@@ -23,7 +23,7 @@ class Store extends Controller
 
         return [
             'message' => __('The event was created!'),
-            'event' => new Resource($event),
+            'event'   => new Resource($event),
         ];
     }
 }

@@ -11,7 +11,7 @@ use LaravelEnso\Calendar\Policies\EventPolicy;
 class AuthServiceProvider extends ServiceProvider
 {
     protected $policies = [
-        Event::class => EventPolicy::class,
+        Event::class    => EventPolicy::class,
         Calendar::class => CalendarPolicy::class,
     ];
 

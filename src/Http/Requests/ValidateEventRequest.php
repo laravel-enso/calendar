@@ -21,21 +21,21 @@ class ValidateEventRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => $this->requiredOrFilled(),
-            'body' => 'nullable',
-            'calendar_id' => $this->requiredOrFilled().'|in:'.Calendar::pluck('id')->implode(','),
-            'frequency' => [$this->requiredOrFilled(), new Enum(Frequency::class)],
-            'location' => 'nullable',
-            'lat' => 'nullable',
-            'lng' => 'nullable',
-            'start_date' => $this->requiredOrFilled().'|date',
-            'end_date' => $this->requiredOrFilled().'|nullable|date|after_or_equal:start_date',
-            'start_time' => $this->requiredOrFilled().'|date_format:H:i',
-            'end_time' => $this->requiredOrFilled().'|nullable|date_format:H:i',
-            'attendees.*' => 'exists:users,id',
+            'title'              => $this->requiredOrFilled(),
+            'body'               => 'nullable',
+            'calendar_id'        => $this->requiredOrFilled().'|in:'.Calendar::pluck('id')->implode(','),
+            'frequency'          => [$this->requiredOrFilled(), new Enum(Frequency::class)],
+            'location'           => 'nullable',
+            'lat'                => 'nullable',
+            'lng'                => 'nullable',
+            'start_date'         => $this->requiredOrFilled().'|date',
+            'end_date'           => $this->requiredOrFilled().'|nullable|date|after_or_equal:start_date',
+            'start_time'         => $this->requiredOrFilled().'|date_format:H:i',
+            'end_time'           => $this->requiredOrFilled().'|nullable|date_format:H:i',
+            'attendees.*'        => 'exists:users,id',
             'recurrence_ends_at' => 'nullable',
-            'is_all_day' => $this->requiredOrFilled().'|boolean',
-            'updateType' => ['nullable', new Enum(UpdateType::class)],
+            'is_all_day'         => $this->requiredOrFilled().'|boolean',
+            'updateType'         => ['nullable', new Enum(UpdateType::class)],
         ];
     }
 
@@ -51,7 +51,7 @@ class ValidateEventRequest extends FormRequest
     public function reminders()
     {
         return Collection::wrap($this->get('reminders'))
-            ->reject(fn ($reminder) => ! $reminder['scheduled_at']);
+            ->reject(fn ($reminder) => !$reminder['scheduled_at']);
     }
 
     private function validateFrequency($validator)

@@ -27,12 +27,12 @@ enum Frequency: int implements Frontend
     public function service(): string
     {
         return match ($this) {
-            self::Once => Once::class,
-            self::Daily => Daily::class,
-            self::Weekly => Weekly::class,
+            self::Once     => Once::class,
+            self::Daily    => Daily::class,
+            self::Weekly   => Weekly::class,
             self::Weekdays => Weekday::class,
-            self::Monthly => Monthly::class,
-            self::Yearly => Yearly::class,
+            self::Monthly  => Monthly::class,
+            self::Yearly   => Yearly::class,
         };
     }
 }

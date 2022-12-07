@@ -21,18 +21,20 @@ use LaravelEnso\Users\Models\User;
 
 class Event extends Model implements ProvidesEvent
 {
-    use CreatedBy, HasFactory, Rememberable;
+    use CreatedBy;
+    use HasFactory;
+    use Rememberable;
 
     protected $table = 'calendar_events';
 
     protected $guarded = ['id'];
 
     protected $casts = [
-        'is_all_day' => 'boolean',
-        'parent_id' => 'integer',
+        'is_all_day'  => 'boolean',
+        'parent_id'   => 'integer',
         'calendar_id' => 'integer',
-        'frequency' => Frequency::class,
-        'created_by' => 'integer',
+        'frequency'   => Frequency::class,
+        'created_by'  => 'integer',
     ];
 
     protected $dates = ['start_date', 'end_date', 'recurrence_ends_at'];
@@ -130,7 +132,7 @@ class Event extends Model implements ProvidesEvent
 
     public function scopeAllowed($query)
     {
-        $query->when(! Auth::user()->isSuperior(), fn ($query) => $query
+        $query->when(!Auth::user()->isSuperior(), fn ($query) => $query
             ->whereHas('createdBy.person.companies', fn ($companies) => $companies
                 ->whereIn('id', Auth::user()->person->companies()->pluck('id'))));
     }

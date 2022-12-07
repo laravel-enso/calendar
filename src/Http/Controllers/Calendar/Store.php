@@ -14,7 +14,7 @@ class Store extends Controller
         $calendar->fill($request->validated())->save();
 
         return [
-            'message' => __('The calendar was created!'),
+            'message'  => __('The calendar was created!'),
             'calendar' => new Resource($calendar),
         ];
     }

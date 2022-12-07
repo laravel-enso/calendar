@@ -11,14 +11,16 @@ use LaravelEnso\TrackWho\Traits\CreatedBy;
 
 class Calendar extends Model implements Contract
 {
-    use CreatedBy, HasFactory, Rememberable;
+    use CreatedBy;
+    use HasFactory;
+    use Rememberable;
 
     protected $guarded = ['id'];
 
     protected $casts = [
-        'private' => 'boolean',
+        'private'    => 'boolean',
         'created_by' => 'integer',
-        'color' => Color::class,
+        'color'      => Color::class,
     ];
 
     public function events()

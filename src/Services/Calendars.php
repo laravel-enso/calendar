@@ -21,7 +21,7 @@ class Calendars
 
     public function all()
     {
-        if (! $this->ready) {
+        if (!$this->ready) {
             $this->register(Calendar::get());
             $this->register(BirthdayCalendar::class);
             $this->ready = true;

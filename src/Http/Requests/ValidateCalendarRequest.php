@@ -16,8 +16,8 @@ class ValidateCalendarRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'color' => ['required', new Enum(Color::class)],
+            'name'    => 'required',
+            'color'   => ['required', new Enum(Color::class)],
             'private' => 'required|boolean',
         ];
     }

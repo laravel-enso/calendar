@@ -31,8 +31,8 @@ class CreateTest extends TestCase
     {
         $this->post(route('core.calendar.events.store'), [
             'start_date' => $this->date->format('Y-m-d'),
-            'end_date' => $this->date->format('Y-m-d'),
-            'frequency' => Frequency::Once->value,
+            'end_date'   => $this->date->format('Y-m-d'),
+            'frequency'  => Frequency::Once->value,
         ] + $this->event->toArray());
 
         $this->assertTrue(Event::exists());
@@ -45,9 +45,9 @@ class CreateTest extends TestCase
         $recurrenceEndsAt = $this->date->clone()->addDays($count - 1);
 
         $this->post(route('core.calendar.events.store'), [
-            'start_date' => $this->date->format('Y-m-d'),
-            'end_date' => $this->date->format('Y-m-d'),
-            'frequency' => Frequency::Daily->value,
+            'start_date'         => $this->date->format('Y-m-d'),
+            'end_date'           => $this->date->format('Y-m-d'),
+            'frequency'          => Frequency::Daily->value,
             'recurrence_ends_at' => $recurrenceEndsAt->format('Y-m-d'),
         ] + $this->event->toArray());
 

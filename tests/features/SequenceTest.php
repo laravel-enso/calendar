@@ -27,10 +27,10 @@ class SequenceTest extends TestCase
         $this->count = 5;
 
         $this->event = Event::factory()->make([
-            'start_date' => $this->date->format('Y-m-d'),
-            'end_date' => $this->date->format('Y-m-d'),
+            'start_date'         => $this->date->format('Y-m-d'),
+            'end_date'           => $this->date->format('Y-m-d'),
             'recurrence_ends_at' => $this->date->clone()->addDays($this->count - 1),
-            'frequency' => Frequency::Daily,
+            'frequency'          => Frequency::Daily,
         ]);
 
         $this->event->store();
@@ -42,7 +42,7 @@ class SequenceTest extends TestCase
         $endTime = '22:20';
 
         $this->patch($this->route('update', 3), [
-            'end_time' => $endTime,
+            'end_time'   => $endTime,
             'updateType' => UpdateType::All->value,
         ]);
 
@@ -58,7 +58,7 @@ class SequenceTest extends TestCase
         $endTime = '22:20';
 
         $this->patch($this->route('update', $startingId), [
-            'end_time' => $endTime,
+            'end_time'   => $endTime,
             'updateType' => UpdateType::ThisAndFuture->value,
         ]);
 
@@ -80,7 +80,7 @@ class SequenceTest extends TestCase
 
         $this->patch($this->route('update', $startingId), [
             'start_date' => $date->format('Y-m-d'),
-            'end_date' => $date->format('Y-m-d'),
+            'end_date'   => $date->format('Y-m-d'),
             'updateType' => UpdateType::OnlyThis->value,
         ]);
 
@@ -96,10 +96,10 @@ class SequenceTest extends TestCase
         $date = Carbon::today()->addDays(3)->format('Y-m-d');
 
         $this->patch($this->route('update', $startingId), [
-            'start_date' => $date,
-            'end_date' => $date,
-            'updateType' => UpdateType::ThisAndFuture->value,
-            'frequency' => $this->event->frequency->value,
+            'start_date'         => $date,
+            'end_date'           => $date,
+            'updateType'         => UpdateType::ThisAndFuture->value,
+            'frequency'          => $this->event->frequency->value,
             'recurrence_ends_at' => $this->event->recurrence_ends_at,
         ]);
 
@@ -116,7 +116,7 @@ class SequenceTest extends TestCase
 
         $this->patch($this->route('update', $startingId), [
             'start_date' => $date,
-            'end_date' => $date,
+            'end_date'   => $date,
             'updateType' => UpdateType::ThisAndFuture->value,
         ])->assertStatus(302)
             ->assertSessionHasErrors(['start_date']);
@@ -130,7 +130,7 @@ class SequenceTest extends TestCase
 
         $this->patch($this->route('update', $startingId), [
             'recurrence_ends_at' => $date,
-            'updateType' => UpdateType::ThisAndFuture->value,
+            'updateType'         => UpdateType::ThisAndFuture->value,
         ]);
 
         $parents = Event::orderBy('id')->pluck('parent_id')->toArray();
@@ -144,7 +144,7 @@ class SequenceTest extends TestCase
         $startingId = 3;
 
         $this->patch($this->route('update', $startingId), [
-            'frequency' => Frequency::Once->value,
+            'frequency'  => Frequency::Once->value,
             'updateType' => UpdateType::OnlyThis->value,
         ]);
 
@@ -159,7 +159,7 @@ class SequenceTest extends TestCase
         $startingId = 3;
 
         $this->patch($this->route('update', $startingId), [
-            'frequency' => Frequency::Once->value,
+            'frequency'  => Frequency::Once->value,
             'updateType' => UpdateType::ThisAndFuture->value,
         ])->assertStatus(302)
             ->assertSessionHasErrors(['frequency']);
