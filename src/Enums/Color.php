@@ -2,11 +2,11 @@
 
 namespace LaravelEnso\Calendar\Enums;
 
-use LaravelEnso\Enums\Traits\Enum;
+use LaravelEnso\Enums\Traits\Random;
 
 enum Color: string
 {
-    use Enum;
+    use Random;
 
     case Red = 'red';
     case Blue = 'blue';
