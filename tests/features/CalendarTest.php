@@ -42,6 +42,7 @@ class CalendarTest extends TestCase
     /** @test */
     public function can_limit_birthday_calendar_roles()
     {
+        Person::first()->update(['birthday' => Carbon::today()]);
         Config::set('enso.calendar.birthdays.roles', []);
 
         $this->assertEmpty((new BirthdayCalendar())
