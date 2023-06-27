@@ -168,8 +168,14 @@ class Event extends Model implements ProvidesEvent
 
     public function scopeBetween($query, Carbon $start, Carbon $end)
     {
-        $query->whereDate('end_date', '<=', $end)
-            ->whereDate('start_date', '>=', $start);
+        $query->where(fn ($query) => $query
+            ->where(fn ($query) => $query
+                ->whereDate('end_date', '<=', $end)
+                ->whereDate('end_date', '>=', $start))
+            ->orWhere
+            ->where(fn ($query) => $query
+                ->whereDate('start_date', '>=', $start)
+                ->whereDate('start_date', '<=', $end)));
     }
 
     private function saveOneOrCreateSequence()
