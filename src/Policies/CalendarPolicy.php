@@ -12,9 +12,7 @@ class CalendarPolicy
 
     public function before($user)
     {
-        if ($user->isAdmin() || $user->isSupervisor()) {
-            return true;
-        }
+        return $user->isSuperior();
     }
 
     public function access($user, Contract $calendar)
