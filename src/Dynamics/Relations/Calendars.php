@@ -3,8 +3,8 @@
 namespace LaravelEnso\Calendar\Dynamics\Relations;
 
 use Closure;
-use LaravelEnso\DynamicMethods\Contracts\Relation;
 use LaravelEnso\Calendar\Models\Calendar;
+use LaravelEnso\DynamicMethods\Contracts\Relation;
 use LaravelEnso\Users\Models\User;
 
 class Calendars implements Relation
@@ -21,7 +21,7 @@ class Calendars implements Relation
 
     public function closure(): Closure
     {
-        return fn(User $user) => $user
+        return fn (User $user) => $user
             ->hasMany(Calendar::class, 'created_by');
     }
 }

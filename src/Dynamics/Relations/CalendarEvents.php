@@ -3,8 +3,8 @@
 namespace LaravelEnso\Calendar\Dynamics\Relations;
 
 use Closure;
-use LaravelEnso\DynamicMethods\Contracts\Relation;
 use LaravelEnso\Calendar\Models\Event;
+use LaravelEnso\DynamicMethods\Contracts\Relation;
 use LaravelEnso\Users\Models\User;
 
 class CalendarEvents implements Relation
