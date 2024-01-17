@@ -31,11 +31,12 @@
     ],
     "homepage": "https://https://github.com/laravel-enso/calendar",
     "require": {
-        "laravel-enso/core": "^8.0",
+        "laravel-enso/core": "^9.0",
+        "laravel-enso/dynamic-methods": "^3.0",
         "laravel-enso/enums": "^2.0",
         "laravel-enso/forms": "^4.0",
         "laravel-enso/people": "^4.0",
-        "laravel-enso/helpers": "^2.0",
+        "laravel-enso/helpers": "^3.0",
         "laravel-enso/select": "^4.0",
         "laravel-enso/permissions": "^5.0",
         "laravel-enso/track-who": "^2.0",
@@ -54,8 +55,7 @@
                 "LaravelEnso\\Calendar\\AppServiceProvider",
                 "LaravelEnso\\Calendar\\AuthServiceProvider",
                 "LaravelEnso\\Calendar\\CalendarServiceProvider",
-                "LaravelEnso\\Calendar\\EnumServiceProvider",
-                "LaravelEnso\\Calendar\\UserServiceProvider"
+                "LaravelEnso\\Calendar\\EnumServiceProvider"
             ]
         }
     }
