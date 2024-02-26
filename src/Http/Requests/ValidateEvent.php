@@ -48,7 +48,7 @@ class ValidateEvent extends FormRequest
         $this->validateEndsAt($validator);
         $this->validateRecurrenceEndsAt($validator);
 
-        $validator->after(fn ($validator) => $this->after($validator));
+        $validator->after(fn ($validator) => $this->validateAfter($validator));
     }
 
     public function reminders()
@@ -97,7 +97,7 @@ class ValidateEvent extends FormRequest
         );
     }
 
-    private function after($validator)
+    private function validateAfter($validator)
     {
         if ($this->has('start_date') && $this->predatesSubsequence()) {
             $validator->errors()
