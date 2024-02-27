@@ -47,8 +47,6 @@ class ValidateEvent extends FormRequest
         $this->validateEndTime($validator);
         $this->validateEndsAt($validator);
         $this->validateRecurrenceEndsAt($validator);
-
-        $validator->after(fn ($validator) => $this->validateAfter($validator));
     }
 
     public function reminders()
@@ -97,17 +95,21 @@ class ValidateEvent extends FormRequest
         );
     }
 
-    private function validateAfter($validator)
+    public function after(): array
     {
-        if ($this->has('start_date') && $this->predatesSubsequence()) {
-            $validator->errors()
-                ->add('start_date', "You can't predate a subsequence of events");
-        }
+        return [
+            function (Validator $validator) {
+                if ($this->has('start_date') && $this->predatesSubsequence()) {
+                    $validator->errors()
+                        ->add('start_date', "You can't predate a subsequence of events");
+                }
 
-        if ($this->oneWithRecurrence()) {
-            $validator->errors()
-                ->add('recurrence_ends_at', "You can't have recurrence on singular events");
-        }
+                if ($this->oneWithRecurrence()) {
+                    $validator->errors()
+                        ->add('recurrence_ends_at', "You can't have recurrence on singular events");
+                }
+            },
+        ];
     }
 
     private function predatesSubsequence(): bool

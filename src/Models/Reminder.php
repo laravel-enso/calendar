@@ -17,7 +17,7 @@ class Reminder extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'scheduled_at' => 'date',
+        'scheduled_at' => 'datetime',
     ];
 
     public function event()
