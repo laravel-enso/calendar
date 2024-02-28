@@ -78,7 +78,9 @@ class Update
 
     private function shouldRegenerate(): bool
     {
-        return $this->event->isDirty(['frequency', ...$this->event->getDates()]);
+        return $this->event->isDirty([
+            'frequency', 'start_date', 'end_date', 'recurrence_ends_at',
+        ]);
     }
 
     private function isSingular(): bool
