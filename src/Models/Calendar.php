@@ -14,8 +14,6 @@ class Calendar extends Model implements Contract
 
     protected $guarded = ['id'];
 
-    protected $casts = ['private' => 'boolean', 'created_by' => 'integer'];
-
     public function events()
     {
         return $this->hasMany(Event::class);
@@ -39,5 +37,12 @@ class Calendar extends Model implements Contract
     public function readonly(): bool
     {
         return false;
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'private' => 'boolean', 'created_by' => 'integer',
+        ];
     }
 }

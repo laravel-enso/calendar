@@ -26,12 +26,6 @@ class Event extends Model implements ProvidesEvent
 
     protected $guarded = ['id'];
 
-    protected $casts = [
-        'is_all_day' => 'boolean', 'parent_id' => 'integer', 'calendar_id' => 'integer',
-        'frequency' => 'integer', 'created_by' => 'integer', 'recurrence_ends_at' => 'date',
-        'start_date' => 'date', 'end_date' => 'date',
-    ];
-
     public function parent()
     {
         return $this->belongsTo(static::class, 'parent_id');
@@ -175,6 +169,16 @@ class Event extends Model implements ProvidesEvent
             ->where(fn ($query) => $query
                 ->whereDate('start_date', '>=', $start)
                 ->whereDate('start_date', '<=', $end)));
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'is_all_day' => 'boolean', 'parent_id' => 'integer', 'calendar_id' => 'integer',
+            'frequency' => 'integer', 'created_by' => 'integer', 'recurrence_ends_at' => 'date',
+            'start_date' => 'date', 'end_date' => 'date'
+
+        ];
     }
 
     private function saveOneOrCreateSequence()

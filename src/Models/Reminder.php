@@ -16,10 +16,6 @@ class Reminder extends Model
 
     protected $guarded = ['id'];
 
-    protected $casts = [
-        'scheduled_at' => 'datetime',
-    ];
-
     public function event()
     {
         return $this->belongsTo(Event::class);
@@ -46,5 +42,12 @@ class Reminder extends Model
     public function scopeShouldSend($query)
     {
         return $query->notSent()->overdue();
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'scheduled_at' => 'datetime',
+        ];
     }
 }
