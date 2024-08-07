@@ -176,7 +176,7 @@ class Event extends Model implements ProvidesEvent
         return [
             'is_all_day' => 'boolean', 'parent_id' => 'integer', 'calendar_id' => 'integer',
             'frequency' => 'integer', 'created_by' => 'integer', 'recurrence_ends_at' => 'date',
-            'start_date' => 'date', 'end_date' => 'date'
+            'start_date' => 'date', 'end_date' => 'date',
 
         ];
     }
