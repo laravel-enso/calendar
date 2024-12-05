@@ -6,7 +6,6 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Routing\Controller;
 use LaravelEnso\Calendar\Http\Requests\ValidateEvent;
 use LaravelEnso\Calendar\Http\Resources\Event as Resource;
-use LaravelEnso\Calendar\Models\Calendar;
 use LaravelEnso\Calendar\Models\Event;
 
 class Update extends Controller
@@ -15,7 +14,7 @@ class Update extends Controller
 
     public function __invoke(ValidateEvent $request, Event $event)
     {
-        $this->authorize('access', Calendar::cacheGet($request->get('calendar_id')));
+        $this->authorize('handle', $event);
 
         $event->fill($request->validatedExcept('attendees', 'reminders', 'updateType'));
 
