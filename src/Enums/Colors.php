@@ -17,4 +17,22 @@ class Colors extends Enum
     public const White = 'white';
     public const Pink = 'pink';
     public const Aquamarine = 'aquamarine';
+    public const Teal = 'teal';
+    public const Gold = 'gold';
+    public const Indigo = 'indigo';
+    public const Cyan = 'cyan';
+    public const Lime = 'lime';
+    public const Violet = 'violet';
+    public const Magenta = 'magenta';
+    public const Beige = 'beige';
+    public const Salmon = 'salmon';
+    public const Coral = 'coral';
+    public const Navy = 'navy';
+    public const Olive = 'olive';
+    public const Turquoise = 'turquoise';
+    public const Maroon = 'maroon';
+    public const Lavender = 'lavender';
+    public const Khaki = 'khaki';
+    public const Crimson = 'crimson';
+    public const Orchid = 'orchid';
 }
