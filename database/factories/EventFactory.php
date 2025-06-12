@@ -3,7 +3,7 @@
 namespace LaravelEnso\Calendar\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use LaravelEnso\Calendar\Enums\Frequencies;
+use LaravelEnso\Calendar\Enums\Frequency;
 use LaravelEnso\Calendar\Models\Calendar;
 use LaravelEnso\Calendar\Models\Event;
 
@@ -18,7 +18,7 @@ class EventFactory extends Factory
             'body' => $this->faker->text,
             'title' => $this->faker->title,
             'calendar_id' => Calendar::factory(),
-            'frequency' => Frequencies::Once,
+            'frequency' => Frequency::Once->value,
             'start_date' => $this->faker->date('Y-m-d'),
             'end_date' => $this->faker->date('Y-m-d'),
             'start_time' => '12:00',

@@ -2,23 +2,32 @@
 
 namespace LaravelEnso\Calendar\Enums;
 
-use LaravelEnso\Enums\Services\Enum;
+use LaravelEnso\Enums\Contracts\Frontend;
+use LaravelEnso\Enums\Contracts\Mappable;
 
-class UpdateType extends Enum
+enum UpdateType: int implements Mappable, Frontend
 {
-    public const OnlyThis = 1;
-    public const ThisAndFuture = 2;
-    public const All = 3;
+    case OnlyThis = 1;
+    case ThisAndFuture = 2;
+    case All = 3;
 
-    protected static array $data = [
-        self::OnlyThis => 'Only This',
-        self::ThisAndFuture => 'This And Future',
-        self::All => 'All',
-    ];
+    public function map(): string
+    {
+        return match ($this) {
+            self::OnlyThis => 'Only This',
+            self::ThisAndFuture => 'This And Future',
+            self::All => 'All',
+        };
+    }
+
+    public static function registerBy(): string
+    {
+        return 'eventUpdateType';
+    }
 
     public static function forParent()
     {
-        return static::select()
-            ->reject(fn ($updateType) => $updateType->id === static::All);
+        return collect([self::OnlyThis, self::ThisAndFuture])
+            ->map(fn ($case) => (object) ['id' => $case->value, 'name' => $case->map()]);
     }
 }

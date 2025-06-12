@@ -2,7 +2,7 @@
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use LaravelEnso\Calendar\Enums\Frequencies;
+use LaravelEnso\Calendar\Enums\Frequency;
 use LaravelEnso\Calendar\Enums\UpdateType;
 use LaravelEnso\Calendar\Models\Event;
 use LaravelEnso\Users\Models\User;
@@ -32,7 +32,7 @@ class SequenceTest extends TestCase
             'start_date' => $this->date->format('Y-m-d'),
             'end_date' => $this->date->format('Y-m-d'),
             'recurrence_ends_at' => $this->date->clone()->addDays($this->count - 1),
-            'frequency' => Frequencies::Daily,
+            'frequency' => Frequency::Daily->value,
         ]);
 
         $this->event->store();
@@ -45,7 +45,7 @@ class SequenceTest extends TestCase
 
         $this->patch($this->route('update', 3), [
             'end_time' => $endTime,
-            'updateType' => UpdateType::All,
+            'updateType' => UpdateType::All->value,
         ]);
 
         $startTime = $this->date->format('Y-m-d').' '.$this->event->start_time;
@@ -61,7 +61,7 @@ class SequenceTest extends TestCase
 
         $this->patch($this->route('update', $startingId), [
             'end_time' => $endTime,
-            'updateType' => UpdateType::ThisAndFuture,
+            'updateType' => UpdateType::ThisAndFuture->value,
         ]);
 
         $events = Event::orderBy('id')->get();
@@ -83,7 +83,7 @@ class SequenceTest extends TestCase
         $this->patch($this->route('update', $startingId), [
             'start_date' => $date->format('Y-m-d'),
             'end_date' => $date->format('Y-m-d'),
-            'updateType' => UpdateType::OnlyThis,
+            'updateType' => UpdateType::OnlyThis->value,
         ]);
 
         $events = Event::orderBy('id')->get();
@@ -100,7 +100,7 @@ class SequenceTest extends TestCase
         $this->patch($this->route('update', $startingId), [
             'start_date' => $date,
             'end_date' => $date,
-            'updateType' => UpdateType::ThisAndFuture,
+            'updateType' => UpdateType::ThisAndFuture->value,
             'frequency' => $this->event->frequency,
             'recurrence_ends_at' => $this->event->recurrence_ends_at,
         ]);
@@ -119,7 +119,7 @@ class SequenceTest extends TestCase
         $this->patch($this->route('update', $startingId), [
             'start_date' => $date,
             'end_date' => $date,
-            'updateType' => UpdateType::ThisAndFuture,
+            'updateType' => UpdateType::ThisAndFuture->value,
         ])->assertStatus(302)
             ->assertSessionHasErrors(['start_date']);
     }
@@ -132,7 +132,7 @@ class SequenceTest extends TestCase
 
         $this->patch($this->route('update', $startingId), [
             'recurrence_ends_at' => $date,
-            'updateType' => UpdateType::ThisAndFuture,
+            'updateType' => UpdateType::ThisAndFuture->value,
         ]);
 
         $parents = Event::orderBy('id')->pluck('parent_id')->toArray();
@@ -146,8 +146,8 @@ class SequenceTest extends TestCase
         $startingId = 3;
 
         $this->patch($this->route('update', $startingId), [
-            'frequency' => Frequencies::Once,
-            'updateType' => UpdateType::OnlyThis,
+            'frequency' => Frequency::Once->value,
+            'updateType' => UpdateType::OnlyThis->value,
         ]);
 
         $parents = Event::orderBy('id')->pluck('parent_id')->toArray();
@@ -161,8 +161,8 @@ class SequenceTest extends TestCase
         $startingId = 3;
 
         $this->patch($this->route('update', $startingId), [
-            'frequency' => Frequencies::Once,
-            'updateType' => UpdateType::ThisAndFuture,
+            'frequency' => Frequency::Once->value,
+            'updateType' => UpdateType::ThisAndFuture->value,
         ])->assertStatus(302)
             ->assertSessionHasErrors(['frequency']);
     }
@@ -170,7 +170,7 @@ class SequenceTest extends TestCase
     /** @test */
     public function can_delete_all_events_from_middle_of_sequence()
     {
-        $this->delete($this->route('destroy', 3), ['updateType' => UpdateType::All]);
+        $this->delete($this->route('destroy', 3), ['updateType' => UpdateType::All->value]);
 
         $this->assertTrue(Event::doesntExist());
     }
@@ -180,7 +180,7 @@ class SequenceTest extends TestCase
     {
         $id = 3;
 
-        $this->delete($this->route('destroy', $id), ['updateType' => UpdateType::OnlyThis]);
+        $this->delete($this->route('destroy', $id), ['updateType' => UpdateType::OnlyThis->value]);
 
         $events = Event::orderBy('id')->where('id', '>=', $id)->get();
 
@@ -193,7 +193,7 @@ class SequenceTest extends TestCase
     {
         $id = 3;
 
-        $this->delete($this->route('destroy', $id), ['updateType' => UpdateType::ThisAndFuture]);
+        $this->delete($this->route('destroy', $id), ['updateType' => UpdateType::ThisAndFuture->value]);
 
         $this->assertTrue(Event::orderBy('id')->where('id', '>=', $id)->doesntExist());
 

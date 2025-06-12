@@ -9,11 +9,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('calendar_event_user', function (Blueprint $table) {
-            $table->integer('event_id')->unsigned()->index();
+            $table->unsignedInteger('event_id')->index();
             $table->foreign('event_id')->references('id')->on('calendar_events')
                 ->onUpdate('cascade')->onDelete('cascade');
 
-            $table->integer('user_id')->unsigned()->index();
+            $table->unsignedInteger('user_id')->index();
             $table->foreign('user_id')->references('id')->on('users')
                 ->onUpdate('cascade')->onDelete('cascade');
 

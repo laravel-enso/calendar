@@ -17,9 +17,9 @@ class Delete
     public function handle()
     {
         match ($this->updateType) {
-            UpdateType::All => $this->all(),
-            UpdateType::ThisAndFuture => $this->currentAndFuture(),
-            UpdateType::OnlyThis => $this->current(),
+            UpdateType::All->value => $this->all(),
+            UpdateType::ThisAndFuture->value => $this->currentAndFuture(),
+            UpdateType::OnlyThis->value => $this->current(),
         };
     }
 

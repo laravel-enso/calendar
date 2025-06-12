@@ -54,7 +54,7 @@ class Update
         $dirty = $this->event->getDirty();
         unset($dirty['parent_id']);
 
-        if ($this->updateType === UpdateType::ThisAndFuture) {
+        if ($this->updateType === UpdateType::ThisAndFuture->value) {
             $this->currentAndFuture($dirty);
         } else {
             $this->all($dirty);
@@ -85,6 +85,6 @@ class Update
 
     private function isSingular(): bool
     {
-        return $this->updateType === UpdateType::OnlyThis;
+        return $this->updateType === UpdateType::OnlyThis->value;
     }
 }

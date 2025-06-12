@@ -4,16 +4,15 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     public function up()
     {
         Schema::create('calendar_events', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('parent_id')->nullable()->unsigned()->index();
+            $table->unsignedInteger('parent_id')->nullable()->index();
 
-            $table->integer('calendar_id')->unsigned()->index();
+            $table->unsignedInteger('calendar_id')->index();
             $table->foreign('calendar_id')->index()
                 ->references('id')->on('calendars')->onDelete('cascade');
 
@@ -34,7 +33,7 @@ return new class extends Migration
             $table->decimal('lat', 10, 8)->nullable();
             $table->decimal('lng', 11, 8)->nullable();
 
-            $table->integer('created_by')->unsigned()->index()->nullable();
+            $table->usignedInteger('created_by')->index()->nullable();
             $table->foreign('created_by')->references('id')->on('users');
 
             $table->timestamps();

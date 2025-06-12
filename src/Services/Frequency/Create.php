@@ -2,7 +2,7 @@
 
 namespace LaravelEnso\Calendar\Services\Frequency;
 
-use LaravelEnso\Calendar\Enums\Frequencies;
+use LaravelEnso\Calendar\Enums\Frequency;
 use LaravelEnso\Calendar\Models\Event;
 use LaravelEnso\Calendar\Services\Frequency\Repeats\Daily;
 use LaravelEnso\Calendar\Services\Frequency\Repeats\Monthly;
@@ -16,12 +16,12 @@ class Create
     protected array $stub;
 
     private static $options = [
-        Frequencies::Once => Once::class,
-        Frequencies::Daily => Daily::class,
-        Frequencies::Weekly => Weekly::class,
-        Frequencies::Weekdays => Weekday::class,
-        Frequencies::Monthly => Monthly::class,
-        Frequencies::Yearly => Yearly::class,
+        Frequency::Once->value => Once::class,
+        Frequency::Daily->value => Daily::class,
+        Frequency::Weekly->value => Weekly::class,
+        Frequency::Weekdays->value => Weekday::class,
+        Frequency::Monthly->value => Monthly::class,
+        Frequency::Yearly->value => Yearly::class,
     ];
 
     public function __construct(protected Event $event)

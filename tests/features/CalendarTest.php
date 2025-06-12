@@ -32,7 +32,7 @@ class CalendarTest extends TestCase
     {
         $result = $this->post(route('core.calendar.store'), [
             'name' => 'test',
-            'color' => Colors::Red,
+            'color' => Colors::Red->value,
             'private' => false,
         ]);
 

@@ -2,37 +2,47 @@
 
 namespace LaravelEnso\Calendar\Enums;
 
-use LaravelEnso\Enums\Services\Enum;
+use Illuminate\Support\Collection;
+use LaravelEnso\Enums\Contracts\Select;
+use LaravelEnso\Enums\Traits\Select as Options;
 
-class Colors extends Enum
+enum Colors: string implements Select
 {
-    public const Red = 'red';
-    public const Blue = 'blue';
-    public const Green = 'green';
-    public const Yellow = 'yellow';
-    public const Purple = 'purple';
-    public const Orange = 'orange';
-    public const Brown = 'brown';
-    public const Black = 'black';
-    public const White = 'white';
-    public const Pink = 'pink';
-    public const Aquamarine = 'aquamarine';
-    public const Teal = 'teal';
-    public const Gold = 'gold';
-    public const Indigo = 'indigo';
-    public const Cyan = 'cyan';
-    public const Lime = 'lime';
-    public const Violet = 'violet';
-    public const Magenta = 'magenta';
-    public const Beige = 'beige';
-    public const Salmon = 'salmon';
-    public const Coral = 'coral';
-    public const Navy = 'navy';
-    public const Olive = 'olive';
-    public const Turquoise = 'turquoise';
-    public const Maroon = 'maroon';
-    public const Lavender = 'lavender';
-    public const Khaki = 'khaki';
-    public const Crimson = 'crimson';
-    public const Orchid = 'orchid';
+    use Options;
+
+    case Red = 'red';
+    case Blue = 'blue';
+    case Green = 'green';
+    case Yellow = 'yellow';
+    case Purple = 'purple';
+    case Orange = 'orange';
+    case Brown = 'brown';
+    case Black = 'black';
+    case White = 'white';
+    case Pink = 'pink';
+    case Aquamarine = 'aquamarine';
+    case Teal = 'teal';
+    case Gold = 'gold';
+    case Indigo = 'indigo';
+    case Cyan = 'cyan';
+    case Lime = 'lime';
+    case Violet = 'violet';
+    case Magenta = 'magenta';
+    case Beige = 'beige';
+    case Salmon = 'salmon';
+    case Coral = 'coral';
+    case Navy = 'navy';
+    case Olive = 'olive';
+    case Turquoise = 'turquoise';
+    case Maroon = 'maroon';
+    case Lavender = 'lavender';
+    case Khaki = 'khaki';
+    case Crimson = 'crimson';
+    case Orchid = 'orchid';
+
+    public static function values() : Collection
+    {
+        return Collection::wrap(self::cases())
+                ->map(fn ($case) => $case->value);
+    }
 }

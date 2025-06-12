@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use LaravelEnso\Calendar\Contracts\Calendar as CalendarContract;
 use LaravelEnso\Calendar\Contracts\ProvidesEvent;
-use LaravelEnso\Calendar\Enums\Frequencies;
+use LaravelEnso\Calendar\Enums\Frequency;
 use LaravelEnso\Calendar\Services\Frequency\Create;
 use LaravelEnso\Calendar\Services\Frequency\Delete;
 use LaravelEnso\Calendar\Services\Frequency\Update;
@@ -131,7 +131,7 @@ class Event extends Model implements ProvidesEvent
 
     public function remove(?int $updateType)
     {
-        if ($this->frequency === Frequencies::Once) {
+        if ($this->frequency === Frequency::Once->value) {
             $this->delete();
         } else {
             (new Delete($this, $updateType))->handle();
@@ -183,7 +183,7 @@ class Event extends Model implements ProvidesEvent
 
     private function saveOneOrCreateSequence()
     {
-        if ($this->frequency === Frequencies::Once) {
+        if ($this->frequency === Frequency::Once->value) {
             $this->save();
         } else {
             $this->createSequence();
@@ -192,7 +192,7 @@ class Event extends Model implements ProvidesEvent
 
     private function createOrUpdateSequence(int $updateType)
     {
-        if ($this->getOriginal('frequency') === Frequencies::Once) {
+        if ($this->getOriginal('frequency') === Frequency::Once->value) {
             $this->createSequence();
         } else {
             $this->updateSequence($updateType);
