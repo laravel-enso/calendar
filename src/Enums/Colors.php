@@ -40,7 +40,7 @@ enum Colors: string implements Select
     case Crimson = 'crimson';
     case Orchid = 'orchid';
 
-    public static function values() : Collection
+    public static function values(): Collection
     {
         return Collection::wrap(self::cases())
                 ->map(fn ($case) => $case->value);
