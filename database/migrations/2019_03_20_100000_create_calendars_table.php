@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('color');
             $table->boolean('private');
 
-            $table->integer('created_by')->unsigned()->index()->nullable();
+            $table->unsignedInteger('created_by')->index()->nullable();
             $table->foreign('created_by')->references('id')->on('users');
 
             $table->timestamps();

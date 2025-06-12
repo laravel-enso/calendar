@@ -26,7 +26,7 @@ class BirthdayCalendar implements CustomCalendar
 
     public function color(): string
     {
-        return Colors::Purple;
+        return Colors::Purple->value;
     }
 
     public function private(): bool

@@ -5,7 +5,7 @@ namespace LaravelEnso\Calendar\Calendars;
 use Carbon\Carbon;
 use LaravelEnso\Calendar\Contracts\Calendar;
 use LaravelEnso\Calendar\Contracts\ProvidesEvent;
-use LaravelEnso\Calendar\Enums\Frequencies;
+use LaravelEnso\Calendar\Enums\Frequency;
 use LaravelEnso\People\Models\Person;
 
 class BirthdayEvent implements ProvidesEvent
@@ -56,7 +56,7 @@ class BirthdayEvent implements ProvidesEvent
 
     public function frequency(): int
     {
-        return Frequencies::Yearly;
+        return Frequency::Yearly->value;
     }
 
     public function recurrenceEnds(): ?Carbon

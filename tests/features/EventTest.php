@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
-use LaravelEnso\Calendar\Enums\Frequencies;
+use LaravelEnso\Calendar\Enums\Frequency;
 use LaravelEnso\Calendar\Models\Event;
 use LaravelEnso\Users\Models\User;
 use Tests\TestCase;
@@ -21,7 +21,7 @@ class EventTest extends TestCase
             ->actingAs(User::first());
 
         $this->event = Event::factory()->make([
-            'frequency' => Frequencies::Once,
+            'frequency' => Frequency::Once->value,
         ]);
 
         $this->event->store();
@@ -41,7 +41,7 @@ class EventTest extends TestCase
     public function can_update_to_sequence()
     {
         $this->patch($this->route('update'), [
-            'frequency' => Frequencies::Daily,
+            'frequency' => Frequency::Daily->value,
             'recurrence_ends_at' => $this->event->start_date->clone()->addDays(4)->format('Y-m-d'),
         ]);
 

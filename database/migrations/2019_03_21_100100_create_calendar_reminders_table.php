@@ -11,11 +11,11 @@ return new class extends Migration
         Schema::create('calendar_reminders', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('event_id')->unsigned()->index();
+            $table->unsignedInteger('event_id')->index();
             $table->foreign('event_id')->references('id')->on('calendar_events')
                 ->onDelete('cascade');
 
-            $table->integer('created_by')->unsigned()->index();
+            $table->unsignedInteger('created_by')->index();
             $table->foreign('created_by')->references('id')->on('users');
 
             $table->datetime('scheduled_at')->index();

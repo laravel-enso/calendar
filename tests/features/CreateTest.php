@@ -2,7 +2,7 @@
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use LaravelEnso\Calendar\Enums\Frequencies;
+use LaravelEnso\Calendar\Enums\Frequency;
 use LaravelEnso\Calendar\Models\Event;
 use LaravelEnso\Users\Models\User;
 use Tests\TestCase;
@@ -32,7 +32,7 @@ class CreateTest extends TestCase
         $this->post(route('core.calendar.events.store'), [
             'start_date' => $this->date->format('Y-m-d'),
             'end_date' => $this->date->format('Y-m-d'),
-            'frequency' => Frequencies::Once,
+            'frequency' => Frequency::Once->value,
         ] + $this->event->toArray());
 
         $this->assertTrue(Event::exists());
@@ -47,7 +47,7 @@ class CreateTest extends TestCase
         $this->post(route('core.calendar.events.store'), [
             'start_date' => $this->date->format('Y-m-d'),
             'end_date' => $this->date->format('Y-m-d'),
-            'frequency' => Frequencies::Daily,
+            'frequency' => Frequency::Daily->value,
             'recurrence_ends_at' => $recurrenceEndsAt->format('Y-m-d'),
         ] + $this->event->toArray());
 
