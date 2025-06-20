@@ -31,7 +31,7 @@ class Colors extends Enum
     public const Olive = 'olive';
     public const Turquoise = 'turquoise';
     public const Maroon = 'maroon';
-    public const Lavender = 'lavender';
+    public const Amber = 'amber';
     public const Khaki = 'khaki';
     public const Crimson = 'crimson';
     public const Orchid = 'orchid';
