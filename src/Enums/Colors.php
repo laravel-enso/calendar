@@ -35,4 +35,9 @@ class Colors extends Enum
     public const Khaki = 'khaki';
     public const Crimson = 'crimson';
     public const Orchid = 'orchid';
+    public const Mint = 'Mint';
+    public const Periwinkle = 'Periwinkle';
+    public const Rose = 'Rose';
+    public const Slate = 'Slate';
+    public const Chartreuse = 'Chartreuse';
 }
