@@ -9,6 +9,7 @@ use LaravelEnso\Calendar\Models\Calendar;
 use LaravelEnso\People\Models\Person;
 use LaravelEnso\Users\Models\User;
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class CalendarTest extends TestCase
 {
@@ -27,7 +28,7 @@ class CalendarTest extends TestCase
         $this->calendar = Calendar::factory()->create();
     }
 
-    /** @test */
+    #[Test]
     public function create_calendar()
     {
         $result = $this->post(route('core.calendar.store'), [
@@ -39,7 +40,7 @@ class CalendarTest extends TestCase
         $this->assertTrue(Calendar::whereName('test')->exists());
     }
 
-    /** @test */
+    #[Test]
     public function can_limit_birthday_calendar_roles()
     {
         Person::first()->update(['birthday' => Carbon::today()]);

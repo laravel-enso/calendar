@@ -6,6 +6,7 @@ use LaravelEnso\Calendar\Enums\Frequencies;
 use LaravelEnso\Calendar\Models\Event;
 use LaravelEnso\Users\Models\User;
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class CreateTest extends TestCase
 {
@@ -26,7 +27,7 @@ class CreateTest extends TestCase
         $this->event = Event::factory()->make();
     }
 
-    /** @test */
+    #[Test]
     public function create_event()
     {
         $this->post(route('core.calendar.events.store'), [
@@ -38,7 +39,7 @@ class CreateTest extends TestCase
         $this->assertTrue(Event::exists());
     }
 
-    /** @test */
+    #[Test]
     public function create_sequence()
     {
         $count = 5;
