@@ -9,6 +9,7 @@ use LaravelEnso\Calendar\Models\Reminder;
 use LaravelEnso\Calendar\Notifications\ReminderNotification;
 use LaravelEnso\Users\Models\User;
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class SendNotificationsTest extends TestCase
 {
@@ -24,7 +25,7 @@ class SendNotificationsTest extends TestCase
             ->actingAs($this->user = User::first());
     }
 
-    /** @test */
+    #[Test]
     public function when_there_is_no_ready_reminders_then_should_not_notify_user()
     {
         Notification::fake();
@@ -39,7 +40,7 @@ class SendNotificationsTest extends TestCase
         Notification::assertNothingSent();
     }
 
-    /** @test */
+    #[Test]
     public function when_there_a_ready_reminders_then_should_notify_user()
     {
         Notification::fake();

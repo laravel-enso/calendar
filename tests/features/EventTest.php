@@ -6,6 +6,7 @@ use LaravelEnso\Calendar\Enums\Frequencies;
 use LaravelEnso\Calendar\Models\Event;
 use LaravelEnso\Users\Models\User;
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class EventTest extends TestCase
 {
@@ -27,7 +28,7 @@ class EventTest extends TestCase
         $this->event->store();
     }
 
-    /** @test */
+    #[Test]
     public function can_update_event()
     {
         $endTime = '22:20';
@@ -37,7 +38,7 @@ class EventTest extends TestCase
         $this->assertEquals($endTime, $this->event->refresh()->end_time);
     }
 
-    /** @test */
+    #[Test]
     public function can_update_to_sequence()
     {
         $this->patch($this->route('update'), [
@@ -51,7 +52,7 @@ class EventTest extends TestCase
         $this->assertEquals($assertion, $events->pluck('parent_id')->toArray());
     }
 
-    /** @test */
+    #[Test]
     public function can_delete_event()
     {
         $this->delete($this->route('destroy'));

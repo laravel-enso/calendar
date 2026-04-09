@@ -7,6 +7,7 @@ use LaravelEnso\Calendar\Enums\UpdateType;
 use LaravelEnso\Calendar\Models\Event;
 use LaravelEnso\Users\Models\User;
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class SequenceTest extends TestCase
 {
@@ -38,7 +39,7 @@ class SequenceTest extends TestCase
         $this->event->store();
     }
 
-    /** @test */
+    #[Test]
     public function can_update_all_events_from_middle_of_sequence()
     {
         $endTime = '22:20';
@@ -53,7 +54,7 @@ class SequenceTest extends TestCase
         $this->assertCount($this->count, Event::whereEndTime($endTime)->get());
     }
 
-    /** @test */
+    #[Test]
     public function can_update_this_and_future_events()
     {
         $startingId = 3;
@@ -74,7 +75,7 @@ class SequenceTest extends TestCase
         $this->assertRecurrenceEndsAt($startingId);
     }
 
-    /** @test */
+    #[Test]
     public function can_update_date_of_event_in_middle_of_sequence()
     {
         $startingId = 3;
@@ -91,7 +92,7 @@ class SequenceTest extends TestCase
         $this->assertEquals($events->pluck('parent_id')->toArray(), [null, 1, null, null, 4]);
     }
 
-    /** @test */
+    #[Test]
     public function can_regenerate_future_events()
     {
         $startingId = 3;
@@ -110,7 +111,7 @@ class SequenceTest extends TestCase
         $this->assertEquals([null, 1, null, 3], $parents);
     }
 
-    /** @test */
+    #[Test]
     public function cannot_predate_subsequence()
     {
         $startingId = 3;
@@ -124,7 +125,7 @@ class SequenceTest extends TestCase
             ->assertSessionHasErrors(['start_date']);
     }
 
-    /** @test */
+    #[Test]
     public function can_update_recurrence_ends_at()
     {
         $startingId = 1;
@@ -140,7 +141,7 @@ class SequenceTest extends TestCase
         $this->assertEquals([null, 1, 1, 1, 1, 1, 1, 1], $parents);
     }
 
-    /** @test */
+    #[Test]
     public function can_update_frequency_to_once_on_only_one_event_from_sequence()
     {
         $startingId = 3;
@@ -155,7 +156,7 @@ class SequenceTest extends TestCase
         $this->assertEquals([null, 1, null, null, 4], $parents);
     }
 
-    /** @test */
+    #[Test]
     public function cannot_update_frequency_to_once_on_many_events_from_sequence()
     {
         $startingId = 3;
@@ -167,7 +168,7 @@ class SequenceTest extends TestCase
             ->assertSessionHasErrors(['frequency']);
     }
 
-    /** @test */
+    #[Test]
     public function can_delete_all_events_from_middle_of_sequence()
     {
         $this->delete($this->route('destroy', 3), ['updateType' => UpdateType::All]);
@@ -175,7 +176,7 @@ class SequenceTest extends TestCase
         $this->assertTrue(Event::doesntExist());
     }
 
-    /** @test */
+    #[Test]
     public function can_delete_single_event_from_sequence()
     {
         $id = 3;
@@ -188,7 +189,7 @@ class SequenceTest extends TestCase
         $this->assertEquals([null, $id + 1], $events->pluck('parent_id')->toArray());
     }
 
-    /** @test */
+    #[Test]
     public function can_delete_following_events()
     {
         $id = 3;
