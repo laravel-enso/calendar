@@ -8,7 +8,7 @@ use LaravelEnso\Users\Models\User;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
-class CreateTest extends TestCase
+class CalendarCreateTest extends TestCase
 {
     use RefreshDatabase;
 

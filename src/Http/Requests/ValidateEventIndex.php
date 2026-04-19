@@ -17,7 +17,8 @@ class ValidateEventIndex extends FormRequest
         return [
             'startDate' => 'nullable|date',
             'endDate' => 'nullable|date',
-            'calendars' => 'array|in:'.Calendars::keys()->implode(','),
+            'calendars' => 'array',
+            'calendars.*' => 'in:'.Calendars::keys()->implode(','),
         ];
     }
 }

@@ -63,7 +63,7 @@ class Events implements Responsable
 
     private function request($request)
     {
-        $request->replace([
+        $request->query->replace([
             'startDate' => $request->get('startDate')
                 ? Carbon::parse($request->get('startDate'))
                 : null,

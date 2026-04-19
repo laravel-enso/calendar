@@ -9,7 +9,7 @@ use LaravelEnso\Users\Models\User;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
-class SequenceTest extends TestCase
+class CalendarSequenceTest extends TestCase
 {
     use RefreshDatabase;
 

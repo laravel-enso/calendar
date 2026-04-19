@@ -48,13 +48,18 @@ class Calendars
     {
         Collection::wrap($calendars)
             ->map(fn ($calendar) => is_string($calendar) ? new $calendar() : $calendar)
-            ->reject(fn ($calendar) => $this->registered($calendar))
-            ->each(fn (Contract $calendar) => $this->calendars->push($calendar));
+            ->each(function (Contract $calendar) {
+                if (! $this->registered($calendar)) {
+                    $this->calendars->push($calendar);
+                }
+            });
     }
 
     public function remove($aliases)
     {
-        $this->calendars->forget($aliases);
+        $this->calendars = $this->calendars
+            ->reject(fn ($calendar) => in_array($calendar->getKey(), (array) $aliases, true))
+            ->values();
     }
 
     private function registered($calendar)
