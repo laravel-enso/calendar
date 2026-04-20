@@ -13,8 +13,8 @@ class CalendarFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->text,
-            'color' => Colors::values()->random(),
+            'name'    => $this->faker->text,
+            'color'   => Colors::values()->random(),
             'private' => false,
         ];
     }

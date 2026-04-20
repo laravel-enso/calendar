@@ -8,8 +8,8 @@ use LaravelEnso\Calendar\Enums\Colors;
 use LaravelEnso\Calendar\Models\Calendar;
 use LaravelEnso\People\Models\Person;
 use LaravelEnso\Users\Models\User;
-use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
+use Tests\TestCase;
 
 class CalendarCalendarTest extends TestCase
 {
@@ -31,8 +31,8 @@ class CalendarCalendarTest extends TestCase
     public function create_calendar()
     {
         $this->post(route('core.calendar.store'), [
-            'name' => 'test',
-            'color' => Colors::Red,
+            'name'    => 'test',
+            'color'   => Colors::Red,
             'private' => false,
         ]);
 
@@ -46,13 +46,13 @@ class CalendarCalendarTest extends TestCase
 
         $response->assertOk()
             ->assertJsonFragment([
-                'id' => $this->calendar->id,
-                'name' => $this->calendar->name,
+                'id'       => $this->calendar->id,
+                'name'     => $this->calendar->name,
                 'readonly' => false,
             ])
             ->assertJsonFragment([
-                'id' => 'birthday-calendar',
-                'name' => 'Birthdays',
+                'id'       => 'birthday-calendar',
+                'name'     => 'Birthdays',
                 'readonly' => true,
             ]);
     }
@@ -71,7 +71,7 @@ class CalendarCalendarTest extends TestCase
         $this->getJson(route('core.calendar.options'))
             ->assertOk()
             ->assertJsonFragment([
-                'id' => $this->calendar->id,
+                'id'   => $this->calendar->id,
                 'name' => $this->calendar->name,
             ]);
     }
@@ -80,8 +80,8 @@ class CalendarCalendarTest extends TestCase
     public function can_update_and_delete_calendar()
     {
         $this->patchJson(route('core.calendar.update', $this->calendar), [
-            'name' => 'updated-calendar',
-            'color' => Colors::Blue,
+            'name'    => 'updated-calendar',
+            'color'   => Colors::Blue,
             'private' => true,
         ])->assertOk()
             ->assertJsonFragment([

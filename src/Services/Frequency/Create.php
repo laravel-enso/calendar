@@ -16,12 +16,12 @@ class Create
     protected array $stub;
 
     private static $options = [
-        Frequencies::Once => Once::class,
-        Frequencies::Daily => Daily::class,
-        Frequencies::Weekly => Weekly::class,
+        Frequencies::Once     => Once::class,
+        Frequencies::Daily    => Daily::class,
+        Frequencies::Weekly   => Weekly::class,
         Frequencies::Weekdays => Weekday::class,
-        Frequencies::Monthly => Monthly::class,
-        Frequencies::Yearly => Yearly::class,
+        Frequencies::Monthly  => Monthly::class,
+        Frequencies::Yearly   => Yearly::class,
     ];
 
     public function __construct(protected Event $event)

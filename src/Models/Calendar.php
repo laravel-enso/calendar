@@ -10,7 +10,9 @@ use LaravelEnso\TrackWho\Traits\CreatedBy;
 
 class Calendar extends Model implements Contract
 {
-    use CreatedBy, HasFactory, Rememberable;
+    use CreatedBy;
+    use HasFactory;
+    use Rememberable;
 
     protected $guarded = ['id'];
 

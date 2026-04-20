@@ -9,9 +9,9 @@ class Calendar extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->getKey(),
-            'name' => $this->name(),
-            'color' => $this->color(),
+            'id'       => $this->getKey(),
+            'name'     => $this->name(),
+            'color'    => $this->color(),
             'readonly' => $this->readonly(),
         ];
     }

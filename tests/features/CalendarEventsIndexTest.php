@@ -37,34 +37,34 @@ class CalendarEventsIndexTest extends TestCase
 
         $includedEvent = Event::factory()->create([
             'calendar_id' => $includedCalendar->id,
-            'title' => 'included-event',
-            'start_date' => $this->startDate->toDateString(),
-            'end_date' => $this->startDate->toDateString(),
+            'title'       => 'included-event',
+            'start_date'  => $this->startDate->toDateString(),
+            'end_date'    => $this->startDate->toDateString(),
         ]);
 
         Event::factory()->create([
             'calendar_id' => $excludedCalendar->id,
-            'title' => 'excluded-event',
-            'start_date' => $this->startDate->toDateString(),
-            'end_date' => $this->startDate->toDateString(),
+            'title'       => 'excluded-event',
+            'start_date'  => $this->startDate->toDateString(),
+            'end_date'    => $this->startDate->toDateString(),
         ]);
 
         Event::factory()->create([
             'calendar_id' => $includedCalendar->id,
-            'title' => 'outside-window-event',
-            'start_date' => $this->endDate->copy()->addDay()->toDateString(),
-            'end_date' => $this->endDate->copy()->addDay()->toDateString(),
+            'title'       => 'outside-window-event',
+            'start_date'  => $this->endDate->copy()->addDay()->toDateString(),
+            'end_date'    => $this->endDate->copy()->addDay()->toDateString(),
         ]);
 
         $this->getJson(route('core.calendar.events.index', [
             'startDate' => $this->startDate->toDateString(),
-            'endDate' => $this->endDate->toDateString(),
+            'endDate'   => $this->endDate->toDateString(),
             'calendars' => [$includedCalendar->id],
         ]))->assertOk()
             ->assertJsonCount(1)
             ->assertJsonFragment([
-                'id' => $includedEvent->id,
-                'title' => 'included-event',
+                'id'       => $includedEvent->id,
+                'title'    => 'included-event',
                 'readonly' => false,
             ])
             ->assertJsonMissing([
@@ -82,27 +82,27 @@ class CalendarEventsIndexTest extends TestCase
 
         Event::factory()->create([
             'calendar_id' => $calendar->id,
-            'title' => 'native-event',
-            'start_date' => $this->startDate->toDateString(),
-            'end_date' => $this->startDate->toDateString(),
-            'start_time' => '09:00',
-            'end_time' => '10:00',
+            'title'       => 'native-event',
+            'start_date'  => $this->startDate->toDateString(),
+            'end_date'    => $this->startDate->toDateString(),
+            'start_time'  => '09:00',
+            'end_time'    => '10:00',
         ]);
 
         Calendars::register([new CalendarTestCustomCalendar()]);
 
         $this->getJson(route('core.calendar.events.index', [
             'startDate' => $this->startDate->toDateString(),
-            'endDate' => $this->endDate->toDateString(),
+            'endDate'   => $this->endDate->toDateString(),
             'calendars' => [$calendar->id, 'calendar-test-custom'],
         ]))->assertOk()
             ->assertJsonCount(2)
             ->assertJsonFragment([
-                'title' => 'native-event',
+                'title'    => 'native-event',
                 'readonly' => false,
             ])
             ->assertJsonFragment([
-                'title' => 'custom-event',
+                'title'    => 'custom-event',
                 'readonly' => true,
                 'location' => 'remote',
             ]);

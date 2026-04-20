@@ -5,8 +5,8 @@ use Illuminate\Support\Collection;
 use LaravelEnso\Calendar\Enums\Frequencies;
 use LaravelEnso\Calendar\Models\Event;
 use LaravelEnso\Users\Models\User;
-use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
+use Tests\TestCase;
 
 class CalendarEventTest extends TestCase
 {
@@ -42,7 +42,7 @@ class CalendarEventTest extends TestCase
     public function can_update_to_sequence()
     {
         $this->patch($this->route('update'), [
-            'frequency' => Frequencies::Daily,
+            'frequency'          => Frequencies::Daily,
             'recurrence_ends_at' => $this->event->start_date->clone()->addDays(4)->format('Y-m-d'),
         ]);
 

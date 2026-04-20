@@ -19,7 +19,7 @@ class Update extends Controller
         $calendar->update($request->validated());
 
         return [
-            'message' => __('The calendar was updated!'),
+            'message'  => __('The calendar was updated!'),
             'calendar' => new Resource($calendar),
         ];
     }

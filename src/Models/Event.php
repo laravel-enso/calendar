@@ -20,7 +20,9 @@ use LaravelEnso\Users\Models\User;
 
 class Event extends Model implements ProvidesEvent
 {
-    use CreatedBy, HasFactory, Rememberable;
+    use CreatedBy;
+    use HasFactory;
+    use Rememberable;
 
     protected $table = 'calendar_events';
 
@@ -140,7 +142,7 @@ class Event extends Model implements ProvidesEvent
 
     public function scopeAllowed($query)
     {
-        $inferiorRoles = ! Auth::user()->isAdmin() && ! Auth::user()->isSupervisor();
+        $inferiorRoles = !Auth::user()->isAdmin() && !Auth::user()->isSupervisor();
 
         $query->when($inferiorRoles, fn ($query) => $query
             ->whereHas('createdBy.person.companies', fn ($companies) => $companies
@@ -175,7 +177,7 @@ class Event extends Model implements ProvidesEvent
     {
         return [
             'is_all_day' => 'boolean', 'parent_id' => 'integer', 'calendar_id' => 'integer',
-            'frequency' => 'integer', 'created_by' => 'integer', 'recurrence_ends_at' => 'date',
+            'frequency'  => 'integer', 'created_by' => 'integer', 'recurrence_ends_at' => 'date',
             'start_date' => 'date', 'end_date' => 'date',
 
         ];

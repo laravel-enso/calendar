@@ -21,7 +21,7 @@ class Calendars
 
     public function all()
     {
-        if (! $this->ready) {
+        if (!$this->ready) {
             $this->register(Calendar::get());
             $this->register(BirthdayCalendar::class);
             $this->ready = true;
@@ -49,7 +49,7 @@ class Calendars
         Collection::wrap($calendars)
             ->map(fn ($calendar) => is_string($calendar) ? new $calendar() : $calendar)
             ->each(function (Contract $calendar) {
-                if (! $this->registered($calendar)) {
+                if (!$this->registered($calendar)) {
                     $this->calendars->push($calendar);
                 }
             });

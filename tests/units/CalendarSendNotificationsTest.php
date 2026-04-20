@@ -2,13 +2,12 @@
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Notification;
 use LaravelEnso\Calendar\Models\Reminder;
 use LaravelEnso\Calendar\Notifications\ReminderNotification;
 use LaravelEnso\Users\Models\User;
-use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
+use Tests\TestCase;
 
 class CalendarSendNotificationsTest extends TestCase
 {
@@ -31,7 +30,7 @@ class CalendarSendNotificationsTest extends TestCase
 
         Reminder::factory()->create([
             'scheduled_at' => Carbon::now()->addDay(),
-            'created_by' => $this->user->id,
+            'created_by'   => $this->user->id,
         ]);
 
         $this->artisan('enso:calendar:send-reminders');
@@ -46,8 +45,8 @@ class CalendarSendNotificationsTest extends TestCase
 
         $reminder = Reminder::factory()->create([
             'scheduled_at' => Carbon::now()->subDay(),
-            'sent_at' => null,
-            'created_by' => $this->user->id,
+            'sent_at'      => null,
+            'created_by'   => $this->user->id,
         ]);
 
         $this->artisan('enso:calendar:send-reminders');
@@ -65,20 +64,20 @@ class CalendarSendNotificationsTest extends TestCase
     {
         $sentReminder = Reminder::factory()->create([
             'scheduled_at' => Carbon::now()->subDay(),
-            'sent_at' => Carbon::now(),
-            'created_by' => $this->user->id,
+            'sent_at'      => Carbon::now(),
+            'created_by'   => $this->user->id,
         ]);
 
         $overdueReminder = Reminder::factory()->create([
             'scheduled_at' => Carbon::now()->subHour(),
-            'sent_at' => null,
-            'created_by' => $this->user->id,
+            'sent_at'      => null,
+            'created_by'   => $this->user->id,
         ]);
 
         $futureReminder = Reminder::factory()->create([
             'scheduled_at' => Carbon::now()->addHour(),
-            'sent_at' => null,
-            'created_by' => $this->user->id,
+            'sent_at'      => null,
+            'created_by'   => $this->user->id,
         ]);
 
         $this->assertEqualsCanonicalizing(
@@ -106,8 +105,8 @@ class CalendarSendNotificationsTest extends TestCase
 
         $reminder = Reminder::factory()->create([
             'scheduled_at' => Carbon::now()->subMinute(),
-            'sent_at' => null,
-            'created_by' => $this->user->id,
+            'sent_at'      => null,
+            'created_by'   => $this->user->id,
         ]);
 
         $reminder->send();

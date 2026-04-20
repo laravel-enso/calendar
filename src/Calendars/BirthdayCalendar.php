@@ -48,12 +48,12 @@ class BirthdayCalendar implements CustomCalendar
         return Person::query()
             ->unless($roles === ['*'], fn ($query) => $query
                 ->whereHas('user', fn ($query) => $query->whereIn('role_id', $roles)))
-            ->when(! $this->withinSameYear(), $this->differentYearQuery())
+            ->when(!$this->withinSameYear(), $this->differentYearQuery())
             ->when(
                 $this->withinSameYear() && $this->withinSameMonth(),
                 $this->sameMonthQuery()
             )->when(
-                $this->withinSameYear() && ! $this->withinSameMonth(),
+                $this->withinSameYear() && !$this->withinSameMonth(),
                 $this->differentMonthQuery()
             )->get()
             ->map(fn ($person) => new BirthdayEvent($person, $this->year($person)));

@@ -11,23 +11,23 @@ class Event extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->getKey(),
-            'title' => $this->title(),
-            'parentId' => $this->parentId(),
-            'isLast' => $this->isLast(),
-            'body' => $this->body(),
-            'start' => $this->start()->format('Y-m-d H:i'),
-            'end' => $this->end()->format('Y-m-d H:i'),
-            'location' => $this->location(),
-            'frequency' => $this->frequency(),
+            'id'             => $this->getKey(),
+            'title'          => $this->title(),
+            'parentId'       => $this->parentId(),
+            'isLast'         => $this->isLast(),
+            'body'           => $this->body(),
+            'start'          => $this->start()->format('Y-m-d H:i'),
+            'end'            => $this->end()->format('Y-m-d H:i'),
+            'location'       => $this->location(),
+            'frequency'      => $this->frequency(),
             'recurrenceEnds' => $this->recurrenceEnds()
                 ?->format(config('enso.config.dateFormat')),
-            'allDay' => $this->allDay(),
-            'readonly' => $this->readonly(),
-            'class' => $this->getCalendar()->color(),
-            'route' => $this->route(),
-            'deletable' => ! $this->readonly(),
-            'resizable' => ! $this->readonly(),
+            'allDay'    => $this->allDay(),
+            'readonly'  => $this->readonly(),
+            'class'     => $this->getCalendar()->color(),
+            'route'     => $this->route(),
+            'deletable' => !$this->readonly(),
+            'resizable' => !$this->readonly(),
         ];
     }
 

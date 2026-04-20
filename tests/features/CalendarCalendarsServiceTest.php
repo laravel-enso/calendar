@@ -2,7 +2,6 @@
 
 require_once __DIR__.'/../Fixtures/CustomCalendarFixtures.php';
 
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use LaravelEnso\Calendar\Facades\Calendars;
 use LaravelEnso\Calendar\Models\Calendar;
@@ -47,11 +46,11 @@ class CalendarCalendarsServiceTest extends TestCase
 
         $this->actingAs($owner);
         $publicCalendar = Calendar::factory()->create([
-            'name' => 'public-calendar',
+            'name'    => 'public-calendar',
             'private' => false,
         ]);
         $privateCalendar = Calendar::factory()->create([
-            'name' => 'private-calendar',
+            'name'    => 'private-calendar',
             'private' => true,
         ]);
 

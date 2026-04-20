@@ -19,7 +19,7 @@ class CalendarPolicy
 
     public function access($user, Contract $calendar)
     {
-        return ! $calendar->private()
+        return !$calendar->private()
             || ($calendar instanceof Calendar
                 && $user->id === $calendar->created_by);
     }

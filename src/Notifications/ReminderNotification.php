@@ -28,8 +28,8 @@ class ReminderNotification extends Notification implements ShouldQueue
         return new BroadcastMessage([
             'level' => 'info',
             'title' => __('Reminder'),
-            'icon' => 'bell',
-            'body' => __('Reminder: :title', ['title' => $this->reminder->event->title]),
+            'icon'  => 'bell',
+            'body'  => __('Reminder: :title', ['title' => $this->reminder->event->title]),
         ]);
     }
 
@@ -41,10 +41,10 @@ class ReminderNotification extends Notification implements ShouldQueue
             ->subject("[ {$app} ] {$this->subject()}")
             ->markdown('laravel-enso/calendar::emails.reminder', [
                 'appellative' => $this->reminder->createdBy->person->appellative,
-                'url' => url('/calendar'),
-                'title' => $this->reminder->event->title,
-                'starts_at' => $this->reminder->event->starts_at,
-                'ends_at' => $this->reminder->event->ends_at,
+                'url'         => url('/calendar'),
+                'title'       => $this->reminder->event->title,
+                'starts_at'   => $this->reminder->event->starts_at,
+                'ends_at'     => $this->reminder->event->ends_at,
             ]);
     }
 

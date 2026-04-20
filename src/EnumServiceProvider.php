@@ -9,7 +9,7 @@ use LaravelEnso\Enums\EnumServiceProvider as ServiceProvider;
 class EnumServiceProvider extends ServiceProvider
 {
     public $register = [
-        'eventUpdateType' => UpdateType::class,
+        'eventUpdateType'  => UpdateType::class,
         'eventFrequencies' => Frequencies::class,
     ];
 }

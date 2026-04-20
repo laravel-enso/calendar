@@ -6,8 +6,8 @@ use LaravelEnso\Calendar\Enums\Frequencies;
 use LaravelEnso\Calendar\Enums\UpdateType;
 use LaravelEnso\Calendar\Models\Event;
 use LaravelEnso\Users\Models\User;
-use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
+use Tests\TestCase;
 
 class CalendarSequenceTest extends TestCase
 {
@@ -30,10 +30,10 @@ class CalendarSequenceTest extends TestCase
         $this->count = 5;
 
         $this->event = Event::factory()->make([
-            'start_date' => $this->date->format('Y-m-d'),
-            'end_date' => $this->date->format('Y-m-d'),
+            'start_date'         => $this->date->format('Y-m-d'),
+            'end_date'           => $this->date->format('Y-m-d'),
             'recurrence_ends_at' => $this->date->clone()->addDays($this->count - 1),
-            'frequency' => Frequencies::Daily,
+            'frequency'          => Frequencies::Daily,
         ]);
 
         $this->event->store();
@@ -45,7 +45,7 @@ class CalendarSequenceTest extends TestCase
         $endTime = '22:20';
 
         $this->patch($this->route('update', 3), [
-            'end_time' => $endTime,
+            'end_time'   => $endTime,
             'updateType' => UpdateType::All,
         ]);
 
@@ -61,7 +61,7 @@ class CalendarSequenceTest extends TestCase
         $endTime = '22:20';
 
         $this->patch($this->route('update', $startingId), [
-            'end_time' => $endTime,
+            'end_time'   => $endTime,
             'updateType' => UpdateType::ThisAndFuture,
         ]);
 
@@ -83,7 +83,7 @@ class CalendarSequenceTest extends TestCase
 
         $this->patch($this->route('update', $startingId), [
             'start_date' => $date->format('Y-m-d'),
-            'end_date' => $date->format('Y-m-d'),
+            'end_date'   => $date->format('Y-m-d'),
             'updateType' => UpdateType::OnlyThis,
         ]);
 
@@ -99,10 +99,10 @@ class CalendarSequenceTest extends TestCase
         $date = Carbon::today()->addDays(3)->format('Y-m-d');
 
         $this->patch($this->route('update', $startingId), [
-            'start_date' => $date,
-            'end_date' => $date,
-            'updateType' => UpdateType::ThisAndFuture,
-            'frequency' => $this->event->frequency,
+            'start_date'         => $date,
+            'end_date'           => $date,
+            'updateType'         => UpdateType::ThisAndFuture,
+            'frequency'          => $this->event->frequency,
             'recurrence_ends_at' => $this->event->recurrence_ends_at,
         ]);
 
@@ -119,7 +119,7 @@ class CalendarSequenceTest extends TestCase
 
         $this->patch($this->route('update', $startingId), [
             'start_date' => $date,
-            'end_date' => $date,
+            'end_date'   => $date,
             'updateType' => UpdateType::ThisAndFuture,
         ])->assertStatus(302)
             ->assertSessionHasErrors(['start_date']);
@@ -133,7 +133,7 @@ class CalendarSequenceTest extends TestCase
 
         $this->patch($this->route('update', $startingId), [
             'recurrence_ends_at' => $date,
-            'updateType' => UpdateType::ThisAndFuture,
+            'updateType'         => UpdateType::ThisAndFuture,
         ]);
 
         $parents = Event::orderBy('id')->pluck('parent_id')->toArray();
@@ -147,7 +147,7 @@ class CalendarSequenceTest extends TestCase
         $startingId = 3;
 
         $this->patch($this->route('update', $startingId), [
-            'frequency' => Frequencies::Once,
+            'frequency'  => Frequencies::Once,
             'updateType' => UpdateType::OnlyThis,
         ]);
 
@@ -162,7 +162,7 @@ class CalendarSequenceTest extends TestCase
         $startingId = 3;
 
         $this->patch($this->route('update', $startingId), [
-            'frequency' => Frequencies::Once,
+            'frequency'  => Frequencies::Once,
             'updateType' => UpdateType::ThisAndFuture,
         ])->assertStatus(302)
             ->assertSessionHasErrors(['frequency']);

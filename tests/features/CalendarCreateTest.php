@@ -5,8 +5,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use LaravelEnso\Calendar\Enums\Frequencies;
 use LaravelEnso\Calendar\Models\Event;
 use LaravelEnso\Users\Models\User;
-use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
+use Tests\TestCase;
 
 class CalendarCreateTest extends TestCase
 {
@@ -32,8 +32,8 @@ class CalendarCreateTest extends TestCase
     {
         $this->post(route('core.calendar.events.store'), [
             'start_date' => $this->date->format('Y-m-d'),
-            'end_date' => $this->date->format('Y-m-d'),
-            'frequency' => Frequencies::Once,
+            'end_date'   => $this->date->format('Y-m-d'),
+            'frequency'  => Frequencies::Once,
         ] + $this->event->toArray());
 
         $this->assertTrue(Event::exists());
@@ -46,9 +46,9 @@ class CalendarCreateTest extends TestCase
         $recurrenceEndsAt = $this->date->clone()->addDays($count - 1);
 
         $this->post(route('core.calendar.events.store'), [
-            'start_date' => $this->date->format('Y-m-d'),
-            'end_date' => $this->date->format('Y-m-d'),
-            'frequency' => Frequencies::Daily,
+            'start_date'         => $this->date->format('Y-m-d'),
+            'end_date'           => $this->date->format('Y-m-d'),
+            'frequency'          => Frequencies::Daily,
             'recurrence_ends_at' => $recurrenceEndsAt->format('Y-m-d'),
         ] + $this->event->toArray());
 

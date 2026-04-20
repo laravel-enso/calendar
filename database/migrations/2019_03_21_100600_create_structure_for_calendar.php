@@ -2,8 +2,7 @@
 
 use LaravelEnso\Migrator\Database\Migration;
 
-return new class extends Migration
-{
+return new class() extends Migration {
     protected array $permissions = [
         ['name' => 'core.calendar.create', 'description' => 'Create a new calendar', 'is_default' => true],
         ['name' => 'core.calendar.store', 'description' => 'Store a new calendar', 'is_default' => true],

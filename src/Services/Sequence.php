@@ -85,8 +85,8 @@ class Sequence
     {
         if ($this->singular) {
             $this->event->update([
-                'parent_id' => null,
-                'frequency' => Frequencies::Once,
+                'parent_id'          => null,
+                'frequency'          => Frequencies::Once,
                 'recurrence_ends_at' => null,
             ]);
         }

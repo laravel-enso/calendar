@@ -10,7 +10,8 @@ use LaravelEnso\TrackWho\Traits\CreatedBy;
 
 class Reminder extends Model
 {
-    use CreatedBy, HasFactory;
+    use CreatedBy;
+    use HasFactory;
 
     protected $table = 'calendar_reminders';
 
