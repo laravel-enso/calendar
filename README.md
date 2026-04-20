@@ -15,10 +15,6 @@ The package supports persisted calendars and events, recurring event sequences, 
 
 It also ships with a builtin Birthday calendar, reminder notifications delivered through mail, database, and broadcast channels, plus the backend API and form metadata consumed by the Enso calendar frontend.
 
-![Calendar Screenshot 2](.github/screenshots/calendar-overview-2.png)
-
-![Calendar Screenshot 1](.github/screenshots/calendar-overview-1.png)
-
 ## Installation
 
 This package is normally installed as part of the Enso ecosystem.
