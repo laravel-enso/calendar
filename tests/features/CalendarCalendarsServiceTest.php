@@ -5,6 +5,8 @@ require_once __DIR__.'/../Fixtures/CustomCalendarFixtures.php';
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use LaravelEnso\Calendar\Facades\Calendars;
 use LaravelEnso\Calendar\Models\Calendar;
+use LaravelEnso\Menus\Models\Menu;
+use LaravelEnso\Permissions\Models\Permission;
 use LaravelEnso\Roles\Models\Role;
 use LaravelEnso\Users\Models\User;
 use PHPUnit\Framework\Attributes\Test;
@@ -40,9 +42,9 @@ class CalendarCalendarsServiceTest extends TestCase
     {
         $this->seed();
 
-        $roleId = Role::query()->whereNotIn('id', [1, 2])->value('id');
-        $owner = User::factory()->create(['role_id' => $roleId]);
-        $viewer = User::factory()->create(['role_id' => $roleId]);
+        $role = $this->role();
+        $owner = User::factory()->create(['role_id' => $role->id]);
+        $viewer = User::factory()->create(['role_id' => $role->id]);
 
         $this->actingAs($owner);
         $publicCalendar = Calendar::factory()->create([
@@ -69,5 +71,16 @@ class CalendarCalendarsServiceTest extends TestCase
         $this->assertTrue($available->contains(fn ($calendar) => $calendar->getKey() === 'calendar-test-custom'));
         $this->assertFalse($available->contains(fn ($calendar) => $calendar->getKey() === 'calendar-test-private-custom'));
         $this->assertTrue($available->contains(fn ($calendar) => $calendar->getKey() === 'birthday-calendar'));
+    }
+
+    private function role(): Role
+    {
+        $role = Role::factory()->create([
+            'menu_id' => Menu::first(['id'])->id,
+        ]);
+
+        $role->permissions()->sync(Permission::pluck('id'));
+
+        return $role;
     }
 }
