@@ -8,6 +8,7 @@ use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\URL;
 use LaravelEnso\Calendar\Models\Reminder;
 
 class ReminderNotification extends Notification implements ShouldQueue
@@ -41,7 +42,7 @@ class ReminderNotification extends Notification implements ShouldQueue
             ->subject("[ {$app} ] {$this->subject()}")
             ->markdown('laravel-enso/calendar::emails.reminder', [
                 'appellative' => $this->reminder->createdBy->person->appellative,
-                'url'         => url('/calendar'),
+                'url'         => URL::to('/calendar'),
                 'title'       => $this->reminder->event->title,
                 'starts_at'   => $this->reminder->event->starts_at,
                 'ends_at'     => $this->reminder->event->ends_at,

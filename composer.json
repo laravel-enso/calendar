@@ -37,6 +37,7 @@
         "laravel-enso/enums": "^3.0",
         "laravel-enso/forms": "^5.0",
         "laravel-enso/helpers": "^4.0",
+        "laravel-enso/mails": "^1.0",
         "laravel-enso/migrator": "^2.1",
         "laravel-enso/people": "^4.0",
         "laravel-enso/permissions": "^5.0",
@@ -57,7 +58,8 @@
                 "LaravelEnso\\Calendar\\AppServiceProvider",
                 "LaravelEnso\\Calendar\\AuthServiceProvider",
                 "LaravelEnso\\Calendar\\CalendarServiceProvider",
-                "LaravelEnso\\Calendar\\EnumServiceProvider"
+                "LaravelEnso\\Calendar\\EnumServiceProvider",
+                "LaravelEnso\\Calendar\\MailServiceProvider"
             ]
         }
     },

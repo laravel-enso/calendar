@@ -1,8 +1,16 @@
 @component('mail::message')
+@component('mail::title')
+{{ __('Reminder') }}
+@endcomponent
+
 {{ __('Hi :appellative', ['appellative' => $appellative]) }},
 
-@component('mail::panel')
-    {{ $title }} @ {{$starts_at}} to {{$ends_at}}
+@component('mail::schedule', [
+    'day' => $starts_at->format('d'),
+    'month' => $starts_at->format('M'),
+    'time' => $starts_at->format('H:i'),
+    'label' => $title.' · '.$ends_at->format('H:i'),
+])
 @endcomponent
 
 {{ __('To view the calendar click the button below.') }}
@@ -11,6 +19,6 @@
 {{ __('View Calendar') }}
 @endcomponent
 
-{{ __('Thank you') }},<br>
-{{ __(config('app.name')) }}
+@component('mail::signature')
+@endcomponent
 @endcomponent
