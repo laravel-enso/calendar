@@ -60,6 +60,7 @@ php artisan enso:calendar:send-reminders
 - Exposes a builtin readonly Birthday calendar sourced from `Person` records.
 - Allows registering additional custom calendars that return readonly event projections.
 - Sends overdue reminders through queued mail, database, and broadcast notifications.
+- Registers reminder mail previews through `laravel-enso/mails`.
 - Registers form metadata and API resources used by the Enso calendar frontend.
 
 ## Usage
@@ -251,6 +252,7 @@ Required Enso packages:
 - [`laravel-enso/enums`](https://docs.laravel-enso.com/backend/enums.html) [↗](https://github.com/laravel-enso/enums)
 - [`laravel-enso/forms`](https://docs.laravel-enso.com/backend/forms.html) [↗](https://github.com/laravel-enso/forms)
 - [`laravel-enso/helpers`](https://docs.laravel-enso.com/backend/helpers.html) [↗](https://github.com/laravel-enso/helpers)
+- [`laravel-enso/mails`](https://github.com/laravel-enso/mails) [↗](https://github.com/laravel-enso/mails)
 - [`laravel-enso/migrator`](https://docs.laravel-enso.com/backend/migrator.html) [↗](https://github.com/laravel-enso/migrator)
 - [`laravel-enso/people`](https://docs.laravel-enso.com/backend/people.html) [↗](https://github.com/laravel-enso/people)
 - [`laravel-enso/permissions`](https://docs.laravel-enso.com/backend/permissions.html) [↗](https://github.com/laravel-enso/permissions)
