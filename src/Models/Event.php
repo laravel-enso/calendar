@@ -142,7 +142,7 @@ class Event extends Model implements ProvidesEvent
 
     public function scopeAllowed($query)
     {
-        $inferiorRoles = !Auth::user()->isAdmin() && !Auth::user()->isSupervisor();
+        $inferiorRoles = ! Auth::user()->isAdmin() && ! Auth::user()->isSupervisor();
 
         $query->when($inferiorRoles, fn ($query) => $query
             ->whereHas('createdBy.person.companies', fn ($companies) => $companies
@@ -164,20 +164,15 @@ class Event extends Model implements ProvidesEvent
     public function scopeBetween($query, Carbon $start, Carbon $end)
     {
         $query->where(fn ($query) => $query
-            ->where(fn ($query) => $query
-                ->whereDate('end_date', '<=', $end)
-                ->whereDate('end_date', '>=', $start))
-            ->orWhere
-            ->where(fn ($query) => $query
-                ->whereDate('start_date', '>=', $start)
-                ->whereDate('start_date', '<=', $end)));
+                ->whereDate('start_date', '<=', $end)
+                ->whereDate('end_date', '>=', $start));
     }
 
     protected function casts(): array
     {
         return [
             'is_all_day' => 'boolean', 'parent_id' => 'integer', 'calendar_id' => 'integer',
-            'frequency'  => 'integer', 'created_by' => 'integer', 'recurrence_ends_at' => 'date',
+            'frequency' => 'integer', 'created_by' => 'integer', 'recurrence_ends_at' => 'date',
             'start_date' => 'date', 'end_date' => 'date',
 
         ];
