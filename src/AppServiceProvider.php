@@ -87,6 +87,6 @@ class AppServiceProvider extends ServiceProvider
         $this->commands(SendReminders::class);
 
         $this->app->booted(fn () => $this->app->make(Schedule::class)
-            ->command('enso:calendar:send-reminders')->everyMinute());
+            ->command('enso:calendar:send-reminders')->everyMinute()->withoutOverlapping());
     }
 }
